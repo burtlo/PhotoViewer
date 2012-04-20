@@ -28,15 +28,7 @@
 #import "EGOPhotoGlobal.h"
 
 
-@interface EGOQuickPhoto : NSObject <EGOPhoto>{
-@private
-	NSURL *_URL;
-	NSString *_caption;
-	CGSize _size;
-	UIImage *_image;
-	
-	BOOL _failed;
-}
+@interface EGOQuickPhoto : NSObject <EGOPhoto>
 
 - (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage;
 - (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName;

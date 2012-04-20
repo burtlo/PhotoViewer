@@ -27,11 +27,7 @@
 #import <Foundation/Foundation.h>
 #import "EGOPhotoGlobal.h"
 
-@interface EGOQuickPhotoSource : NSObject <EGOPhotoSource> {
-@private
-	NSArray* _photos;
-	NSInteger _numberOfPhotos;
-}
+@interface EGOQuickPhotoSource : NSObject <EGOPhotoSource>
 
 - (id)initWithPhotos:(NSArray*)photos;
 

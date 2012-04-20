@@ -26,15 +26,29 @@
 
 #import "EGOQuickPhoto.h"
 
+@interface EGOQuickPhoto ()
+
+@property (nonatomic,retain,readwrite) NSURL *URL;
+@property (nonatomic,copy,readwrite) NSString *caption;
+
+@end
+
 @implementation EGOQuickPhoto
-@synthesize URL=_URL, caption=_caption, image=_image, size=_size, failed=_failed;
+
+@synthesize URL = URL_;
+@synthesize caption = caption_;
+@synthesize image = image_;
+@synthesize size = size_;
+@synthesize failed = failed_;
+
+#pragma mark - Initialization
 
 - (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage {
+    
 	if ((self = [super init])) {
-		_URL = [aURL retain];
-		_caption = [aName retain];
-		_image = [aImage retain];
-		
+        self.URL = aURL;
+        self.caption = aName;
+        self.image = aImage;
 	}
 	
 	return self;
@@ -53,11 +67,10 @@
 }
 
 - (void)dealloc {
-	[_URL release], _URL=nil;
-	[_image release], _image=nil;
-	[_caption release], _caption=nil;
-	
-	[super dealloc];
+    self.URL = nil;
+    self.caption = nil;
+    self.image = nil;
+    [super dealloc];
 }
 
 @end

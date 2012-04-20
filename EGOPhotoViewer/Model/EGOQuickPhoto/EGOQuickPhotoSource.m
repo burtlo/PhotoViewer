@@ -26,28 +26,40 @@
 
 #import "EGOQuickPhotoSource.h"
 
+@interface EGOQuickPhotoSource ()
+
+@property (nonatomic,strong,readwrite) NSArray *photos;
+@property (nonatomic,assign,readwrite) NSInteger numberOfPhotos;
+
+@end
+
 
 @implementation EGOQuickPhotoSource
-@synthesize photos=_photos, numberOfPhotos=_numberOfPhotos;
 
+@synthesize photos = photos_;
+@synthesize numberOfPhotos = numberOfPhotos_;
+
+#pragma mark - Initialization
 
 - (id)initWithPhotos:(NSArray*)photos {
+    
 	if ((self = [super init])) {
-		_photos = [photos retain];
-		_numberOfPhotos = [_photos count];
+		self.photos = photos;
+		self.numberOfPhotos = [photos count];
 		
 	}
 	
 	return self;
 }
 
-- (id<EGOPhoto>)photoAtIndex:(NSInteger)index {
-	return [_photos objectAtIndex:index];
-}
-
 - (void)dealloc{
-	[_photos release], _photos=nil;
+    self.photos = nil;
 	[super dealloc];
 }
+
+- (id<EGOPhoto>)photoAtIndex:(NSInteger)index {
+	return [self.photos objectAtIndex:index];
+}
+
 
 @end
