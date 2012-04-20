@@ -147,13 +147,11 @@
 		286B600511FCCF7400556D9E /* EGOPhotoViewer */ = {
 			isa = PBXGroup;
 			children = (
-				530A6C1B138C566100B0505E /* de.lproj */,
-				530A6C16138C55F700B0505E /* en.lproj */,
-				286B600611FCCF7400556D9E /* Controller */,
 				286B600A11FCCF7400556D9E /* EGOPhotoGlobal.h */,
 				286B600B11FCCF7400556D9E /* Model */,
-				286B601311FCCF7400556D9E /* Resources */,
 				286B601A11FCCF7400556D9E /* Views */,
+				286B600611FCCF7400556D9E /* Controller */,
+				286B601311FCCF7400556D9E /* Resources */,
 			);
 			name = EGOPhotoViewer;
 			path = ../EGOPhotoViewer;
@@ -209,6 +207,8 @@
 		286B601311FCCF7400556D9E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				530A6C1B138C566100B0505E /* de.lproj */,
+				530A6C16138C55F700B0505E /* en.lproj */,
 				D0FC1E6012761DCA006C2A0F /* egopv_fullscreen_button.png */,
 				D0FC1E6112761DCA006C2A0F /* egopv_fullscreen_button@2x.png */,
 				D0FC1E6212761DCA006C2A0F /* egopv_minimize_fullscreen_button.png */,
@@ -314,7 +314,8 @@
 			children = (
 				530A6C17138C55F700B0505E /* Localizable.strings */,
 			);
-			path = en.lproj;
+			name = en.lproj;
+			path = ../en.lproj;
 			sourceTree = "<group>";
 		};
 		530A6C1B138C566100B0505E /* de.lproj */ = {
@@ -322,7 +323,8 @@
 			children = (
 				530A6C1C138C566100B0505E /* Localizable.strings */,
 			);
-			path = de.lproj;
+			name = de.lproj;
+			path = ../de.lproj;
 			sourceTree = "<group>";
 		};
 		D0B84E3B11DFFC3E00F4CEF6 /* Libraries */ = {
