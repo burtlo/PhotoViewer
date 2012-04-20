@@ -25,13 +25,10 @@
 - (void)setCaptionText:(NSString*)text;
 - (void)setCaptionHidden:(BOOL)hidden;
 
-- (void)setScrollToTop;
-
 - (void)relayoutElements;
 - (void)recalculateSize;
 
 - (CGFloat)getNeededViewHeight;
-- (void) updateScrollViewSize;
 
 @end
 
