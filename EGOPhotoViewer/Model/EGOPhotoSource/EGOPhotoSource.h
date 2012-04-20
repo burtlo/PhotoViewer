@@ -54,7 +54,7 @@
 /*
  * URL of the image, varied URL size should set according to display size. 
  */
-@property(nonatomic,retain,readonly) NSURL *URL;
+@property(nonatomic,strong,readonly) NSURL *URL;
 
 /*
  * The caption of the image.
@@ -69,7 +69,7 @@
 /*
  * The image after being loaded, or local.
  */
-@property(nonatomic,retain) UIImage *image;
+@property(nonatomic,strong) UIImage *image;
 
 /*
  * Returns true if the image failed to load.

@@ -82,7 +82,7 @@
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		self.opaque = YES;
 		
-		EGOPhotoScrollView *scrollView = [[[EGOPhotoScrollView alloc] initWithFrame:self.bounds] autorelease];
+		EGOPhotoScrollView *scrollView = [[EGOPhotoScrollView alloc] initWithFrame:self.bounds];
 		scrollView.backgroundColor = [UIColor blackColor];
 		scrollView.opaque = YES;
 		scrollView.delegate = self;
@@ -90,7 +90,7 @@
         self.scrollView = scrollView;
 
 
-		UIImageView *imageView = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
+		UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
 		imageView.opaque = YES;
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
 		imageView.tag = ZOOM_VIEW_TAG;
@@ -99,7 +99,7 @@
         [scrollView addSubview:imageView];        
 
 		
-		UIActivityIndicatorView *activityView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+		UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 		activityView.frame = CGRectMake((CGRectGetWidth(self.frame) / 2) - 11.0f, CGRectGetHeight(self.frame) - 100.0f , 22.0f, 22.0f);
 		activityView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
 		
@@ -108,7 +108,6 @@
         
 		RotateGesture *gesture = [[RotateGesture alloc] initWithTarget:self action:@selector(rotate:)];
 		[self addGestureRecognizer:gesture];
-		[gesture release];
 		
 	}
     return self;
@@ -133,10 +132,9 @@
 		[[EGOImageLoader sharedImageLoader] cancelLoadForURL:self.photo.URL];
 	}
 
-    [photo_ release];
     photo_ = nil;
     
-    photo_ = [photo retain];
+    photo_ = photo;
 	
 	if (self.photo.image) {
 		
@@ -592,11 +590,7 @@
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-    self.activityView = nil;
-    self.imageView = nil;
-    self.scrollView = nil;
 	photo_ = nil;
-    [super dealloc];
 	
 }
 

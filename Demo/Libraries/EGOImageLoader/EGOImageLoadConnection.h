@@ -35,10 +35,10 @@
 - (void)start;
 - (void)cancel;
 
-@property(nonatomic,retain,readonly) NSMutableData* responseData;
-@property(nonatomic,retain,readonly) NSURL* imageURL;
+@property(nonatomic,strong,readonly) NSMutableData* responseData;
+@property(nonatomic,strong,readonly) NSURL* imageURL;
 
-@property(nonatomic,assign) id<EGOImageLoadConnectionDelegate> delegate;
+@property(nonatomic,unsafe_unretained) id<EGOImageLoadConnectionDelegate> delegate;
 
 @property(nonatomic,assign) NSTimeInterval timeoutInterval; // Default is 30 seconds
 

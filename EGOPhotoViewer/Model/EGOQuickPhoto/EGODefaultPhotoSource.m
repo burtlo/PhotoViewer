@@ -52,10 +52,6 @@
 	return self;
 }
 
-- (void)dealloc{
-    self.photos = nil;
-	[super dealloc];
-}
 
 - (id<EGOPhoto>)photoAtIndex:(NSInteger)index {
 	return [self.photos objectAtIndex:index];

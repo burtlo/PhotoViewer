@@ -48,7 +48,7 @@
 		self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		
-        UILabel *textLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f)] autorelease];
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f)];
 		textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		textLabel.backgroundColor = [UIColor clearColor];
 		textLabel.textAlignment = UITextAlignmentCenter;
@@ -63,10 +63,6 @@
     return self;
 }
 
-- (void)dealloc {
-	self.textLabel = nil;
-    [super dealloc];
-}
 
 #pragma mark - Drawing
 

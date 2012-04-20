@@ -51,6 +51,6 @@
 - (NSInteger)currentPhotoIndex;
 - (void)moveToPhotoAtIndex:(NSInteger)index animated:(BOOL)animated;
 
-@property(nonatomic,retain,readonly) id <EGOPhotoSource> photoSource;
+@property(nonatomic,readonly) id <EGOPhotoSource> photoSource;
 
 @end

@@ -28,7 +28,7 @@
 
 @interface EGODefaultPhoto ()
 
-@property (nonatomic,retain,readwrite) NSURL *URL;
+@property (nonatomic,strong,readwrite) NSURL *URL;
 @property (nonatomic,copy,readwrite) NSString *caption;
 
 @end
@@ -66,11 +66,5 @@
 	return [self initWithImageURL:nil name:nil image:aImage];
 }
 
-- (void)dealloc {
-    self.URL = nil;
-    self.caption = nil;
-    self.image = nil;
-    [super dealloc];
-}
 
 @end

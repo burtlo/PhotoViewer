@@ -29,17 +29,17 @@
 
 @interface EGOPhotoViewController ()
 
-@property (nonatomic,retain) EGOPhotoCaptionView *captionView;
-@property (nonatomic,retain) UIBarButtonItem *leftButton;
-@property (nonatomic,retain) UIBarButtonItem *rightButton;
-@property (nonatomic,retain) UIBarButtonItem *actionButton;
+@property (nonatomic) EGOPhotoCaptionView *captionView;
+@property (nonatomic) UIBarButtonItem *leftButton;
+@property (nonatomic) UIBarButtonItem *rightButton;
+@property (nonatomic) UIBarButtonItem *actionButton;
 
-@property (nonatomic,retain) UIView *popoverOverlay;
-@property (nonatomic,retain) UIView *transferView;
+@property (nonatomic) UIView *popoverOverlay;
+@property (nonatomic) UIView *transferView;
 
-@property (nonatomic,retain,readwrite) id <EGOPhotoSource> photoSource;
-@property (nonatomic,retain) NSMutableArray *photoViews;
-@property (nonatomic,retain) UIScrollView *scrollView;
+@property (nonatomic,readwrite) id <EGOPhotoSource> photoSource;
+@property (nonatomic) NSMutableArray *photoViews;
+@property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic,assign) BOOL _fromPopover;
 
 @property (nonatomic,assign) NSInteger pageIndex;
@@ -57,8 +57,8 @@
 @property (nonatomic,assign) UIStatusBarStyle oldStatusBarSyle;
 @property (nonatomic,assign) UIBarStyle oldNavBarStyle;
 @property (nonatomic,assign) UIBarStyle oldToolBarStyle;
-@property (nonatomic,retain) UIColor *oldNavBarTintColor;
-@property (nonatomic,retain) UIColor *oldToolBarTintColor;
+@property (nonatomic) UIColor *oldNavBarTintColor;
+@property (nonatomic) UIColor *oldToolBarTintColor;
 
 #pragma mark
 
@@ -118,15 +118,15 @@
 #pragma mark - Initialization
 
 - (id)initWithPhoto:(id<EGOPhoto>)aPhoto {
-	return [self initWithPhotoSource:[[[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:aPhoto,nil]] autorelease]];
+	return [self initWithPhotoSource:[[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:aPhoto,nil]]];
 }
 
 - (id)initWithImage:(UIImage*)anImage {
-	return [self initWithPhoto:[[[EGODefaultPhoto alloc] initWithImage:anImage] autorelease]];
+	return [self initWithPhoto:[[EGODefaultPhoto alloc] initWithImage:anImage]];
 }
 
 - (id)initWithImageURL:(NSURL*)anImageURL {
-	return [self initWithPhoto:[[[EGODefaultPhoto alloc] initWithImageURL:anImageURL] autorelease]];
+	return [self initWithPhoto:[[EGODefaultPhoto alloc] initWithImageURL:anImageURL]];
 }
 
 - (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index {
@@ -173,15 +173,8 @@
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	self.captionView = nil;
-    self.photoViews = nil;
-    self.photoSource = nil;
-    self.scrollView = nil;
     
-    self.oldToolBarTintColor = nil;
-    self.oldNavBarTintColor = nil;
 	
-    [super dealloc];
 }
 
 #pragma mark - View Lifecycle
@@ -194,7 +187,7 @@
 	
 	if (!self.scrollView) {
 		
-		UIScrollView *scrollView = [[[UIScrollView alloc] initWithFrame:self.view.bounds] autorelease];
+		UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 		scrollView.delegate=self;
 		scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 		scrollView.multipleTouchEnabled=YES;
@@ -217,7 +210,7 @@
 	
 	if (!self.captionView) {
 		
-		EGOPhotoCaptionView *view = [[[EGOPhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)] autorelease];
+		EGOPhotoCaptionView *view = [[EGOPhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
 		[self.view addSubview:view];
 		self.captionView = view;
 		
@@ -229,7 +222,6 @@
 		[views addObject:[NSNull null]];
 	}
 	self.photoViews = views;
-	[views release];
 
 
 	if ([self.photoSource numberOfPhotos] == 1 && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
@@ -286,7 +278,7 @@
 	if(!self.storedOldStyles) {
         self.oldStatusBarSyle = [UIApplication sharedApplication].statusBarStyle;
 		
-		self.oldNavBarTintColor = [self.navigationController.navigationBar.tintColor retain];
+		self.oldNavBarTintColor = self.navigationController.navigationBar.tintColor;
 		self.oldNavBarStyle = self.navigationController.navigationBar.barStyle;
 		self.oldNavBarTranslucent = self.navigationController.navigationBar.translucent;
 		
@@ -428,13 +420,11 @@
 		if (self.modalPresentationStyle == UIModalPresentationFullScreen) {
 			UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"done") style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
 			self.navigationItem.rightBarButtonItem = doneButton;
-			[doneButton release];
 		}
 	} else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
 		if (self.modalPresentationStyle == UIModalPresentationFullScreen) {
 			UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"done") style:UIBarButtonItemStyleDone target:self action:@selector(done:)];
 			self.navigationItem.rightBarButtonItem = doneButton;
-			[doneButton release];
 		}
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	}
@@ -452,7 +442,6 @@
 		if (self.embeddedInPopover && [self.photoSource numberOfPhotos] > 1) {
 			UIBarButtonItem *scaleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_fullscreen_button.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleFullScreen:)];
 			self.navigationItem.rightBarButtonItem = scaleButton;
-			[scaleButton release];
 		}		
 
 		
@@ -464,10 +453,6 @@
 		self.rightButton = right;
 		self.leftButton = left;
 		
-		[fixedCenter release];
-		[fixedLeft release];
-		[right release];
-		[left release];
 		
 	} else {
 		[self setToolbarItems:[NSArray arrayWithObjects:flex, action, nil]];
@@ -475,8 +460,6 @@
 	
 	self.actionButton = action;
 	
-	[action release];
-	[flex release];
 	
 }
 
@@ -572,13 +555,11 @@
 		view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
 		self.popoverOverlay = view;
 		[self.view addSubview:view];
-		[view release];
 		
 		UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.popoverOverlay.frame.size.width, 1.0f)];
 		borderView.autoresizingMask = view.autoresizingMask;
 		[self.popoverOverlay addSubview:borderView];
 		[borderView setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.4f]];
-		[borderView release];
 		
 		UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 		[button setImage:[UIImage imageNamed:@"egopv_fullscreen_button.png"] forState:UIControlStateNormal];
@@ -649,14 +630,12 @@
 	[keyWindow addSubview:backgroundView];
 	backgroundView.frame = [[UIScreen mainScreen] applicationFrame];
 	self.transferView = backgroundView;
-	[backgroundView release];
 	
 	CGRect newRect = [self.view convertRect:_currentView.scrollView.frame toView:self.transferView];
 	UIImageView *_imageView = [[UIImageView alloc] initWithFrame:self.fullScreen ? newRect : self.transferView.bounds];	
 	_imageView.contentMode = UIViewContentModeScaleAspectFit;
 	[_imageView setImage:_currentImage.image];
 	[self.transferView addSubview:_imageView];
-	[_imageView release];
 	
 	self.scrollView.hidden = YES;
 	
@@ -702,14 +681,11 @@
 			[self.navigationController presentModalViewController:navController animated:NO];
 			[controller moveToPhotoAtIndex:self.pageIndex animated:NO];
 			
-			[navController release];
-			[controller release];
 			
 			[UIView setAnimationsEnabled:enabled];
 			
 			UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_minimize_fullscreen_button.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleFullScreen:)];
 			controller.navigationItem.rightBarButtonItem = button;
-			[button release];
 			
 		}
 		
@@ -930,7 +906,6 @@
 		
 		photoView = [[EGOPhotoImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height)];
 		[self.photoViews replaceObjectAtIndex:page withObject:photoView];
-		[photoView release];
 		
 	} 
 	
@@ -1027,7 +1002,6 @@
 	}
 	
 	[self presentModalViewController:mailViewController animated:YES];
-	[mailViewController release];
 	
 }
 
@@ -1048,7 +1022,6 @@
 	if (mailError != nil) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:mailError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alert show];
-		[alert release];
 	}
 	
 }
@@ -1085,7 +1058,6 @@
 	[actionSheet showInView:self.view];
 	[self setBarsHidden:YES animated:YES];
 	
-	[actionSheet release];
 	
 }
 

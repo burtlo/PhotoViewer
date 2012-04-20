@@ -28,10 +28,10 @@
 
 @interface EGOImageLoadConnection ()
 
-@property (nonatomic,retain,readwrite) NSURL *imageURL;
-@property (nonatomic,retain) NSURLResponse* response;
-@property (nonatomic,retain,readwrite) NSMutableData *responseData;
-@property (nonatomic,retain) NSURLConnection *connection;
+@property (nonatomic,strong,readwrite) NSURL *imageURL;
+@property (nonatomic,strong) NSURLResponse* response;
+@property (nonatomic,strong,readwrite) NSMutableData *responseData;
+@property (nonatomic) NSURLConnection *connection;
 
 @end
 
@@ -61,8 +61,8 @@
 																cachePolicy:NSURLRequestReturnCacheDataElseLoad
 															timeoutInterval:self.timeoutInterval];
 	[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];  
-	self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
-	[request release];
+	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+    self.connection = connection;
 }
 
 - (void)cancel {
@@ -101,12 +101,7 @@
 
 
 - (void)dealloc {
-	self.response = nil;
 	self.delegate = nil;
-	self.connection = nil;
-    self.imageURL = nil;
-    self.responseData = nil;
-	[super dealloc];
 }
 
 @end

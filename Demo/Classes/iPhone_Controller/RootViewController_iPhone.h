@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface RootViewController_iPhone : UITableViewController {
-
-}
+@interface RootViewController_iPhone : UITableViewController
 
 @end
