@@ -770,17 +770,18 @@
 		self.title = @"";
 	}
 	
-	if (self.captionView && !self.barsHidden) {
+	if (self.captionView) {
         
         id<EGOPhoto> currentPhoto = [self.photoSource photoAtIndex:self.pageIndex];
         [self.captionView setPhoto:currentPhoto];
-        
-        
-        CGFloat captionViewYposition = self.view.frame.size.height - self.navigationController.toolbar.frame.size.height - self.captionView.frame.size.height/2;
-        
-        self.captionView.center = CGPointMake(CGRectGetMidX(self.view.frame),captionViewYposition);
-        
-	}
+    
+        if (!self.barsHidden) {
+            CGFloat captionViewYposition = self.view.frame.size.height - self.navigationController.toolbar.frame.size.height - self.captionView.frame.size.height/2;
+            
+            self.captionView.center = CGPointMake(CGRectGetMidX(self.view.frame),captionViewYposition);
+            
+        }
+    }
 	
 	if([self respondsToSelector:@selector(setContentSizeForViewInPopover:)] && [self.photoSource numberOfPhotos] == 1) {
 		
