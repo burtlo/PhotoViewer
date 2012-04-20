@@ -16,8 +16,6 @@
 @property (nonatomic,strong) UILabel *textLabel;
 @property (nonatomic,strong) UIScrollView *scrollView;
 
-@property (nonatomic,assign) BOOL hidden;
-
 - (void)setTitleText:(NSString*)text;
 - (void)setSourceText:(NSString*)text;
 - (void)setPublishedText:(NSString*)text;
@@ -37,14 +35,12 @@
 @implementation EGODetailedCaptionView
 
 @synthesize photo = photo_;
-@dynamic captionHidden;
 
 @synthesize titleLabel = titleLabel_;
 @synthesize sourceLabel = sourceLabel_;
 @synthesize publishedLabel = publishedLabel_;
 @synthesize textLabel = textLabel_;
 @synthesize scrollView = scrollView_;
-@synthesize hidden = hidden_;
 
 - (id)initWithFrame:(CGRect)frame {
 	
@@ -150,7 +146,7 @@
 #pragma mark - Drawing
 
 - (void)drawRect:(CGRect)rect {
-	
+    
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
 	[[UIColor colorWithWhite:1.0f alpha:0.8f] setStroke];
 	CGContextMoveToPoint(ctx, 0.0f, 0.0f);
@@ -239,10 +235,6 @@
 	
 	self.hidden=hidden;
 	
-}
-
-- (BOOL)captionHidden {
-    return self.hidden;
 }
 
 #pragma mark - Setters

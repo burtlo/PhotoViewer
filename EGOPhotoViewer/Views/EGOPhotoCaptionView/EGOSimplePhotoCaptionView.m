@@ -30,7 +30,6 @@
 @interface EGOSimplePhotoCaptionView ()
 
 @property (nonatomic,strong) UILabel *textLabel;
-@property (nonatomic,assign) BOOL hidden;
 
 @end
 
@@ -38,10 +37,8 @@
 @implementation EGOSimplePhotoCaptionView
 
 @synthesize photo = photo_;
-@dynamic captionHidden;
 
 @synthesize textLabel = textLabel_;
-@synthesize hidden = hidden_;
 
 #pragma mark - Initalization
 
@@ -70,13 +67,6 @@
 
 #pragma mark - Drawing
 
-- (void)layoutSubviews{
-	
-	[self setNeedsDisplay];
-	self.textLabel.frame = CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f);
-	
-}
-
 - (void)drawRect:(CGRect)rect {
 	
 	CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -95,6 +85,8 @@
     
     photo_ = photo;
     
+    self.textLabel.frame = CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f);
+    
     NSString *photoCaption = [photo caption];
     
     BOOL hideCaption = (photoCaption == nil || [photoCaption stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0);
@@ -112,7 +104,7 @@
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.3f];
-		self.alpha= hidden ? 0.0f : 1.0f;
+		self.alpha = hidden ? 0.0f : 1.0f;
 		[UIView commitAnimations];
 		
 		self.hidden = hidden;
@@ -142,10 +134,6 @@
 	
 	self.hidden = hidden;
 	
-}
-
-- (BOOL)captionHidden {
-    return self.hidden;
 }
 
 @end

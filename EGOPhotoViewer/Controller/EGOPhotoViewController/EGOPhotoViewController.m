@@ -519,7 +519,7 @@
 	if (hidden && self.barsHidden) return;
 	
 	if (self.embeddedInPopover && [self.photoSource numberOfPhotos] == 0) {
-		[self.captionView setCaptionHidden:hidden];
+		self.captionView.hidden = hidden;
 		return;
 	}
 		
@@ -557,7 +557,7 @@
 	}
 	
 	if (self.captionView) {
-		[self.captionView setCaptionHidden:hidden];
+		self.captionView.hidden = hidden;
 	}
 	
 	self.barsHidden=hidden;

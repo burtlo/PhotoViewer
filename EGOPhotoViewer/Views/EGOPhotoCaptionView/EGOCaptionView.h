@@ -11,6 +11,5 @@
 @protocol EGOCaptionView <NSObject>
 
 @property (nonatomic,strong) id<EGOPhoto> photo;
-@property (nonatomic,assign) BOOL captionHidden;
 
 @end
