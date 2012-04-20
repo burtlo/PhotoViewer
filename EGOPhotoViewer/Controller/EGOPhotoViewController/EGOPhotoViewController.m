@@ -235,9 +235,9 @@
 	
 	if (!self.captionView) {
 		
-		EGOSimplePhotoCaptionView *view = [[EGOSimplePhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
+//		EGOSimplePhotoCaptionView *view = [[EGOSimplePhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
         
-//		EGODetailedCaptionView *view = [[EGODetailedCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
+		EGODetailedCaptionView *view = [[EGODetailedCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
 
 		[self.view addSubview:view];
 		self.captionView = view;

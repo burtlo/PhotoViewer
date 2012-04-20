@@ -22,11 +22,12 @@
 - (void)setSourceText:(NSString*)text;
 - (void)setPublishedText:(NSString*)text;
 
-- (void)setCaptionText:(NSString*)text hidden:(BOOL)val;
+- (void)setCaptionText:(NSString*)text;
 - (void)setCaptionHidden:(BOOL)hidden;
 
 - (void)setScrollToTop;
 
+- (void)relayoutElements;
 - (void)recalculateSize;
 
 - (CGFloat)getNeededViewHeight;
@@ -179,11 +180,13 @@
     photo_ = photo;
     
     [self setTitleText:photo.title];
-    [self setCaptionText:photo.caption hidden:NO];
+    [self setCaptionText:photo.caption];
     [self setPublishedText:photo.published];
     [self setSourceText:photo.source];
     
     [self recalculateSize];
+    
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height) animated:NO];
     
 }
 
@@ -232,85 +235,93 @@
 
 #pragma mark - Setters
 
-- (void)setCaptionText:(NSString*)text hidden:(BOOL)val {
-	
-	if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
+- (void)setScrollViewLabel:(UILabel *)label withText:(NSString *)text {
+    
+    if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
 		
-		self.textLabel.text = nil;	
-		[self setHidden:YES];
-		
-	} else {
-		
-		
-		self.textLabel.text = text;
-		
-		// Find out the size of the text so that we can set the content size of
-		// the scroll view which will allow the user to scroll to see all of
-		// the description
-		
-		CGSize stringSize = [text sizeWithFont:self.textLabel.font
+		label.text = nil;	
+        label.hidden = YES;
+        
+    } else {
+        
+        label.hidden = NO;
+        label.text = text;
+        
+        CGSize stringSize = [text sizeWithFont:label.font
 							 constrainedToSize:CGSizeMake(self.scrollView.frame.size.width,1000.0)
 								 lineBreakMode:self.textLabel.lineBreakMode];
-		
-		self.textLabel.frame = CGRectMake(0.0f, self.titleLabel.frame.size.height + 10.0, stringSize.width, stringSize.height);
-		
-		[self updateScrollViewSize];
-		
-		[self setHidden:val];
-		
-	}
-	
+		CGRect currentLabelFrame = label.frame;
+        currentLabelFrame.size = stringSize;
+        
+        label.frame = currentLabelFrame;
+    }
+    
+    [self relayoutElements];
+}
+
+- (void)setCaptionText:(NSString*)text {
+    [self setScrollViewLabel:self.textLabel withText:text];
 }
 
 - (void)setTitleText:(NSString *)text {
-    
-	if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
-		self.titleLabel.text = nil;
-	} else {
-		self.titleLabel.text = text;
-		
-		CGSize stringSize = [text sizeWithFont:self.titleLabel.font
-							 constrainedToSize:CGSizeMake(self.scrollView.frame.size.width,1000.0)
-                                 lineBreakMode:self.titleLabel.lineBreakMode];
-		
-		self.titleLabel.frame = CGRectMake(0.0f, 0.0f, stringSize.width, stringSize.height);
-		
-		// Update the y position of the text label so that it is close to the title label
-		
-		self.textLabel.frame = CGRectMake(0.0f ,(self.titleLabel.frame.size.height + 10.0), self.scrollView.frame.size.width, self.textLabel.frame.size.height);
-		
-		[self updateScrollViewSize];
-		
-		[self.titleLabel setHidden:NO];
-	}
+    [self setScrollViewLabel:self.titleLabel withText:text];
 }
 
 - (void)setSourceText:(NSString *)text {
 	if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
 		self.sourceLabel.text = nil;
+        self.sourceLabel.hidden = YES;
 	} else {
 		self.sourceLabel.text = [@"Photo Credit: " stringByAppendingString:text];
-		[self.sourceLabel setHidden:NO];
+		self.sourceLabel.hidden = NO;
 	}
+    
+    [self relayoutElements];
 }
 
 - (void)setPublishedText:(NSString *)text {
 	if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
 		self.publishedLabel.text = nil;
+        self.publishedLabel.hidden = YES;
 	} else {
 		self.publishedLabel.text = text;
-		[self.publishedLabel setHidden:NO];
+        self.publishedLabel.hidden = NO;
 	}
-}
-
-- (void)setScrollToTop {
-	[self.scrollView scrollRectToVisible:CGRectMake(0, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height) animated:NO];
-}
-
-- (void)updateScrollViewSize {
-	// Set the height of the scroll view based on the height of the components within the scroll view
     
-	self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.titleLabel.frame.size.height + self.textLabel.frame.size.height + 30.0);
+    [self relayoutElements];
+}
+
+- (void)relayoutElements {
+    
+    BOOL moveScrollViewUp = self.sourceLabel.hidden && self.publishedLabel.hidden;
+    
+    CGFloat scrollViewYPosition = (moveScrollViewUp ? 6.0 : 22.0);
+    
+    CGFloat scrollViewYDifference = scrollViewYPosition - CGRectGetMinY(self.scrollView.frame);
+    
+    if (scrollViewYDifference != 0) {
+        
+        self.scrollView.center = CGPointMake(self.scrollView.center.x,self.scrollView.center.y + scrollViewYDifference);
+        
+    }
+    
+    
+    BOOL moveCaptionViewup = self.titleLabel.hidden;
+    
+    CGFloat captionYposition = moveCaptionViewup ? 0.0 : CGRectGetHeight(self.titleLabel.frame);
+    
+    CGFloat captionViewYDifference = captionYposition - CGRectGetMinY(self.textLabel.frame);
+    
+    if (captionViewYDifference != 0) {
+        
+        self.textLabel.center = CGPointMake(self.textLabel.center.x,self.textLabel.center.y + captionViewYDifference);
+        
+    }
+    
+    CGFloat scrollViewContentHeight = (self.titleLabel.hidden ? 0.0 : CGRectGetHeight(self.titleLabel.frame)) + (self.textLabel.hidden ? 0.0 : CGRectGetHeight(self.textLabel.frame)) + 30.0;
+	
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, scrollViewContentHeight);
+    
 }
 
 - (CGFloat)getNeededViewHeight {
