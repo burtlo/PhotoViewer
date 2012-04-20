@@ -43,10 +43,14 @@
 - (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index;
 - (id)initWithPopoverController:(id)aPopoverController photoSource:(id <EGOPhotoSource>)aPhotoSource;
 
+
+
 @property(nonatomic,assign) BOOL actionButtonHidden;
 @property(nonatomic, assign) BOOL embeddedInPopover;
 
 - (NSInteger)currentPhotoIndex;
 - (void)moveToPhotoAtIndex:(NSInteger)index animated:(BOOL)animated;
+
+@property(nonatomic,retain,readonly) id <EGOPhotoSource> photoSource;
 
 @end
