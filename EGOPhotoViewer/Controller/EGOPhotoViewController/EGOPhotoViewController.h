@@ -31,13 +31,19 @@
 
 #pragma mark - Initialization
 
-- (id)initWithPhoto:(id<EGOPhoto>)aPhoto;
+#pragma mark  Single Image
 
-- (id)initWithImage:(UIImage*)anImage;
-- (id)initWithImageURL:(NSURL*)anImageURL;
+- (id)initWithPhoto:(id<EGOPhoto>)aPhoto;
+- (id)initWithImage:(UIImage*)image;
+- (id)initWithImageURL:(NSURL*)imageURL;
+
+#pragma mark Multiple Images
 
 - (id)initWithPhotoSource:(id <EGOPhotoSource>)aPhotoSource;
+- (id)initWithImages:(NSArray *)images;
+- (id)initWithImageURLs:(NSArray *)imageURLs;
 - (id)initWithPhotoSource:(id <EGOPhotoSource>)aSource andPhotoIndex:(NSInteger)index;
+
 - (id)initWithPopoverController:(id)aPopoverController photoSource:(id <EGOPhotoSource>)aPhotoSource;
 
 #pragma mark - Photo Source

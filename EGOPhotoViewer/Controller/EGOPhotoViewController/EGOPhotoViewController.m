@@ -114,6 +114,8 @@
 
 #pragma mark - Initialization
 
+#pragma mark  Single Image
+
 - (id)initWithPhoto:(id<EGOPhoto>)aPhoto {
 	return [self initWithPhotoSource:[[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:aPhoto,nil]]];
 }
@@ -126,11 +128,40 @@
 	return [self initWithPhoto:[[EGODefaultPhoto alloc] initWithImageURL:anImageURL]];
 }
 
+#pragma mark Multiple Images
+
+- (id)initWithImages:(NSArray *)images {
+    
+    NSMutableArray *defaultPhotos = [NSMutableArray arrayWithCapacity:[images count]];
+    
+    for (UIImage *image in images) {
+        EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImage:image];
+        [defaultPhotos addObject:photo];
+    }
+    
+    EGODefaultPhotoSource *defaultPhotoSource = [[EGODefaultPhotoSource alloc] initWithPhotos:defaultPhotos];
+    return [self initWithPhotoSource:defaultPhotoSource];
+    
+}
+
+- (id)initWithImageURLs:(NSArray *)imageURLs {
+    
+    NSMutableArray *defaultPhotos = [NSMutableArray arrayWithCapacity:[imageURLs count]];
+    
+    for (NSURL *imageURL in imageURLs) {
+        EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImageURL:imageURL];
+        [defaultPhotos addObject:photo];
+    }
+    
+    EGODefaultPhotoSource *defaultPhotoSource = [[EGODefaultPhotoSource alloc] initWithPhotos:defaultPhotos];
+    return [self initWithPhotoSource:defaultPhotoSource];
+    
+}
+
 - (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index {
 	self.pageIndex = index;
 	return [self initWithPhotoSource:aSource];
 }
-
 
 - (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource{
 	if ((self = [super init])) {
