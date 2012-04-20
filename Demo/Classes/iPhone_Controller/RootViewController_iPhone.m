@@ -8,6 +8,7 @@
 
 #import "RootViewController_iPhone.h"
 #import "EGOPhotoGlobal.h"
+#import "EGODetailedCaptionView.h"
 
 #define kSampleText @"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
@@ -80,6 +81,10 @@
 		EGODefaultPhotoSource *source = [[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:photo, photo2, photo, photo2, photo, photo2, photo, photo2, nil]];
 		
 		EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
+        
+        
+        photoController.captionView = [[EGODetailedCaptionView alloc] init];        
+        
 		[self.navigationController pushViewController:photoController animated:YES];
 		
 		

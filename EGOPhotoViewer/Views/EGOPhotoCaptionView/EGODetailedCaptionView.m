@@ -27,6 +27,7 @@
 
 - (void)relayoutElements;
 - (void)recalculateSize;
+- (void)layoutDefaultPositions;
 
 - (CGFloat)getNeededViewHeight;
 
@@ -52,7 +53,7 @@
 		self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4f];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		
-        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(10.0f, 22.0f, self.frame.size.width - 20.0f, 130.0f)];
+        UIScrollView *scrollView = [[UIScrollView alloc] init];
         
         self.scrollView = scrollView;
 		scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -60,7 +61,7 @@
         
 		// Setup the title label
 		
-		UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, scrollView.frame.size.width, 60.0f)];
+		UILabel *titleLabel = [[UILabel alloc] init];
 		titleLabel.hidden = YES;
 		titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth;
 		titleLabel.backgroundColor = [UIColor clearColor];
@@ -80,7 +81,7 @@
 		
 		// Setup the description/caption label
 		
-		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 60.0f, scrollView.frame.size.width, 80.0f)];
+		UILabel *textLabel = [[UILabel alloc] init];
 		textLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth;
 		textLabel.backgroundColor = [UIColor clearColor];
 		textLabel.numberOfLines = 0;
@@ -104,7 +105,7 @@
 		
 		// Setup the source label
 		
-		UILabel *sourceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 6.0f, self.frame.size.width - 20.0f, 15.0f)];
+		UILabel *sourceLabel = [[UILabel alloc] init];
 		sourceLabel.hidden = YES;
 		sourceLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
 		sourceLabel.backgroundColor = [UIColor clearColor];
@@ -124,7 +125,7 @@
 		// Setup the published date/time label
 		// It should appear at the top over on the right hand side
 		
-		UILabel *publishedLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width - 105.0f, 6.0f, 100.0f, 15.0f)];
+		UILabel *publishedLabel = [[UILabel alloc] init];
 		publishedLabel.hidden = YES;
 		publishedLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
 		publishedLabel.backgroundColor = [UIColor clearColor];
@@ -158,6 +159,18 @@
 	
 }
 
+- (void)layoutDefaultPositions {
+    
+    self.sourceLabel.frame = CGRectMake(10.0f, 6.0f, self.frame.size.width - 20.0f, 15.0f);
+    self.publishedLabel.frame = CGRectMake(self.frame.size.width - 105.0f, 6.0f, 100.0f, 15.0f);
+    
+    self.scrollView.frame = CGRectMake(10.0f, 22.0f, self.frame.size.width - 20.0f, 130.0f);
+    
+    self.titleLabel.frame = CGRectMake(0.0f, 0.0f, self.scrollView.frame.size.width, 60.0f);
+    self.textLabel.frame = CGRectMake(0.0f, CGRectGetMinY(self.textLabel.frame), self.scrollView.frame.size.width, 80.0f);
+    
+}
+
 - (void)recalculateSize {
     
     CGRect currentFrame = self.frame;
@@ -175,6 +188,8 @@
     if (photo_ == photo) { return; }
     
     photo_ = photo;
+    
+    [self layoutDefaultPositions];
     
     [self setTitleText:photo.title];
     [self setCaptionText:photo.caption];
@@ -303,22 +318,22 @@
     }
     
     
-    BOOL moveCaptionViewup = self.titleLabel.hidden;
+    BOOL moveCaptionViewUp = self.titleLabel.hidden;
     
-    CGFloat captionYposition = moveCaptionViewup ? 0.0 : CGRectGetHeight(self.titleLabel.frame);
+    CGFloat captionYposition = moveCaptionViewUp ? 0.0 : CGRectGetHeight(self.titleLabel.frame);
     
     CGFloat captionViewYDifference = captionYposition - CGRectGetMinY(self.textLabel.frame);
     
     if (captionViewYDifference != 0) {
         
         self.textLabel.center = CGPointMake(self.textLabel.center.x,self.textLabel.center.y + captionViewYDifference);
-        
     }
     
     CGFloat scrollViewContentHeight = (self.titleLabel.hidden ? 0.0 : CGRectGetHeight(self.titleLabel.frame)) + (self.textLabel.hidden ? 0.0 : CGRectGetHeight(self.textLabel.frame)) + 30.0;
 	
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, scrollViewContentHeight);
     
+    [self setNeedsDisplay];
 }
 
 - (CGFloat)getNeededViewHeight {

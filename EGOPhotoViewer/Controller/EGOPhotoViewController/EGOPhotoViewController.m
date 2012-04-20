@@ -234,17 +234,14 @@
 	}
 	
 	if (!self.captionView) {
-		
-//		EGOSimplePhotoCaptionView *view = [[EGOSimplePhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
-        
-		EGODetailedCaptionView *view = [[EGODetailedCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
-
-		[self.view addSubview:view];
-		self.captionView = view;
-        
-		
+        self.captionView = [[EGOSimplePhotoCaptionView alloc] init];
 	}
-	
+    
+    self.captionView.frame = CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f);
+
+	[self.view addSubview:self.captionView];
+    
+    
 	//  load photoviews lazily
 	NSMutableArray *views = [[NSMutableArray alloc] init];
 	for (unsigned i = 0; i < [self.photoSource numberOfPhotos]; i++) {
