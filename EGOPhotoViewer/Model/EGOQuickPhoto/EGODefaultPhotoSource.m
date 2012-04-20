@@ -1,5 +1,5 @@
 //
-//  EGOQuickPhoto.m
+//  EGODefaultPhotoSource.m
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 7/3/10.
@@ -24,53 +24,42 @@
 //  THE SOFTWARE.
 //
 
-#import "EGOQuickPhoto.h"
+#import "EGODefaultPhotoSource.h"
 
-@interface EGOQuickPhoto ()
+@interface EGODefaultPhotoSource ()
 
-@property (nonatomic,retain,readwrite) NSURL *URL;
-@property (nonatomic,copy,readwrite) NSString *caption;
+@property (nonatomic,strong,readwrite) NSArray *photos;
+@property (nonatomic,assign,readwrite) NSInteger numberOfPhotos;
 
 @end
 
-@implementation EGOQuickPhoto
 
-@synthesize URL = URL_;
-@synthesize caption = caption_;
-@synthesize image = image_;
-@synthesize size = size_;
-@synthesize failed = failed_;
+@implementation EGODefaultPhotoSource
+
+@synthesize photos = photos_;
+@synthesize numberOfPhotos = numberOfPhotos_;
 
 #pragma mark - Initialization
 
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage {
+- (id)initWithPhotos:(NSArray*)photos {
     
 	if ((self = [super init])) {
-        self.URL = aURL;
-        self.caption = aName;
-        self.image = aImage;
+		self.photos = photos;
+		self.numberOfPhotos = [photos count];
+		
 	}
 	
 	return self;
 }
 
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName {
-	return [self initWithImageURL:aURL name:aName image:nil];
+- (void)dealloc{
+    self.photos = nil;
+	[super dealloc];
 }
 
-- (id)initWithImageURL:(NSURL*)aURL {
-	return [self initWithImageURL:aURL name:nil image:nil];
+- (id<EGOPhoto>)photoAtIndex:(NSInteger)index {
+	return [self.photos objectAtIndex:index];
 }
 
-- (id)initWithImage:(UIImage*)aImage {
-	return [self initWithImageURL:nil name:nil image:aImage];
-}
-
-- (void)dealloc {
-    self.URL = nil;
-    self.caption = nil;
-    self.image = nil;
-    [super dealloc];
-}
 
 @end

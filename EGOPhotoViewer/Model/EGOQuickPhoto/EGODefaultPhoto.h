@@ -1,5 +1,5 @@
 //
-//  EGOQuickPhotoSource.m
+//  EGODefaultPhoto.h
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 7/3/10.
@@ -24,42 +24,15 @@
 //  THE SOFTWARE.
 //
 
-#import "EGOQuickPhotoSource.h"
-
-@interface EGOQuickPhotoSource ()
-
-@property (nonatomic,strong,readwrite) NSArray *photos;
-@property (nonatomic,assign,readwrite) NSInteger numberOfPhotos;
-
-@end
+#import <Foundation/Foundation.h>
+#import "EGOPhotoGlobal.h"
 
 
-@implementation EGOQuickPhotoSource
+@interface EGODefaultPhoto : NSObject <EGOPhoto>
 
-@synthesize photos = photos_;
-@synthesize numberOfPhotos = numberOfPhotos_;
-
-#pragma mark - Initialization
-
-- (id)initWithPhotos:(NSArray*)photos {
-    
-	if ((self = [super init])) {
-		self.photos = photos;
-		self.numberOfPhotos = [photos count];
-		
-	}
-	
-	return self;
-}
-
-- (void)dealloc{
-    self.photos = nil;
-	[super dealloc];
-}
-
-- (id<EGOPhoto>)photoAtIndex:(NSInteger)index {
-	return [self.photos objectAtIndex:index];
-}
-
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage;
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName;
+- (id)initWithImageURL:(NSURL*)aURL;
+- (id)initWithImage:(UIImage*)aImage;
 
 @end

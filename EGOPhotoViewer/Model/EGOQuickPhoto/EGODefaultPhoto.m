@@ -1,5 +1,5 @@
 //
-//  EGOQuickPhotoSource.h
+//  EGODefaultPhoto.m
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 7/3/10.
@@ -24,11 +24,53 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "EGOPhotoGlobal.h"
+#import "EGODefaultPhoto.h"
 
-@interface EGOQuickPhotoSource : NSObject <EGOPhotoSource>
+@interface EGODefaultPhoto ()
 
-- (id)initWithPhotos:(NSArray*)photos;
+@property (nonatomic,retain,readwrite) NSURL *URL;
+@property (nonatomic,copy,readwrite) NSString *caption;
+
+@end
+
+@implementation EGODefaultPhoto
+
+@synthesize URL = URL_;
+@synthesize caption = caption_;
+@synthesize image = image_;
+@synthesize size = size_;
+@synthesize failed = failed_;
+
+#pragma mark - Initialization
+
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage {
+    
+	if ((self = [super init])) {
+        self.URL = aURL;
+        self.caption = aName;
+        self.image = aImage;
+	}
+	
+	return self;
+}
+
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName {
+	return [self initWithImageURL:aURL name:aName image:nil];
+}
+
+- (id)initWithImageURL:(NSURL*)aURL {
+	return [self initWithImageURL:aURL name:nil image:nil];
+}
+
+- (id)initWithImage:(UIImage*)aImage {
+	return [self initWithImageURL:nil name:nil image:aImage];
+}
+
+- (void)dealloc {
+    self.URL = nil;
+    self.caption = nil;
+    self.image = nil;
+    [super dealloc];
+}
 
 @end

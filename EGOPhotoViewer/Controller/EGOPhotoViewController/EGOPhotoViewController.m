@@ -97,15 +97,15 @@
 #pragma mark - Initialization
 
 - (id)initWithPhoto:(id<EGOPhoto>)aPhoto {
-	return [self initWithPhotoSource:[[[EGOQuickPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:aPhoto,nil]] autorelease]];
+	return [self initWithPhotoSource:[[[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:aPhoto,nil]] autorelease]];
 }
 
 - (id)initWithImage:(UIImage*)anImage {
-	return [self initWithPhoto:[[[EGOQuickPhoto alloc] initWithImage:anImage] autorelease]];
+	return [self initWithPhoto:[[[EGODefaultPhoto alloc] initWithImage:anImage] autorelease]];
 }
 
 - (id)initWithImageURL:(NSURL*)anImageURL {
-	return [self initWithPhoto:[[[EGOQuickPhoto alloc] initWithImageURL:anImageURL] autorelease]];
+	return [self initWithPhoto:[[[EGODefaultPhoto alloc] initWithImageURL:anImageURL] autorelease]];
 }
 
 - (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index {

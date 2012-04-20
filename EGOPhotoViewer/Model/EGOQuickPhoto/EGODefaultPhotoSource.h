@@ -1,5 +1,5 @@
 //
-//  EGOQuickPhoto.h
+//  EGODefaultPhotoSource.h
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 7/3/10.
@@ -27,12 +27,8 @@
 #import <Foundation/Foundation.h>
 #import "EGOPhotoGlobal.h"
 
+@interface EGODefaultPhotoSource : NSObject <EGOPhotoSource>
 
-@interface EGOQuickPhoto : NSObject <EGOPhoto>
-
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage;
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName;
-- (id)initWithImageURL:(NSURL*)aURL;
-- (id)initWithImage:(UIImage*)aImage;
+- (id)initWithPhotos:(NSArray*)photos;
 
 @end
