@@ -45,7 +45,6 @@
 // Loading and Disk I/O 
 #import "EGOImageLoadConnection.h"
 #import "EGOImageLoader.h"
-#import "EGOCache.h"
 
 // Definitions used interally.
 // ifndef checks are so you can easily override them in your project.

@@ -26,7 +26,6 @@
 
 #import "EGOImageLoader.h"
 #import "EGOImageLoadConnection.h"
-#import "EGOCache.h"
 
 static EGOImageLoader* __imageLoader;
 
@@ -115,18 +114,12 @@ inline static NSString* keyForURL(NSURL* url) {
 - (UIImage*)imageForURL:(NSURL*)aURL shouldLoadWithObserver:(id<EGOImageLoaderObserver>)observer {
 	if(!aURL) return nil;
 	
-	id anImage = [[EGOCache currentCache] imageForKey:keyForURL(aURL)];
-	
-	if(anImage) {
-		return anImage;
-	} else {
-		[self loadImageForURL:(NSURL*)aURL observer:observer];
-		return nil;
-	}
+    [self loadImageForURL:(NSURL*)aURL observer:observer];
+    return nil;
 }
 
 - (BOOL)hasLoadedImageURL:(NSURL*)aURL {
-	return [[EGOCache currentCache] hasCacheForKey:keyForURL(aURL)];
+	return NO;
 }
 
 - (void)removeObserver:(id<EGOImageLoaderObserver>)observer {
@@ -152,8 +145,6 @@ inline static NSString* keyForURL(NSURL* url) {
 		
 		[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
 	} else {
-		
-		[[EGOCache currentCache] setData:connection.responseData forKey:keyForURL(connection.imageURL) withTimeoutInterval:604800];
 		
 		[currentConnections removeObjectForKey:connection.imageURL];
 		self.currentConnections = [[currentConnections copy] autorelease];
