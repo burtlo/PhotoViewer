@@ -30,7 +30,7 @@
 
 @class EGOPhotoImageView, EGOPhotoCaptionView;
 
-@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
+@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate>
 
 #pragma mark - Initialization
 
@@ -43,9 +43,6 @@
 - (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index;
 - (id)initWithPopoverController:(id)aPopoverController photoSource:(id <EGOPhotoSource>)aPhotoSource;
 
-
-
-@property(nonatomic,assign) BOOL actionButtonHidden;
 @property(nonatomic, assign) BOOL embeddedInPopover;
 
 - (NSInteger)currentPhotoIndex;

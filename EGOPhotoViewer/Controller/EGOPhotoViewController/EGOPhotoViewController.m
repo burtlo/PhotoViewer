@@ -32,7 +32,6 @@
 @property (nonatomic) EGOPhotoCaptionView *captionView;
 @property (nonatomic) UIBarButtonItem *leftButton;
 @property (nonatomic) UIBarButtonItem *rightButton;
-@property (nonatomic) UIBarButtonItem *actionButton;
 
 @property (nonatomic) UIView *popoverOverlay;
 @property (nonatomic) UIView *transferView;
@@ -84,7 +83,6 @@
 @synthesize captionView = captionView_;
 @synthesize leftButton = leftButton_;
 @synthesize rightButton = rightButton_;
-@synthesize actionButton = actionButton_;
 
 @synthesize popoverOverlay = popoverOverlay_;
 @synthesize transferView = transferView_;
@@ -93,7 +91,6 @@
 @synthesize photoSource = photoSource_; 
 @synthesize photoViews = photoViews_;
 @synthesize _fromPopover;
-@synthesize actionButtonHidden = actionButtonHidden_;
 @synthesize embeddedInPopover = embeddedInPopover_;
 
 @synthesize pageIndex = pageIndex_;
@@ -152,7 +149,6 @@
 		else {
 			self.pageIndex = 0;
 		}
-        self.actionButtonHidden = NO;
 		
 	}
 	
@@ -172,9 +168,7 @@
 - (void)dealloc {
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
     
-	
 }
 
 #pragma mark - View Lifecycle
@@ -290,7 +284,7 @@
 		self.storedOldStyles = YES;
 	}	
 	
-	if ([self.navigationController isToolbarHidden] && ((!self.embeddedInPopover && ([self.photoSource numberOfPhotos] > 1 || !self.actionButtonHidden)) || ([self.photoSource numberOfPhotos] > 1))) {
+	if ([self.navigationController isToolbarHidden] && ((!self.embeddedInPopover && ([self.photoSource numberOfPhotos] > 1)) || ([self.photoSource numberOfPhotos] > 1))) {
 		[self.navigationController setToolbarHidden:NO animated:YES];
 	}
 	
@@ -403,14 +397,12 @@
 	
 }
 
-- (void)done:(id)sender {
-	[self dismissModalViewControllerAnimated:YES];
-}
+#pragma mark - View Setup
 
 - (void)setupToolbar {
 	
 	[self setupViewForPopover];
-
+    
 	if(self.embeddedInPopover && [self.photoSource numberOfPhotos] == 1) {
 		[self.navigationController setToolbarHidden:YES animated:NO];
 		return;
@@ -429,7 +421,8 @@
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	}
 	
-	UIBarButtonItem *action = (self.actionButtonHidden) ? [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] : [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonHit:)];
+	UIBarButtonItem *action = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
 	UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 	
 	if ([self.photoSource numberOfPhotos] > 1) {
@@ -443,7 +436,7 @@
 			UIBarButtonItem *scaleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_fullscreen_button.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleFullScreen:)];
 			self.navigationItem.rightBarButtonItem = scaleButton;
 		}		
-
+        
 		
 		UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_left.png"] style:UIBarButtonItemStylePlain target:self action:@selector(moveBack:)];
 		UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_right.png"] style:UIBarButtonItemStylePlain target:self action:@selector(moveForward:)];
@@ -458,38 +451,39 @@
 		[self setToolbarItems:[NSArray arrayWithObjects:flex, action, nil]];
 	}
 	
-	self.actionButton = action;
-	
-	
 }
 
-- (NSInteger)currentPhotoIndex{
-	
+#pragma mark - Actions
+
+- (void)done:(id)sender {
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+- (NSInteger)currentPhotoIndex {
 	return self.pageIndex;
 	
 }
 
 
-#pragma mark -
-#pragma mark Popver ContentSize Observing
+#pragma mark - Popver ContentSize Observing
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{	
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {	
 	[self setupScrollViewContentSize];
 	[self layoutScrollViewSubviews];
 }
 
 
-#pragma mark -
-#pragma mark Bar/Caption Methods
+#pragma mark -  Bar/Caption Methods
 
-- (void)setStatusBarHidden:(BOOL)hidden animated:(BOOL)animated{
+- (void)setStatusBarHidden:(BOOL)hidden animated:(BOOL)animated {
 	if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) return; 
 	
     [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:UIStatusBarAnimationFade];
 
 }
 
-- (void)setBarsHidden:(BOOL)hidden animated:(BOOL)animated{
+- (void)setBarsHidden:(BOOL)hidden animated:(BOOL)animated {
 	if (hidden && self.barsHidden) return;
 	
 	if (self.embeddedInPopover && [self.photoSource numberOfPhotos] == 0) {
@@ -523,7 +517,7 @@
 		[self.navigationController setNavigationBarHidden:hidden animated:animated];
     
 		// Set toolbar hidden if there is only one pic and the action menu is hidden
-    if ([self.photoSource numberOfPhotos] <= 1 && self.actionButtonHidden)
+    if ([self.photoSource numberOfPhotos] <= 1)
       [self.navigationController setToolbarHidden:YES animated:animated];
     else
       [self.navigationController setToolbarHidden:hidden animated:animated];
@@ -538,15 +532,14 @@
 	
 }
 
-- (void)toggleBarsNotification:(NSNotification*)notification{
+- (void)toggleBarsNotification:(NSNotification*)notification {
 	[self setBarsHidden:!self.barsHidden animated:YES];
 }
 
 
-#pragma mark -
-#pragma mark FullScreen Methods
+#pragma mark - FullScreen Methods
 
-- (void)setupViewForPopover{
+- (void)setupViewForPopover {
 	
 	if (!self.popoverOverlay && self.embeddedInPopover && [self.photoSource numberOfPhotos] == 1) {
 				
@@ -578,7 +571,7 @@
 	
 }
 
-- (CATransform3D)transformForCurrentOrientation{
+- (CATransform3D)transformForCurrentOrientation {
 	
 	UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
 	
@@ -599,7 +592,7 @@
 	
 }
 
-- (void)toggleFullScreen:(id)sender{
+- (void)toggleFullScreen:(id)sender {
 	
 	self.fullScreen = !self.fullScreen;
 	
@@ -657,7 +650,7 @@
 	
 }
 
-- (void)fullScreenAnimationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context{
+- (void)fullScreenAnimationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
 	
 	if (finished) {
 		
@@ -695,10 +688,9 @@
 
 
 
-#pragma mark -
-#pragma mark Photo View Methods
+#pragma mark - Photo View Methods
 
-- (void)photoViewDidFinishLoading:(NSNotification*)notification{
+- (void)photoViewDidFinishLoading:(NSNotification*)notification {
 	if (notification == nil) return;
 	
 	if ([[[notification object] objectForKey:@"photo"] isEqual:[self.photoSource photoAtIndex:[self centerPhotoIndex]]]) {
@@ -712,18 +704,18 @@
 	}
 }
 
-- (NSInteger)centerPhotoIndex{
+- (NSInteger)centerPhotoIndex {
 	
 	CGFloat pageWidth = self.scrollView.frame.size.width;
 	return floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 	
 }
 
-- (void)moveForward:(id)sender{
+- (void)moveForward:(id)sender {
 	[self moveToPhotoAtIndex:[self centerPhotoIndex]+1 animated:NO];	
 }
 
-- (void)moveBack:(id)sender{
+- (void)moveBack:(id)sender {
 	[self moveToPhotoAtIndex:[self centerPhotoIndex]-1 animated:NO];
 }
 
@@ -736,19 +728,7 @@
 	if (self.rightButton) {
 		self.rightButton.enabled = !(self.pageIndex+1 >= [self.photoSource numberOfPhotos]);
 	}
-	
-	if (self.actionButton) {
-		EGOPhotoImageView *imageView = [self.photoViews objectAtIndex:[self centerPhotoIndex]];
-		if ((NSNull*)imageView != [NSNull null]) {
-			
-			self.actionButton.enabled = ![imageView isLoading];
-			
-		} else {
-			
-			self.actionButton.enabled = NO;
-		}
-	}
-	
+		
 	if ([self.photoSource numberOfPhotos] > 1) {
         [self.navigationItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"%i von %i", @"imageCounter"), self.pageIndex+1, [self.photoSource numberOfPhotos]] withColor:[UIColor whiteColor]];
 	} else {
@@ -799,7 +779,7 @@
 	
 }
 
-- (void)layoutScrollViewSubviews{
+- (void)layoutScrollViewSubviews {
 	
 	NSInteger _index = [self currentPhotoIndex];
 	
@@ -837,7 +817,7 @@
 	
 }
 
-- (void)setupScrollViewContentSize{
+- (void)setupScrollViewContentSize {
 	
 	CGFloat toolbarSize = self.embeddedInPopover ? 0.0f : self.navigationController.toolbar.frame.size.height;	
 	
@@ -852,7 +832,7 @@
 
 }
 
-- (void)enqueuePhotoViewAtIndex:(NSInteger)theIndex{
+- (void)enqueuePhotoViewAtIndex:(NSInteger)theIndex {
 	
 	NSInteger count = 0;
 	for (EGOPhotoImageView *view in self.photoViews){
@@ -870,7 +850,7 @@
 	
 }
 
-- (EGOPhotoImageView*)dequeuePhotoView{
+- (EGOPhotoImageView*)dequeuePhotoView {
 	
 	NSInteger count = 0;
 	for (EGOPhotoImageView *view in self.photoViews){
@@ -930,8 +910,7 @@
 }
 
 
-#pragma mark -
-#pragma mark UIScrollView Delegate Methods
+#pragma mark - UIScrollView Delegate Methods
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -969,112 +948,5 @@
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
 	[self layoutScrollViewSubviews];
 }
-
-
-#pragma mark -
-#pragma mark Actions
-
-- (void)doneSavingImage{
-	NSLog(@"done saving image");
-}
-
-- (void)savePhoto{
-	
-	UIImageWriteToSavedPhotosAlbum(((EGOPhotoImageView*)[self.photoViews objectAtIndex:self.pageIndex]).imageView.image, nil, nil, nil);
-	
-}
-
-- (void)copyPhoto{
-	
-	[[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:self.pageIndex]).imageView.image) forPasteboardType:@"public.png"];
-	
-}
-
-- (void)emailPhoto{
-	
-	MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
-	[mailViewController setSubject:@"Share Foto"];
-	[mailViewController addAttachmentData:[NSData dataWithData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:self.pageIndex]).imageView.image)] mimeType:@"image/png" fileName:@"Photo.png"];
-	mailViewController.mailComposeDelegate = self;
-	
-	if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-		mailViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-	}
-	
-	[self presentModalViewController:mailViewController animated:YES];
-	
-}
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
-	
-	[self dismissModalViewControllerAnimated:YES];
-	
-	NSString *mailError = nil;
-	
-	switch (result) {
-		case MFMailComposeResultSent: ; break;
-		case MFMailComposeResultFailed: mailError = @"Senden fehlgeschlagen, bitte versuchen Sie es erneut...";
-			break;
-		default:
-			break;
-	}
-	
-	if (mailError != nil) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:mailError delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alert show];
-	}
-	
-}
-
-
-#pragma mark -
-#pragma mark UIActionSheet Methods
-
-- (void)actionButtonHit:(id)sender{
-	
-	UIActionSheet *actionSheet;
-	
-	if ([MFMailComposeViewController canSendMail]) {
-        
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && !self.embeddedInPopover) {
-			actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Speichern", @"Kopieren", @"E-Mail", nil];
-		} else {
-			actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Speichern", @"Kopieren", @"E-Mail", nil];
-		}
-		
-	} else {
-		
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && !self.embeddedInPopover) {
-			actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Speichern", @"Kopieren", nil];
-		} else {
-			actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Abbrechen" destructiveButtonTitle:nil otherButtonTitles:@"Speichern", @"Kopieren", nil];
-		}
-		
-	}
-	
-	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	actionSheet.delegate = self;
-	
-	[actionSheet showInView:self.view];
-	[self setBarsHidden:YES animated:YES];
-	
-	
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-	
-	[self setBarsHidden:NO animated:YES];
-	
-	if (buttonIndex == actionSheet.cancelButtonIndex) {
-		return;
-	} else if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-		[self savePhoto];
-	} else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
-		[self copyPhoto];	
-	} else if (buttonIndex == actionSheet.firstOtherButtonIndex + 2) {
-		[self emailPhoto];	
-	}
-}
-
 
 @end
