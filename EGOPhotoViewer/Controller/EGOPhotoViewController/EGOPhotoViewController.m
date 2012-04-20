@@ -37,12 +37,6 @@
 	UIBarButtonItem *_rightButton;
 	UIBarButtonItem *_actionButton;
 	
-	UIStatusBarStyle _oldStatusBarSyle;
-	UIBarStyle _oldNavBarStyle;
-	UIColor* _oldNavBarTintColor;	
-	UIBarStyle _oldToolBarStyle;
-	UIColor* _oldToolBarTintColor;	
-    
 	UIView *_popoverOverlay;
 	UIView *_transferView;
     
@@ -56,10 +50,20 @@
 @property (nonatomic,assign) BOOL rotating;
 @property (nonatomic,assign) BOOL barsHidden;
 
+#pragma mark - Navigation and Toolbar Styles
+
 @property (nonatomic,assign) BOOL storedOldStyles;
 @property (nonatomic,assign) BOOL oldNavBarTranslucent;
 @property (nonatomic,assign) BOOL oldToolBarTranslucent;
 @property (nonatomic,assign) BOOL oldToolBarHidden;
+
+@property (nonatomic,assign) UIStatusBarStyle oldStatusBarSyle;
+@property (nonatomic,assign) UIBarStyle oldNavBarStyle;
+@property (nonatomic,assign) UIBarStyle oldToolBarStyle;
+@property (nonatomic,retain) UIColor *oldNavBarTintColor;
+@property (nonatomic,retain) UIColor *oldToolBarTintColor;
+
+#pragma mark
 
 @property (nonatomic,assign) BOOL autoresizedPopover;
 @property (nonatomic,assign) BOOL fullScreen;
@@ -95,6 +99,12 @@
 @synthesize oldNavBarTranslucent = oldNavBarTranslucent_;
 @synthesize oldToolBarTranslucent = oldToolBarTranslucent_;
 @synthesize oldToolBarHidden = oldToolBarHidden_;
+
+@synthesize oldStatusBarSyle = oldStatusBarSyle_;
+@synthesize oldNavBarStyle = oldNavBarStyle_;
+@synthesize oldToolBarStyle = oldToolBarStyle_;
+@synthesize oldNavBarTintColor = oldNavBarTintColor_;
+@synthesize oldToolBarTintColor = oldToolBarTintColor_;
 
 @synthesize autoresizedPopover = autoresizedPopover_;
 @synthesize fullScreen = fullScreen_;
@@ -162,8 +172,8 @@
     self.photoSource = nil;
     self.scrollView = nil;
     
-	[_oldToolBarTintColor release], _oldToolBarTintColor = nil;
-	[_oldNavBarTintColor release], _oldNavBarTintColor = nil;
+    self.oldToolBarTintColor = nil;
+    self.oldNavBarTintColor = nil;
 	
     [super dealloc];
 }
@@ -269,14 +279,14 @@
 	}
 	
 	if(!self.storedOldStyles) {
-		_oldStatusBarSyle = [UIApplication sharedApplication].statusBarStyle;
+        self.oldStatusBarSyle = [UIApplication sharedApplication].statusBarStyle;
 		
-		_oldNavBarTintColor = [self.navigationController.navigationBar.tintColor retain];
-		_oldNavBarStyle = self.navigationController.navigationBar.barStyle;
+		self.oldNavBarTintColor = [self.navigationController.navigationBar.tintColor retain];
+		self.oldNavBarStyle = self.navigationController.navigationBar.barStyle;
 		self.oldNavBarTranslucent = self.navigationController.navigationBar.translucent;
 		
-		_oldToolBarTintColor = [self.navigationController.toolbar.tintColor retain];
-		_oldToolBarStyle = self.navigationController.toolbar.barStyle;
+		self.oldToolBarTintColor = self.navigationController.toolbar.tintColor;
+		self.oldToolBarStyle = self.navigationController.toolbar.barStyle;
 		self.oldToolBarTranslucent = self.navigationController.toolbar.translucent;
 		self.oldToolBarHidden = [self.navigationController isToolbarHidden];
 		
@@ -311,11 +321,11 @@
 - (void)viewWillDisappear:(BOOL)animated{
 	[super viewWillDisappear:animated];
 	
-	self.navigationController.navigationBar.barStyle = _oldNavBarStyle;
-	self.navigationController.navigationBar.tintColor = _oldNavBarTintColor;
+	self.navigationController.navigationBar.barStyle = self.oldNavBarStyle;
+	self.navigationController.navigationBar.tintColor = self.oldNavBarTintColor;
 	self.navigationController.navigationBar.translucent = self.oldNavBarTranslucent;
 	
-	[[UIApplication sharedApplication] setStatusBarStyle:_oldStatusBarSyle animated:YES];
+	[[UIApplication sharedApplication] setStatusBarStyle:self.oldStatusBarSyle animated:YES];
 	
 	if(!self.oldToolBarHidden) {
 		
@@ -323,8 +333,8 @@
 			[self.navigationController setToolbarHidden:NO animated:YES];
 		}
 		
-		self.navigationController.toolbar.barStyle = _oldNavBarStyle;
-		self.navigationController.toolbar.tintColor = _oldNavBarTintColor;
+		self.navigationController.toolbar.barStyle = self.oldNavBarStyle;
+		self.navigationController.toolbar.tintColor = self.oldNavBarTintColor;
 		self.navigationController.toolbar.translucent = self.oldNavBarTranslucent;
 		
 	} else {
