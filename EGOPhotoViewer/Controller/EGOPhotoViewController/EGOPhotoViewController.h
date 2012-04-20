@@ -24,11 +24,8 @@
 //  THE SOFTWARE.
 //
 
-#import <MessageUI/MessageUI.h>
 #import "EGOPhotoSource.h"
 #import "EGOPhotoGlobal.h"
-
-@class EGOPhotoImageView, EGOPhotoCaptionView;
 
 @interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate>
 
@@ -40,14 +37,20 @@
 - (id)initWithImageURL:(NSURL*)anImageURL;
 
 - (id)initWithPhotoSource:(id <EGOPhotoSource>)aPhotoSource;
-- (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index;
+- (id)initWithPhotoSource:(id <EGOPhotoSource>)aSource andPhotoIndex:(NSInteger)index;
 - (id)initWithPopoverController:(id)aPopoverController photoSource:(id <EGOPhotoSource>)aPhotoSource;
+
+#pragma mark - Photo Source
+
+@property(nonatomic,readonly) id <EGOPhotoSource> photoSource;
+
+#pragma mark -  View Configuration
 
 @property(nonatomic, assign) BOOL embeddedInPopover;
 
+#pragma mark - Navigation
+
 - (NSInteger)currentPhotoIndex;
 - (void)moveToPhotoAtIndex:(NSInteger)index animated:(BOOL)animated;
-
-@property(nonatomic,readonly) id <EGOPhotoSource> photoSource;
 
 @end
