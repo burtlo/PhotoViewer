@@ -25,10 +25,22 @@
 //
 
 #import "EGOPhotoCaptionView.h"
-
 #import <QuartzCore/QuartzCore.h>
 
+@interface EGOPhotoCaptionView ()
+
+@property (nonatomic,strong) UILabel *textLabel;
+@property (nonatomic,assign) BOOL hidden;
+
+@end
+
+
 @implementation EGOPhotoCaptionView
+
+@synthesize textLabel = textLabel_;
+@synthesize hidden = hidden_;
+
+#pragma mark - Initalization
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -36,25 +48,32 @@
 		self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		
-		_textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f)];
-		_textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-		_textLabel.backgroundColor = [UIColor clearColor];
-		_textLabel.textAlignment = UITextAlignmentCenter;
-		_textLabel.textColor = [UIColor whiteColor];
-		_textLabel.shadowColor = [UIColor blackColor];
-		_textLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		[self addSubview:_textLabel];
-		[_textLabel release];
-		
+        UILabel *textLabel = [[[UILabel alloc] initWithFrame:CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f)] autorelease];
+		textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+		textLabel.backgroundColor = [UIColor clearColor];
+		textLabel.textAlignment = UITextAlignmentCenter;
+		textLabel.textColor = [UIColor whiteColor];
+		textLabel.shadowColor = [UIColor blackColor];
+		textLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
+		[self addSubview:textLabel];
+        
+        self.textLabel = textLabel;
 							  
     }
     return self;
 }
 
+- (void)dealloc {
+	self.textLabel = nil;
+    [super dealloc];
+}
+
+#pragma mark - Drawing
+
 - (void)layoutSubviews{
 	
 	[self setNeedsDisplay];
-	_textLabel.frame = CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f);
+	self.textLabel.frame = CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f);
 	
 }
 
@@ -68,27 +87,29 @@
 	
 }
 
+#pragma mark - Caption
+
 - (void)setCaptionText:(NSString*)text hidden:(BOOL)val{
 	
 	if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
 		
-		_textLabel.text = nil;	
+		self.textLabel.text = nil;	
 		[self setHidden:YES];
 		
 	} else {
 		
 		[self setHidden:val];
-		_textLabel.text = text;
+		self.textLabel.text = text;
 		
 	}
 	
 	
 }
 
-- (void)setCaptionHidden:(BOOL)hidden{
-	if (_hidden==hidden) return;
+- (void)setCaptionHidden:(BOOL)hidden {
+    
+	if (self.hidden == hidden) { return; }
 	
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		
 		[UIView beginAnimations:nil context:NULL];
@@ -96,12 +117,11 @@
 		self.alpha= hidden ? 0.0f : 1.0f;
 		[UIView commitAnimations];
 		
-		_hidden=hidden;
+		self.hidden = hidden;
 		
 		return;
 		
 	}
-#endif
 	
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.2f];
@@ -122,18 +142,8 @@
 	
 	[UIView commitAnimations];
 	
-	_hidden=hidden;
+	self.hidden = hidden;
 	
 }
-
-
-#pragma mark -
-#pragma mark Dealloc
-
-- (void)dealloc {
-	_textLabel=nil;
-    [super dealloc];
-}
-
 
 @end

@@ -28,6 +28,7 @@
 
 @implementation EGOPhotoScrollView
 
+#pragma mark - Initialization
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -51,6 +52,12 @@
     }
     return self;
 }
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+#pragma mark - Zoom and Controls
 
 - (void)zoomRectWithCenter:(CGPoint)center{
 	
@@ -106,8 +113,7 @@
 }
 
 
-#pragma mark -
-#pragma mark Touches
+#pragma mark - Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesBegan:touches withEvent:event];
@@ -124,14 +130,5 @@
 		[self zoomRectWithCenter:[[touches anyObject] locationInView:self]];
 	}
 }
-
-
-#pragma mark -
-#pragma mark Dealloc
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 
 @end

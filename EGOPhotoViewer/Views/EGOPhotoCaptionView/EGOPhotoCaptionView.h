@@ -25,13 +25,9 @@
 //
 
 
-@interface EGOPhotoCaptionView : UIView {
-@private
-	UILabel *_textLabel;
-	BOOL _hidden;
-
-}
+@interface EGOPhotoCaptionView : UIView
 
 - (void)setCaptionText:(NSString*)text hidden:(BOOL)val;
 - (void)setCaptionHidden:(BOOL)hidden;
+
 @end
