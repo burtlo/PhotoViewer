@@ -31,8 +31,6 @@
 
 	EGOPhotoCaptionView *_captionView;
 	
-	NSInteger _pageIndex;
-	
 	UIBarButtonItem *_leftButton;
 	UIBarButtonItem *_rightButton;
 	UIBarButtonItem *_actionButton;
@@ -46,6 +44,8 @@
 @property (nonatomic,retain) NSMutableArray *photoViews;
 @property (nonatomic,retain) UIScrollView *scrollView;
 @property (nonatomic,assign) BOOL _fromPopover;
+
+@property (nonatomic,assign) NSInteger pageIndex;
 
 @property (nonatomic,assign) BOOL rotating;
 @property (nonatomic,assign) BOOL barsHidden;
@@ -92,6 +92,8 @@
 @synthesize actionButtonHidden = actionButtonHidden_;
 @synthesize embeddedInPopover = embeddedInPopover_;
 
+@synthesize pageIndex = pageIndex_;
+
 @synthesize rotating = rotating_;
 @synthesize barsHidden = barsHidden_;
 
@@ -124,7 +126,7 @@
 }
 
 - (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index {
-	_pageIndex = index;
+	self.pageIndex = index;
 	return [self initWithPhotoSource:aSource];
 }
 
@@ -140,11 +142,11 @@
         
         self.photoSource = aSource;
         
-		if (_pageIndex > 0) {
+		if (self.pageIndex > 0) {
 			//Do-Nothing
 		}
 		else {
-			_pageIndex = 0;
+			self.pageIndex = 0;
 		}
         self.actionButtonHidden = NO;
 		
@@ -232,8 +234,8 @@
 		[self.navigationController setNavigationBarHidden:YES animated:NO];
 		[self.navigationController setToolbarHidden:YES animated:NO];
 		
-		[self enqueuePhotoViewAtIndex:_pageIndex];
-		[self loadScrollViewWithPage:_pageIndex];
+		[self enqueuePhotoViewAtIndex:self.pageIndex];
+		[self loadScrollViewWithPage:self.pageIndex];
 		[self setViewState];
 	}
 
@@ -310,7 +312,7 @@
 	
 	[self setupToolbar];
 	[self setupScrollViewContentSize];
-	[self moveToPhotoAtIndex:_pageIndex animated:NO];
+	[self moveToPhotoAtIndex:self.pageIndex animated:NO];
 	
 	if (self.embeddedInPopover) {
 		[self addObserver:self forKeyPath:@"contentSizeForViewInPopover" options:NSKeyValueObservingOptionNew context:NULL];
@@ -371,7 +373,7 @@
 	NSInteger count = 0;
 	for (EGOPhotoImageView *view in self.photoViews){
 		if ([view isKindOfClass:[EGOPhotoImageView class]]) {
-			if (count != _pageIndex) {
+			if (count != self.pageIndex) {
 				[view setHidden:YES];
 			}
 		}
@@ -393,8 +395,8 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
 	
 	[self setupScrollViewContentSize];
-	[self moveToPhotoAtIndex:_pageIndex animated:NO];
-	[self.scrollView scrollRectToVisible:((EGOPhotoImageView*)[self.photoViews objectAtIndex:_pageIndex]).frame animated:YES];
+	[self moveToPhotoAtIndex:self.pageIndex animated:NO];
+	[self.scrollView scrollRectToVisible:((EGOPhotoImageView*)[self.photoViews objectAtIndex:self.pageIndex]).frame animated:YES];
 	
 	//  unhide side views
 	for (EGOPhotoImageView *view in self.photoViews){
@@ -477,7 +479,7 @@
 
 - (NSInteger)currentPhotoIndex{
 	
-	return _pageIndex;
+	return self.pageIndex;
 	
 }
 
@@ -631,7 +633,7 @@
 		
 	}
 	
-	EGOPhotoImageView *_currentView = [self.photoViews objectAtIndex:_pageIndex];
+	EGOPhotoImageView *_currentView = [self.photoViews objectAtIndex:self.pageIndex];
 	BOOL enabled = [UIView areAnimationsEnabled];
 	[UIView setAnimationsEnabled:NO];
 	[_currentView killScrollViewZoom];
@@ -695,7 +697,7 @@
 			
 			navController.modalPresentationStyle = UIModalPresentationFullScreen;
 			[self.navigationController presentModalViewController:navController animated:NO];
-			[controller moveToPhotoAtIndex:_pageIndex animated:NO];
+			[controller moveToPhotoAtIndex:self.pageIndex animated:NO];
 			
 			[navController release];
 			[controller release];
@@ -749,11 +751,11 @@
 - (void)setViewState {	
 	
 	if (_leftButton) {
-		_leftButton.enabled = !(_pageIndex-1 < 0);
+		_leftButton.enabled = !(self.pageIndex-1 < 0);
 	}
 	
 	if (_rightButton) {
-		_rightButton.enabled = !(_pageIndex+1 >= [self.photoSource numberOfPhotos]);
+		_rightButton.enabled = !(self.pageIndex+1 >= [self.photoSource numberOfPhotos]);
 	}
 	
 	if (_actionButton) {
@@ -769,13 +771,13 @@
 	}
 	
 	if ([self.photoSource numberOfPhotos] > 1) {
-        [self.navigationItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"%i von %i", @"imageCounter"), _pageIndex+1, [self.photoSource numberOfPhotos]] withColor:[UIColor whiteColor]];
+        [self.navigationItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"%i von %i", @"imageCounter"), self.pageIndex+1, [self.photoSource numberOfPhotos]] withColor:[UIColor whiteColor]];
 	} else {
 		self.title = @"";
 	}
 	
 	if (_captionView) {
-		[_captionView setCaptionText:[[self.photoSource photoAtIndex:_pageIndex] caption] hidden:NO];
+		[_captionView setCaptionText:[[self.photoSource photoAtIndex:self.pageIndex] caption] hidden:NO];
 	}
 	
 	if([self respondsToSelector:@selector(setContentSizeForViewInPopover:)] && [self.photoSource numberOfPhotos] == 1) {
@@ -792,7 +794,7 @@
 - (void)moveToPhotoAtIndex:(NSInteger)index animated:(BOOL)animated {
 	NSAssert(index < [self.photoSource numberOfPhotos] && index >= 0, @"Photo index passed out of bounds");
 	
-	_pageIndex = index;
+	self.pageIndex = index;
 	[self setViewState];
 
 	[self enqueuePhotoViewAtIndex:index];
@@ -804,7 +806,7 @@
 	
 	[self.scrollView scrollRectToVisible:((EGOPhotoImageView*)[self.photoViews objectAtIndex:index]).frame animated:animated];
 	
-	if ([[self.photoSource photoAtIndex:_pageIndex] didFail]) {
+	if ([[self.photoSource photoAtIndex:self.pageIndex] didFail]) {
 		[self setBarsHidden:NO animated:YES];
 	}
 	
@@ -936,7 +938,7 @@
 	}
 	
 	CGRect frame = self.scrollView.frame;
-	NSInteger centerPageIndex = _pageIndex;
+	NSInteger centerPageIndex = self.pageIndex;
 	CGFloat xOrigin = (frame.size.width * page);
 	if (page > centerPageIndex) {
 		xOrigin = (frame.size.width * page) + EGOPV_IMAGE_GAP;
@@ -961,10 +963,10 @@
 		return;
 	}
 	
-	if (_pageIndex != _index && !self.rotating) {
+	if (self.pageIndex != _index && !self.rotating) {
 
 		[self setBarsHidden:YES animated:YES];
-		_pageIndex = _index;
+		self.pageIndex = _index;
 		[self setViewState];
 		
 		if (![scrollView isTracking]) {
@@ -1000,13 +1002,13 @@
 
 - (void)savePhoto{
 	
-	UIImageWriteToSavedPhotosAlbum(((EGOPhotoImageView*)[self.photoViews objectAtIndex:_pageIndex]).imageView.image, nil, nil, nil);
+	UIImageWriteToSavedPhotosAlbum(((EGOPhotoImageView*)[self.photoViews objectAtIndex:self.pageIndex]).imageView.image, nil, nil, nil);
 	
 }
 
 - (void)copyPhoto{
 	
-	[[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:_pageIndex]).imageView.image) forPasteboardType:@"public.png"];
+	[[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:self.pageIndex]).imageView.image) forPasteboardType:@"public.png"];
 	
 }
 
@@ -1014,7 +1016,7 @@
 	
 	MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
 	[mailViewController setSubject:@"Share Foto"];
-	[mailViewController addAttachmentData:[NSData dataWithData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:_pageIndex]).imageView.image)] mimeType:@"image/png" fileName:@"Photo.png"];
+	[mailViewController addAttachmentData:[NSData dataWithData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:self.pageIndex]).imageView.image)] mimeType:@"image/png" fileName:@"Photo.png"];
 	mailViewController.mailComposeDelegate = self;
 	
 	if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
