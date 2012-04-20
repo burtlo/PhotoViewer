@@ -32,36 +32,37 @@
 	EGOPhotoCaptionView *_captionView;
 	
 	NSInteger _pageIndex;
-	BOOL _rotating;
-	BOOL _barsHidden;
 	
 	UIBarButtonItem *_leftButton;
 	UIBarButtonItem *_rightButton;
 	UIBarButtonItem *_actionButton;
 	
-	BOOL _storedOldStyles;
 	UIStatusBarStyle _oldStatusBarSyle;
 	UIBarStyle _oldNavBarStyle;
-	BOOL _oldNavBarTranslucent;
 	UIColor* _oldNavBarTintColor;	
 	UIBarStyle _oldToolBarStyle;
-	BOOL _oldToolBarTranslucent;
 	UIColor* _oldToolBarTintColor;	
-	BOOL _oldToolBarHidden;
     
-	BOOL _autoresizedPopover;
-
-	BOOL _fullScreen;
 	UIView *_popoverOverlay;
 	UIView *_transferView;
     
 }
 
-@property(nonatomic,retain,readwrite) id <EGOPhotoSource> photoSource;
-@property(nonatomic,retain) NSMutableArray *photoViews;
-@property(nonatomic,retain) UIScrollView *scrollView;
-@property(nonatomic,assign) BOOL _fromPopover;
+@property (nonatomic,retain,readwrite) id <EGOPhotoSource> photoSource;
+@property (nonatomic,retain) NSMutableArray *photoViews;
+@property (nonatomic,retain) UIScrollView *scrollView;
+@property (nonatomic,assign) BOOL _fromPopover;
 
+@property (nonatomic,assign) BOOL rotating;
+@property (nonatomic,assign) BOOL barsHidden;
+
+@property (nonatomic,assign) BOOL storedOldStyles;
+@property (nonatomic,assign) BOOL oldNavBarTranslucent;
+@property (nonatomic,assign) BOOL oldToolBarTranslucent;
+@property (nonatomic,assign) BOOL oldToolBarHidden;
+
+@property (nonatomic,assign) BOOL autoresizedPopover;
+@property (nonatomic,assign) BOOL fullScreen;
 
 - (void)loadScrollViewWithPage:(NSInteger)page;
 - (void)layoutScrollViewSubviews;
@@ -86,6 +87,17 @@
 @synthesize _fromPopover;
 @synthesize actionButtonHidden = actionButtonHidden_;
 @synthesize embeddedInPopover = embeddedInPopover_;
+
+@synthesize rotating = rotating_;
+@synthesize barsHidden = barsHidden_;
+
+@synthesize storedOldStyles = storedOldStyles_;
+@synthesize oldNavBarTranslucent = oldNavBarTranslucent_;
+@synthesize oldToolBarTranslucent = oldToolBarTranslucent_;
+@synthesize oldToolBarHidden = oldToolBarHidden_;
+
+@synthesize autoresizedPopover = autoresizedPopover_;
+@synthesize fullScreen = fullScreen_;
 
 #pragma mark - Initialization
 
@@ -256,19 +268,19 @@
 		
 	}
 	
-	if(!_storedOldStyles) {
+	if(!self.storedOldStyles) {
 		_oldStatusBarSyle = [UIApplication sharedApplication].statusBarStyle;
 		
 		_oldNavBarTintColor = [self.navigationController.navigationBar.tintColor retain];
 		_oldNavBarStyle = self.navigationController.navigationBar.barStyle;
-		_oldNavBarTranslucent = self.navigationController.navigationBar.translucent;
+		self.oldNavBarTranslucent = self.navigationController.navigationBar.translucent;
 		
 		_oldToolBarTintColor = [self.navigationController.toolbar.tintColor retain];
 		_oldToolBarStyle = self.navigationController.toolbar.barStyle;
-		_oldToolBarTranslucent = self.navigationController.toolbar.translucent;
-		_oldToolBarHidden = [self.navigationController isToolbarHidden];
+		self.oldToolBarTranslucent = self.navigationController.toolbar.translucent;
+		self.oldToolBarHidden = [self.navigationController isToolbarHidden];
 		
-		_storedOldStyles = YES;
+		self.storedOldStyles = YES;
 	}	
 	
 	if ([self.navigationController isToolbarHidden] && ((!self.embeddedInPopover && ([self.photoSource numberOfPhotos] > 1 || !self.actionButtonHidden)) || ([self.photoSource numberOfPhotos] > 1))) {
@@ -301,11 +313,11 @@
 	
 	self.navigationController.navigationBar.barStyle = _oldNavBarStyle;
 	self.navigationController.navigationBar.tintColor = _oldNavBarTintColor;
-	self.navigationController.navigationBar.translucent = _oldNavBarTranslucent;
+	self.navigationController.navigationBar.translucent = self.oldNavBarTranslucent;
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:_oldStatusBarSyle animated:YES];
 	
-	if(!_oldToolBarHidden) {
+	if(!self.oldToolBarHidden) {
 		
 		if ([self.navigationController isToolbarHidden]) {
 			[self.navigationController setToolbarHidden:NO animated:YES];
@@ -313,11 +325,11 @@
 		
 		self.navigationController.toolbar.barStyle = _oldNavBarStyle;
 		self.navigationController.toolbar.tintColor = _oldNavBarTintColor;
-		self.navigationController.toolbar.translucent = _oldNavBarTranslucent;
+		self.navigationController.toolbar.translucent = self.oldNavBarTranslucent;
 		
 	} else {
 		
-		[self.navigationController setToolbarHidden:_oldToolBarHidden animated:YES];
+		[self.navigationController setToolbarHidden:self.oldToolBarHidden animated:YES];
 		
 	}
 	
@@ -338,7 +350,7 @@
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-	_rotating = YES;
+	self.rotating = YES;
 	
 	if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation) && !self.embeddedInPopover) {
 		CGRect rect = [[UIScreen mainScreen] bounds];
@@ -380,7 +392,7 @@
 			[view setHidden:NO];
 		}
 	}
-	_rotating = NO;
+	self.rotating = NO;
 	
 }
 
@@ -480,7 +492,7 @@
 }
 
 - (void)setBarsHidden:(BOOL)hidden animated:(BOOL)animated{
-	if (hidden&&_barsHidden) return;
+	if (hidden && self.barsHidden) return;
 	
 	if (self.embeddedInPopover && [self.photoSource numberOfPhotos] == 0) {
 		[_captionView setCaptionHidden:hidden];
@@ -524,12 +536,12 @@
 		[_captionView setCaptionHidden:hidden];
 	}
 	
-	_barsHidden=hidden;
+	self.barsHidden=hidden;
 	
 }
 
 - (void)toggleBarsNotification:(NSNotification*)notification{
-	[self setBarsHidden:!_barsHidden animated:YES];
+	[self setBarsHidden:!self.barsHidden animated:YES];
 }
 
 
@@ -593,9 +605,9 @@
 
 - (void)toggleFullScreen:(id)sender{
 	
-	_fullScreen = !_fullScreen;
+	self.fullScreen = !self.fullScreen;
 	
-	if (!_fullScreen) {
+	if (!self.fullScreen) {
 		
 		NSInteger pageIndex = 0;
 		if (self.modalViewController && [self.modalViewController isKindOfClass:[UINavigationController class]]) {
@@ -625,7 +637,7 @@
 	[backgroundView release];
 	
 	CGRect newRect = [self.view convertRect:_currentView.scrollView.frame toView:_transferView];
-	UIImageView *_imageView = [[UIImageView alloc] initWithFrame:_fullScreen ? newRect : _transferView.bounds];	
+	UIImageView *_imageView = [[UIImageView alloc] initWithFrame:self.fullScreen ? newRect : _transferView.bounds];	
 	_imageView.contentMode = UIViewContentModeScaleAspectFit;
 	[_imageView setImage:_currentImage.image];
 	[_transferView addSubview:_imageView];
@@ -634,8 +646,8 @@
 	self.scrollView.hidden = YES;
 	
 	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"backgroundColor"];
-	animation.fromValue = _fullScreen ? (id)[UIColor clearColor].CGColor : (id)[UIColor blackColor].CGColor;
-	animation.toValue = _fullScreen ? (id)[UIColor blackColor].CGColor : (id)[UIColor clearColor].CGColor;
+	animation.fromValue = self.fullScreen ? (id)[UIColor clearColor].CGColor : (id)[UIColor blackColor].CGColor;
+	animation.toValue = self.fullScreen ? (id)[UIColor blackColor].CGColor : (id)[UIColor clearColor].CGColor;
 	animation.removedOnCompletion = NO;
 	animation.fillMode = kCAFillModeForwards;
 	animation.duration = 0.4f;
@@ -646,7 +658,7 @@
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDidStopSelector:@selector(fullScreenAnimationDidStop:finished:context:)];
-	_imageView.frame = _fullScreen ? _transferView.bounds : newRect;
+	_imageView.frame = self.fullScreen ? _transferView.bounds : newRect;
 	[UIView commitAnimations];
 	
 }
@@ -662,7 +674,7 @@
 			_transferView=nil;
 		}
 		
-		if (_fullScreen) {
+		if (self.fullScreen) {
 			
 			BOOL enabled = [UIView areAnimationsEnabled];
 			[UIView setAnimationsEnabled:NO];
@@ -700,7 +712,7 @@
 	
 	if ([[[notification object] objectForKey:@"photo"] isEqual:[self.photoSource photoAtIndex:[self centerPhotoIndex]]]) {
 		if ([[[notification object] objectForKey:@"failed"] boolValue]) {
-			if (_barsHidden) {
+			if (self.barsHidden) {
 				//  image failed loading
 				[self setBarsHidden:NO animated:YES];
 			}
@@ -939,7 +951,7 @@
 		return;
 	}
 	
-	if (_pageIndex != _index && !_rotating) {
+	if (_pageIndex != _index && !self.rotating) {
 
 		[self setBarsHidden:YES animated:YES];
 		_pageIndex = _index;
