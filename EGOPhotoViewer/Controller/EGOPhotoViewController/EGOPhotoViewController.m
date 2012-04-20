@@ -26,10 +26,10 @@
 
 #import "EGOPhotoViewController.h"
 #import "UINavigationItem+ColoredTitle.h"
+#import "EGODetailedCaptionView.h"
 
 @interface EGOPhotoViewController ()
 
-@property (nonatomic) EGOPhotoCaptionView *captionView;
 @property (nonatomic) UIBarButtonItem *leftButton;
 @property (nonatomic) UIBarButtonItem *rightButton;
 
@@ -235,9 +235,13 @@
 	
 	if (!self.captionView) {
 		
-		EGOPhotoCaptionView *view = [[EGOPhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
+		EGOSimplePhotoCaptionView *view = [[EGOSimplePhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
+        
+//		EGODetailedCaptionView *view = [[EGODetailedCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
+
 		[self.view addSubview:view];
 		self.captionView = view;
+        
 		
 	}
 	
@@ -766,8 +770,16 @@
 		self.title = @"";
 	}
 	
-	if (self.captionView) {
-		[self.captionView setCaptionText:[[self.photoSource photoAtIndex:self.pageIndex] caption] hidden:NO];
+	if (self.captionView && !self.barsHidden) {
+        
+        id<EGOPhoto> currentPhoto = [self.photoSource photoAtIndex:self.pageIndex];
+        [self.captionView setPhoto:currentPhoto];
+        
+        
+        CGFloat captionViewYposition = self.view.frame.size.height - self.navigationController.toolbar.frame.size.height - self.captionView.frame.size.height/2;
+        
+        self.captionView.center = CGPointMake(CGRectGetMidX(self.view.frame),captionViewYposition);
+        
 	}
 	
 	if([self respondsToSelector:@selector(setContentSizeForViewInPopover:)] && [self.photoSource numberOfPhotos] == 1) {

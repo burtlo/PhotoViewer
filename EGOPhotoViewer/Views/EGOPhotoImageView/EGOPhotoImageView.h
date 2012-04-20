@@ -29,7 +29,7 @@
 #import "EGOPhotoSource.h"
 #import "EGOImageLoader.h"
 
-@class EGOPhotoScrollView, EGOPhotoCaptionView;
+@class EGOPhotoScrollView, EGOSimplePhotoCaptionView;
 
 @interface EGOPhotoImageView : UIView <EGOImageLoaderObserver, UIScrollViewDelegate>
 

@@ -1,5 +1,5 @@
 //
-//  EGOPhotoCaptionView.m
+//  EGOSimplePhotoCaptionView.m
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 1/13/2010.
@@ -24,10 +24,10 @@
 //  THE SOFTWARE.
 //
 
-#import "EGOPhotoCaptionView.h"
+#import "EGOSimplePhotoCaptionView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface EGOPhotoCaptionView ()
+@interface EGOSimplePhotoCaptionView ()
 
 @property (nonatomic,strong) UILabel *textLabel;
 @property (nonatomic,assign) BOOL hidden;
@@ -35,7 +35,10 @@
 @end
 
 
-@implementation EGOPhotoCaptionView
+@implementation EGOSimplePhotoCaptionView
+
+@synthesize photo = photo_;
+@dynamic captionHidden;
 
 @synthesize textLabel = textLabel_;
 @synthesize hidden = hidden_;
@@ -43,6 +46,7 @@
 #pragma mark - Initalization
 
 - (id)initWithFrame:(CGRect)frame {
+    
     if ((self = [super initWithFrame:frame])) {
 		
 		self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
@@ -83,23 +87,21 @@
 	
 }
 
-#pragma mark - Caption
+#pragma mark - EGOCaptioView Adherence
 
-- (void)setCaptionText:(NSString*)text hidden:(BOOL)val{
-	
-	if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
-		
-		self.textLabel.text = nil;	
-		[self setHidden:YES];
-		
-	} else {
-		
-		[self setHidden:val];
-		self.textLabel.text = text;
-		
-	}
-	
-	
+- (void)setPhoto:(id<EGOPhoto>)photo {
+
+    if (photo_ == photo) { return; }
+    
+    photo_ = photo;
+    
+    NSString *photoCaption = [photo caption];
+    
+    BOOL hideCaption = (photoCaption == nil || [photoCaption stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0);
+    
+    [self setCaptionHidden:hideCaption];
+    
+    self.textLabel.text = photoCaption;
 }
 
 - (void)setCaptionHidden:(BOOL)hidden {
@@ -140,6 +142,10 @@
 	
 	self.hidden = hidden;
 	
+}
+
+- (BOOL)captionHidden {
+    return self.hidden;
 }
 
 @end

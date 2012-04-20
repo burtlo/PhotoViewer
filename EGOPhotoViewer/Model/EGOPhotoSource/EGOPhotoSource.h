@@ -43,6 +43,12 @@
  */
 - (id)photoAtIndex:(NSInteger)index;
 
+@optional
+
+@property(nonatomic,retain) NSString *title;
+
+@property(nonatomic,retain) NSString *description;
+
 @end
 
 
@@ -75,6 +81,34 @@
  * Returns true if the image failed to load.
  */
 @property(nonatomic,assign,getter=didFail) BOOL failed;
+
+
+@optional
+
+/*
+ * URL of the thumbnail image, varied URL size should set according to display size. 
+ */
+@property(nonatomic,strong) NSURL *thumbnailURL;
+
+/*
+ * URL of the image, varied URL size should set according to display size. 
+ */
+@property(nonatomic,strong) NSURL *contentURL;
+
+/*
+ * The title of the image.
+ */
+@property(nonatomic,copy) NSString *title;
+
+/*
+ * The source of the image.
+ */
+@property(nonatomic,copy) NSString *source;
+
+/*
+ * The published date/time of the image.
+ */
+@property(nonatomic,copy) NSString *published;
 
 
 @end

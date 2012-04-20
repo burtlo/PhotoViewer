@@ -41,6 +41,10 @@
 @synthesize size = size_;
 @synthesize failed = failed_;
 
+@synthesize title = title_;
+@synthesize source = source_;
+@synthesize published = published_;
+
 #pragma mark - Initialization
 
 - (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage {

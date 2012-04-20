@@ -35,7 +35,7 @@
 // Views
 #import "EGOPhotoScrollView.h"
 #import "EGOPhotoImageView.h"
-#import "EGOPhotoCaptionView.h"
+#import "EGOSimplePhotoCaptionView.h"
 
 // Model
 #import "EGOPhotoSource.h"

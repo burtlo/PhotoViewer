@@ -25,6 +25,7 @@
 //
 
 #import "EGOPhotoSource.h"
+#import "EGOCaptionView.h"
 #import "EGOPhotoGlobal.h"
 
 @interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate>
@@ -48,11 +49,12 @@
 
 #pragma mark - Photo Source
 
-@property(nonatomic,readonly) id <EGOPhotoSource> photoSource;
+@property (nonatomic,readonly) id <EGOPhotoSource> photoSource;
 
 #pragma mark -  View Configuration
 
-@property(nonatomic, assign) BOOL embeddedInPopover;
+@property (nonatomic,assign) BOOL embeddedInPopover;
+@property (nonatomic,strong) UIView <EGOCaptionView> *captionView;
 
 #pragma mark - Navigation
 

@@ -1,5 +1,5 @@
 //
-//  EGOPhotoCaptionView.h
+//  EGOSimplePhotoCaptionView.h
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 1/13/2010.
@@ -24,10 +24,8 @@
 //  THE SOFTWARE.
 //
 
+#import "EGOCaptionView.h"
 
-@interface EGOPhotoCaptionView : UIView
-
-- (void)setCaptionText:(NSString*)text hidden:(BOOL)val;
-- (void)setCaptionHidden:(BOOL)hidden;
+@interface EGOSimplePhotoCaptionView : UIView <EGOCaptionView>
 
 @end
