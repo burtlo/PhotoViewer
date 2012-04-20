@@ -187,10 +187,20 @@
     
     [self layoutDefaultPositions];
     
-    [self setTitleText:photo.title];
+    
+    if ([photo respondsToSelector:@selector(title)]) {
+        [self setTitleText:photo.title];
+    }
+    
     [self setCaptionText:photo.caption];
-    [self setPublishedText:photo.published];
-    [self setSourceText:photo.source];
+    
+    if ([photo respondsToSelector:@selector(published)]) {
+        [self setPublishedText:photo.published];
+    }
+    
+    if ([photo respondsToSelector:@selector(source)]) {
+        [self setSourceText:photo.source];
+    }
     
     [self recalculateSize];
     
