@@ -41,22 +41,40 @@
 @end
 
 
-@interface EGOPhotoImageView (Private)
+@interface EGOPhotoImageView ()
+
+@property (nonatomic,strong) UIActivityIndicatorView *activityView;
+@property (nonatomic,strong,readwrite) UIImageView *imageView;
+@property (nonatomic,strong,readwrite) EGOPhotoScrollView *scrollView;
+
+@property (nonatomic,assign) CGRect currentRect;
+@property (nonatomic,assign) CGFloat beginRadians;
+@property (nonatomic,assign) CGPoint middlePosition;
+
 - (void)layoutScrollViewAnimated:(BOOL)animated;
 - (void)handleFailedImage;
 - (void)setupImageViewWithImage:(UIImage *)aImage;
 - (CABasicAnimation*)fadeAnimation;
 @end
 
+#pragma mark - Implementation
 
 @implementation EGOPhotoImageView 
 
-@synthesize photo=_photo;
-@synthesize imageView=_imageView;
-@synthesize scrollView=_scrollView;
-@synthesize loading=_loading;
+@synthesize photo = photo_;
+@synthesize activityView = activityView_;
+@synthesize imageView = imageView_;
+@synthesize scrollView = scrollView_;
+@synthesize loading = loading_;
+
+@synthesize currentRect = currentRect_;
+@synthesize beginRadians = beginRadians_;
+@synthesize middlePosition = middlePosition_;
+
+#pragma mark - Initialization
 
 - (id)initWithFrame:(CGRect)frame {
+    
     if ((self = [super initWithFrame:frame])) {
 		
 		self.backgroundColor = [UIColor blackColor];
@@ -64,29 +82,30 @@
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		self.opaque = YES;
 		
-		EGOPhotoScrollView *scrollView = [[EGOPhotoScrollView alloc] initWithFrame:self.bounds];
+		EGOPhotoScrollView *scrollView = [[[EGOPhotoScrollView alloc] initWithFrame:self.bounds] autorelease];
 		scrollView.backgroundColor = [UIColor blackColor];
 		scrollView.opaque = YES;
 		scrollView.delegate = self;
 		[self addSubview:scrollView];
-		_scrollView = [scrollView retain];
-		[scrollView release];
+        self.scrollView = scrollView;
 
-		UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+
+		UIImageView *imageView = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
 		imageView.opaque = YES;
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
 		imageView.tag = ZOOM_VIEW_TAG;
-		[_scrollView addSubview:imageView];
-		_imageView = [imageView retain];
-		[imageView release];
+		self.imageView = imageView;
 		
-		UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        [scrollView addSubview:imageView];        
+
+		
+		UIActivityIndicatorView *activityView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
 		activityView.frame = CGRectMake((CGRectGetWidth(self.frame) / 2) - 11.0f, CGRectGetHeight(self.frame) - 100.0f , 22.0f, 22.0f);
 		activityView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-		[self addSubview:activityView];
-		_activityView = [activityView retain];
-		[activityView release];
 		
+        [self addSubview:activityView];
+		self.activityView = activityView;
+        
 		RotateGesture *gesture = [[RotateGesture alloc] initWithTarget:self action:@selector(rotate:)];
 		[self addGestureRecognizer:gesture];
 		[gesture release];
@@ -95,26 +114,29 @@
     return self;
 }
 
+#pragma mark - View Layout
+
 - (void)layoutSubviews{
 	[super layoutSubviews];
 		
-	if (_scrollView.zoomScale == 1.0f) {
+	if (self.scrollView.zoomScale == 1.0f) {
 		[self layoutScrollViewAnimated:YES];
 	}
 	
 }
 
-- (void)setPhoto:(id <EGOPhoto>)aPhoto{
-	
-	if (!aPhoto) return; 
-	if ([aPhoto isEqual:self.photo]) return;
-	
+- (void)setPhoto:(id <EGOPhoto>)photo{
+    
+	if (photo == nil || [photo isEqual:self.photo]) { return; }
+    
 	if (self.photo != nil) {
 		[[EGOImageLoader sharedImageLoader] cancelLoadForURL:self.photo.URL];
 	}
-	
-	[_photo release], _photo = nil;
-	_photo = [aPhoto retain];
+
+    [photo_ release];
+    photo_ = nil;
+    
+    photo_ = [photo retain];
 	
 	if (self.photo.image) {
 		
@@ -124,12 +146,13 @@
 		
 		if ([self.photo.URL isFileURL]) {
 			
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-			
 			NSError *error = nil;
 			NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[self.photo.URL path] error:&error];
 			NSInteger fileSize = [[attributes objectForKey:NSFileSize] integerValue];
 
+            // If the file is larger than a certain size and we are on a 4.0 or higher device then we want
+            // to asyncronously load this image as it would likely cause a slow down
+            
 			if (fileSize >= 1048576 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 4.0) {
 								
 				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
@@ -158,10 +181,6 @@
 				self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.photo.URL]];
 				
 			}
-
-#else
-			self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.photo.URL]];
-#endif
 			
 			
 		} else {
@@ -172,17 +191,17 @@
 	
 	if (self.imageView.image) {
 		
-		[_activityView stopAnimating];
+		[self.activityView stopAnimating];
 		self.userInteractionEnabled = YES;
 		
-		_loading=NO;
+		self.loading = NO;
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"EGOPhotoDidFinishLoading" object:[NSDictionary dictionaryWithObjectsAndKeys:self.photo, @"photo", [NSNumber numberWithBool:NO], @"failed", nil]];
 		
 		
 	} else {
 		
-		_loading = YES;
-		[_activityView startAnimating];
+		self.loading = YES;
+		[self.activityView startAnimating];
 		self.userInteractionEnabled= NO;
 		self.imageView.image = kEGOPhotoLoadingPlaceholder;
 	}
@@ -191,10 +210,11 @@
 }
 
 - (void)setupImageViewWithImage:(UIImage*)aImage {	
-	if (!aImage) return; 
+    
+	if (!aImage) { return; }
 
-	_loading = NO;
-	[_activityView stopAnimating];
+	self.loading = NO;
+	[self.activityView stopAnimating];
 	self.imageView.image = aImage; 
 	[self layoutScrollViewAnimated:NO];
 	
@@ -217,7 +237,7 @@
 	self.photo.failed = YES;
 	[self layoutScrollViewAnimated:NO];
 	self.userInteractionEnabled = NO;
-	[_activityView stopAnimating];
+	[self.activityView stopAnimating];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"EGOPhotoDidFinishLoading" object:[NSDictionary dictionaryWithObjectsAndKeys:self.photo, @"photo", [NSNumber numberWithBool:YES], @"failed", nil]];
 	
 }
@@ -520,12 +540,12 @@
 	if (gesture.state == UIGestureRecognizerStateBegan) {
 		
 		[self.layer removeAllAnimations];
-		_beginRadians = gesture.rotation;
-		self.layer.transform = CATransform3DMakeRotation(_beginRadians, 0.0f, 0.0f, 1.0f);
+		self.beginRadians = gesture.rotation;
+		self.layer.transform = CATransform3DMakeRotation(self.beginRadians, 0.0f, 0.0f, 1.0f);
 		
 	} else if (gesture.state == UIGestureRecognizerStateChanged) {
 		
-		self.layer.transform = CATransform3DMakeRotation((_beginRadians + gesture.rotation), 0.0f, 0.0f, 1.0f);
+		self.layer.transform = CATransform3DMakeRotation((self.beginRadians + gesture.rotation), 0.0f, 0.0f, 1.0f);
 
 	} else {
 		
@@ -566,16 +586,16 @@
 
 - (void)dealloc {
 	
-	if (_photo) {
+	if (self.photo) {
 		[[EGOImageLoader sharedImageLoader] cancelLoadForURL:self.photo.URL];
 	}
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[_activityView release], _activityView=nil;
-	[_imageView release]; _imageView=nil;
-	[_scrollView release]; _scrollView=nil;
-	[_photo release]; _photo=nil;
+    self.activityView = nil;
+    self.imageView = nil;
+    self.scrollView = nil;
+	photo_ = nil;
     [super dealloc];
 	
 }

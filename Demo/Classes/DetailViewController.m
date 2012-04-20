@@ -10,9 +10,6 @@
 #import "RootViewController.h"
 #import "EGOPhotoViewController.h"
 
-#import "MyPhotoSource.h"
-#import "MyPhoto.h"
-
 @interface DetailViewController ()
 @property (nonatomic, retain) UIPopoverController *popoverController;
 - (void)configureView;
@@ -105,11 +102,11 @@
 
 - (void)showPhotoView:(UIBarButtonItem*)sender{
 	
-	MyPhoto *webPhoto = [[MyPhoto alloc] initWithImageURL:[NSURL URLWithString:@"http://a3.twimg.com/profile_images/66601193/cactus.jpg"] name:@" laksd;lkas;dlkaslkd ;a"];
-	MyPhoto *filePathPhoto = [[MyPhoto alloc] initWithImageURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"local_image_2" ofType:@"jpg"]]];
-	MyPhoto *inMemoryPhoto = [[MyPhoto alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"local_image_1" ofType:@"jpg"]]];
+	EGOQuickPhoto *webPhoto = [[EGOQuickPhoto alloc] initWithImageURL:[NSURL URLWithString:@"http://a3.twimg.com/profile_images/66601193/cactus.jpg"] name:@" laksd;lkas;dlkaslkd ;a"];
+	EGOQuickPhoto *filePathPhoto = [[EGOQuickPhoto alloc] initWithImageURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"local_image_2" ofType:@"jpg"]]];
+	EGOQuickPhoto *inMemoryPhoto = [[EGOQuickPhoto alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"local_image_1" ofType:@"jpg"]]];
 
-	MyPhotoSource *source = [[MyPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:webPhoto, filePathPhoto, inMemoryPhoto, nil]];
+	EGOQuickPhotoSource *source = [[EGOQuickPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:webPhoto, filePathPhoto, inMemoryPhoto, nil]];
 
 	EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
 	photoController.contentSizeForViewInPopover = CGSizeMake(480.0f, 480.0f);

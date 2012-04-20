@@ -30,8 +30,6 @@
 		530A6C1E138C566100B0505E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 530A6C1C138C566100B0505E /* Localizable.strings */; };
 		D0B84E5511DFFCB400F4CEF6 /* EGOImageLoadConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B84E5111DFFCB400F4CEF6 /* EGOImageLoadConnection.m */; };
 		D0B84E5611DFFCB400F4CEF6 /* EGOImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B84E5311DFFCB400F4CEF6 /* EGOImageLoader.m */; };
-		D0B84E7711DFFD5000F4CEF6 /* MyPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B84E7411DFFD5000F4CEF6 /* MyPhoto.m */; };
-		D0B84E7811DFFD5000F4CEF6 /* MyPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B84E7611DFFD5000F4CEF6 /* MyPhotoSource.m */; };
 		D0B84E9411DFFDF800F4CEF6 /* RootViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B84E9211DFFDF800F4CEF6 /* RootViewController_iPhone.m */; };
 		D0B84E9511DFFDF800F4CEF6 /* RootViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0B84E9311DFFDF800F4CEF6 /* RootViewController_iPhone.xib */; };
 		D0B84EE611DFFF6200F4CEF6 /* photosButton.png in Resources */ = {isa = PBXBuildFile; fileRef = D0B84EE511DFFF6200F4CEF6 /* photosButton.png */; };
@@ -89,10 +87,6 @@
 		D0B84E5111DFFCB400F4CEF6 /* EGOImageLoadConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageLoadConnection.m; sourceTree = "<group>"; };
 		D0B84E5211DFFCB400F4CEF6 /* EGOImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOImageLoader.h; sourceTree = "<group>"; };
 		D0B84E5311DFFCB400F4CEF6 /* EGOImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOImageLoader.m; sourceTree = "<group>"; };
-		D0B84E7311DFFD5000F4CEF6 /* MyPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPhoto.h; sourceTree = "<group>"; };
-		D0B84E7411DFFD5000F4CEF6 /* MyPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPhoto.m; sourceTree = "<group>"; };
-		D0B84E7511DFFD5000F4CEF6 /* MyPhotoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPhotoSource.h; sourceTree = "<group>"; };
-		D0B84E7611DFFD5000F4CEF6 /* MyPhotoSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPhotoSource.m; sourceTree = "<group>"; };
 		D0B84E9111DFFDF800F4CEF6 /* RootViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController_iPhone.h; sourceTree = "<group>"; };
 		D0B84E9211DFFDF800F4CEF6 /* RootViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController_iPhone.m; sourceTree = "<group>"; };
 		D0B84E9311DFFDF800F4CEF6 /* RootViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -133,7 +127,6 @@
 			isa = PBXGroup;
 			children = (
 				D0B84E9011DFFDD700F4CEF6 /* iPhone_Controller */,
-				D0B84E7211DFFD5000F4CEF6 /* Model */,
 				1D3623240D0F684500981E51 /* EGOPhotoViewer_DemoAppDelegate.h */,
 				1D3623250D0F684500981E51 /* EGOPhotoViewer_DemoAppDelegate.m */,
 				28042007108E984D000629CD /* RootViewController.h */,
@@ -353,17 +346,6 @@
 			path = EGOImageLoader;
 			sourceTree = "<group>";
 		};
-		D0B84E7211DFFD5000F4CEF6 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				D0B84E7311DFFD5000F4CEF6 /* MyPhoto.h */,
-				D0B84E7411DFFD5000F4CEF6 /* MyPhoto.m */,
-				D0B84E7511DFFD5000F4CEF6 /* MyPhotoSource.h */,
-				D0B84E7611DFFD5000F4CEF6 /* MyPhotoSource.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		D0B84E9011DFFDD700F4CEF6 /* iPhone_Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -463,8 +445,6 @@
 				2804200C108E984D000629CD /* DetailViewController.m in Sources */,
 				D0B84E5511DFFCB400F4CEF6 /* EGOImageLoadConnection.m in Sources */,
 				D0B84E5611DFFCB400F4CEF6 /* EGOImageLoader.m in Sources */,
-				D0B84E7711DFFD5000F4CEF6 /* MyPhoto.m in Sources */,
-				D0B84E7811DFFD5000F4CEF6 /* MyPhotoSource.m in Sources */,
 				D0B84E9411DFFDF800F4CEF6 /* RootViewController_iPhone.m in Sources */,
 				286B602411FCCF7400556D9E /* EGOPhotoViewController.m in Sources */,
 				286B602511FCCF7400556D9E /* EGOQuickPhoto.m in Sources */,
