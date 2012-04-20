@@ -27,18 +27,15 @@
 #import "EGOPhotoViewController.h"
 #import "UINavigationItem+ColoredTitle.h"
 
-@interface EGOPhotoViewController () {
+@interface EGOPhotoViewController ()
 
-	EGOPhotoCaptionView *_captionView;
-	
-	UIBarButtonItem *_leftButton;
-	UIBarButtonItem *_rightButton;
-	UIBarButtonItem *_actionButton;
-	
-	UIView *_popoverOverlay;
-	UIView *_transferView;
-    
-}
+@property (nonatomic,retain) EGOPhotoCaptionView *captionView;
+@property (nonatomic,retain) UIBarButtonItem *leftButton;
+@property (nonatomic,retain) UIBarButtonItem *rightButton;
+@property (nonatomic,retain) UIBarButtonItem *actionButton;
+
+@property (nonatomic,retain) UIView *popoverOverlay;
+@property (nonatomic,retain) UIView *transferView;
 
 @property (nonatomic,retain,readwrite) id <EGOPhotoSource> photoSource;
 @property (nonatomic,retain) NSMutableArray *photoViews;
@@ -84,6 +81,13 @@
 
 @implementation EGOPhotoViewController
 
+@synthesize captionView = captionView_;
+@synthesize leftButton = leftButton_;
+@synthesize rightButton = rightButton_;
+@synthesize actionButton = actionButton_;
+
+@synthesize popoverOverlay = popoverOverlay_;
+@synthesize transferView = transferView_;
 
 @synthesize scrollView = scrollView_;
 @synthesize photoSource = photoSource_; 
@@ -169,7 +173,7 @@
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	_captionView=nil;
+	self.captionView = nil;
     self.photoViews = nil;
     self.photoSource = nil;
     self.scrollView = nil;
@@ -211,12 +215,11 @@
 
 	}
 	
-	if (!_captionView) {
+	if (!self.captionView) {
 		
-		EGOPhotoCaptionView *view = [[EGOPhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)];
+		EGOPhotoCaptionView *view = [[[EGOPhotoCaptionView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 1.0f)] autorelease];
 		[self.view addSubview:view];
-		_captionView=view;
-		[view release];
+		self.captionView = view;
 		
 	}
 	
@@ -242,11 +245,11 @@
 }
 
 - (void)viewDidUnload {
-	
-	self.photoViews=nil;
-	self.scrollView=nil;
-	_captionView=nil;
-	
+	[super viewDidUnload];
+    
+	self.photoViews = nil;
+	self.scrollView = nil;
+	self.captionView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -458,8 +461,8 @@
 		
 		[self setToolbarItems:[NSArray arrayWithObjects:fixedLeft, flex, left, fixedCenter, right, flex, action, nil]];
 		
-		_rightButton = right;
-		_leftButton = left;
+		self.rightButton = right;
+		self.leftButton = left;
 		
 		[fixedCenter release];
 		[fixedLeft release];
@@ -470,7 +473,7 @@
 		[self setToolbarItems:[NSArray arrayWithObjects:flex, action, nil]];
 	}
 	
-	_actionButton=action;
+	self.actionButton = action;
 	
 	[action release];
 	[flex release];
@@ -507,7 +510,7 @@
 	if (hidden && self.barsHidden) return;
 	
 	if (self.embeddedInPopover && [self.photoSource numberOfPhotos] == 0) {
-		[_captionView setCaptionHidden:hidden];
+		[self.captionView setCaptionHidden:hidden];
 		return;
 	}
 		
@@ -544,8 +547,8 @@
 		
 	}
 	
-	if (_captionView) {
-		[_captionView setCaptionHidden:hidden];
+	if (self.captionView) {
+		[self.captionView setCaptionHidden:hidden];
 	}
 	
 	self.barsHidden=hidden;
@@ -562,18 +565,18 @@
 
 - (void)setupViewForPopover{
 	
-	if (!_popoverOverlay && self.embeddedInPopover && [self.photoSource numberOfPhotos] == 1) {
+	if (!self.popoverOverlay && self.embeddedInPopover && [self.photoSource numberOfPhotos] == 1) {
 				
 		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.0f, self.view.frame.size.height, self.view.frame.size.width, 40.0f)];
 		view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		view.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
-		_popoverOverlay = view;
+		self.popoverOverlay = view;
 		[self.view addSubview:view];
 		[view release];
 		
-		UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _popoverOverlay.frame.size.width, 1.0f)];
+		UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.popoverOverlay.frame.size.width, 1.0f)];
 		borderView.autoresizingMask = view.autoresizingMask;
-		[_popoverOverlay addSubview:borderView];
+		[self.popoverOverlay addSubview:borderView];
 		[borderView setBackgroundColor:[UIColor colorWithWhite:1.0f alpha:0.4f]];
 		[borderView release];
 		
@@ -645,14 +648,14 @@
 	backgroundView.layer.transform = [self transformForCurrentOrientation];
 	[keyWindow addSubview:backgroundView];
 	backgroundView.frame = [[UIScreen mainScreen] applicationFrame];
-	_transferView = backgroundView;
+	self.transferView = backgroundView;
 	[backgroundView release];
 	
-	CGRect newRect = [self.view convertRect:_currentView.scrollView.frame toView:_transferView];
-	UIImageView *_imageView = [[UIImageView alloc] initWithFrame:self.fullScreen ? newRect : _transferView.bounds];	
+	CGRect newRect = [self.view convertRect:_currentView.scrollView.frame toView:self.transferView];
+	UIImageView *_imageView = [[UIImageView alloc] initWithFrame:self.fullScreen ? newRect : self.transferView.bounds];	
 	_imageView.contentMode = UIViewContentModeScaleAspectFit;
 	[_imageView setImage:_currentImage.image];
-	[_transferView addSubview:_imageView];
+	[self.transferView addSubview:_imageView];
 	[_imageView release];
 	
 	self.scrollView.hidden = YES;
@@ -663,14 +666,14 @@
 	animation.removedOnCompletion = NO;
 	animation.fillMode = kCAFillModeForwards;
 	animation.duration = 0.4f;
-	[_transferView.layer addAnimation:animation forKey:@"FadeAnimation"];
+	[self.transferView.layer addAnimation:animation forKey:@"FadeAnimation"];
 	
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.4f];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDidStopSelector:@selector(fullScreenAnimationDidStop:finished:context:)];
-	_imageView.frame = self.fullScreen ? _transferView.bounds : newRect;
+	_imageView.frame = self.fullScreen ? self.transferView.bounds : newRect;
 	[UIView commitAnimations];
 	
 }
@@ -681,9 +684,9 @@
 		
 		self.scrollView.hidden = NO;
 		
-		if (_transferView) {
-			[_transferView removeFromSuperview];
-			_transferView=nil;
+		if (self.transferView) {
+			[self.transferView removeFromSuperview];
+			self.transferView = nil;
 		}
 		
 		if (self.fullScreen) {
@@ -750,23 +753,23 @@
 
 - (void)setViewState {	
 	
-	if (_leftButton) {
-		_leftButton.enabled = !(self.pageIndex-1 < 0);
+	if (self.leftButton) {
+		self.leftButton.enabled = !(self.pageIndex-1 < 0);
 	}
 	
-	if (_rightButton) {
-		_rightButton.enabled = !(self.pageIndex+1 >= [self.photoSource numberOfPhotos]);
+	if (self.rightButton) {
+		self.rightButton.enabled = !(self.pageIndex+1 >= [self.photoSource numberOfPhotos]);
 	}
 	
-	if (_actionButton) {
+	if (self.actionButton) {
 		EGOPhotoImageView *imageView = [self.photoViews objectAtIndex:[self centerPhotoIndex]];
 		if ((NSNull*)imageView != [NSNull null]) {
 			
-			_actionButton.enabled = ![imageView isLoading];
+			self.actionButton.enabled = ![imageView isLoading];
 			
 		} else {
 			
-			_actionButton.enabled = NO;
+			self.actionButton.enabled = NO;
 		}
 	}
 	
@@ -776,8 +779,8 @@
 		self.title = @"";
 	}
 	
-	if (_captionView) {
-		[_captionView setCaptionText:[[self.photoSource photoAtIndex:self.pageIndex] caption] hidden:NO];
+	if (self.captionView) {
+		[self.captionView setCaptionText:[[self.photoSource photoAtIndex:self.pageIndex] caption] hidden:NO];
 	}
 	
 	if([self respondsToSelector:@selector(setContentSizeForViewInPopover:)] && [self.photoSource numberOfPhotos] == 1) {
@@ -869,7 +872,7 @@
 		self.scrollView.contentSize = contentSize;
 	}
 	
-	_captionView.frame = CGRectMake(0.0f, self.view.bounds.size.height - (toolbarSize + 40.0f), self.view.bounds.size.width, 40.0f);
+	self.captionView.frame = CGRectMake(0.0f, self.view.bounds.size.height - (toolbarSize + 40.0f), self.view.bounds.size.width, 40.0f);
 
 }
 
