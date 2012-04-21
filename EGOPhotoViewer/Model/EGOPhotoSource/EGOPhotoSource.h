@@ -45,9 +45,9 @@
 
 @optional
 
-@property(nonatomic,retain) NSString *title;
+@property(nonatomic,retain) NSString *sourceTitle;
 
-@property(nonatomic,retain) NSString *description;
+@property(nonatomic,retain) NSString *sourceDescription;
 
 @end
 

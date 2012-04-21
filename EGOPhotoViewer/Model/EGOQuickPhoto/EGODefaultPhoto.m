@@ -45,6 +45,9 @@
 @synthesize source = source_;
 @synthesize published = published_;
 
+@dynamic thumbnailURL;
+
+
 #pragma mark - Initialization
 
 - (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage {
@@ -70,5 +73,8 @@
 	return [self initWithImageURL:nil name:nil image:aImage];
 }
 
+- (NSURL *)thumbnailURL {
+    return self.URL;
+}
 
 @end

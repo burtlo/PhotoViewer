@@ -471,9 +471,21 @@
         
 		
 		UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_left.png"] style:UIBarButtonItemStylePlain target:self action:@selector(moveBack:)];
+        
+        [left setIsAccessibilityElement:YES];
+		[left setAccessibilityLabel:@"left"];
+
 		UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_right.png"] style:UIBarButtonItemStylePlain target:self action:@selector(moveForward:)];
+        
+        [right setIsAccessibilityElement:YES];
+		[right setAccessibilityLabel:@"right"];
+
+        UIBarButtonItem *thumbnail = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"egopv_thumbnail.png"] style:UIBarButtonItemStylePlain target:self action:@selector(showThumbnails:)];
 		
-		[self setToolbarItems:[NSArray arrayWithObjects:fixedLeft, flex, left, fixedCenter, right, flex, action, nil]];
+		[thumbnail setIsAccessibilityElement:YES];
+		[thumbnail setAccessibilityLabel:@"thumbnail"];
+
+		[self setToolbarItems:[NSArray arrayWithObjects:thumbnail, flex, left, fixedCenter, right, flex, action, nil]];
 		
 		self.rightButton = right;
 		self.leftButton = left;
@@ -750,6 +762,28 @@
 - (void)moveBack:(id)sender {
 	[self moveToPhotoAtIndex:[self centerPhotoIndex]-1 animated:NO];
 }
+
+- (void)showThumbnails:(id)sender {
+    
+    EGOPhotoThumbnailViewController *thumbnailViewController = [[EGOPhotoThumbnailViewController alloc] initWithPhotoSource:self.photoSource atIndex:[self currentPhotoIndex]];
+	thumbnailViewController.thumbnailSelectedDelegate = self;
+	
+	[thumbnailViewController setModalTransitionStyle:UIModalTransitionStylePartialCurl];
+	
+	[[self navigationController] presentModalViewController:thumbnailViewController animated:YES];
+
+}
+
+- (void)thumbnailView:(EGOPhotoThumbnailViewController *)thumbnailViewController selectedPhotoAtIndex:(NSInteger)thumbnailIndex{
+	
+	// Dismiss the thumbnail view
+	[thumbnailViewController dismissModalViewControllerAnimated:YES];
+	
+	// Move to the selected index
+	[self moveToPhotoAtIndex:thumbnailIndex animated:NO];
+	
+}
+
 
 - (void)setViewState {	
 	

@@ -27,8 +27,9 @@
 #import "EGOPhotoSource.h"
 #import "EGOCaptionView.h"
 #import "EGOPhotoGlobal.h"
+#import "EGOPhotoThumbnailViewController.h"
 
-@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate>
+@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate,EGOThumbnailSelectedDelegate>
 
 #pragma mark - Initialization
 
