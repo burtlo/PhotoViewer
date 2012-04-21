@@ -31,17 +31,23 @@
 /*
  * Array containing photo data objects.
  */
-@property(nonatomic,readonly) NSArray *photos;
+@property(nonatomic,strong,readonly) NSArray *photos;
 
 /*
  * Number of photos.
  */
-@property(nonatomic,readonly) NSInteger numberOfPhotos;
+@property(nonatomic,assign,readonly) NSInteger numberOfPhotos;
 
 /*
  * Should return a photo from the photos array, at the index passed.
  */
 - (id)photoAtIndex:(NSInteger)index;
+
+@optional
+
+@property(nonatomic,retain) NSString *sourceTitle;
+
+@property(nonatomic,retain) NSString *sourceDescription;
 
 @end
 
@@ -54,12 +60,12 @@
 /*
  * URL of the image, varied URL size should set according to display size. 
  */
-@property(nonatomic,readonly) NSURL *URL;
+@property(nonatomic,strong,readonly) NSURL *URL;
 
 /*
  * The caption of the image.
  */
-@property(nonatomic,readonly) NSString *caption;
+@property(nonatomic,copy,readonly) NSString *caption;
 
 /*
  * Size of the image, CGRectZero if image is nil.
@@ -69,12 +75,40 @@
 /*
  * The image after being loaded, or local.
  */
-@property(nonatomic,retain) UIImage *image;
+@property(nonatomic,strong) UIImage *image;
 
 /*
  * Returns true if the image failed to load.
  */
 @property(nonatomic,assign,getter=didFail) BOOL failed;
+
+
+@optional
+
+/*
+ * URL of the thumbnail image, varied URL size should set according to display size. 
+ */
+@property(nonatomic,strong) NSURL *thumbnailURL;
+
+/*
+ * URL of the image, varied URL size should set according to display size. 
+ */
+@property(nonatomic,strong) NSURL *contentURL;
+
+/*
+ * The title of the image.
+ */
+@property(nonatomic,copy) NSString *title;
+
+/*
+ * The source of the image.
+ */
+@property(nonatomic,copy) NSString *source;
+
+/*
+ * The published date/time of the image.
+ */
+@property(nonatomic,copy) NSString *published;
 
 
 @end

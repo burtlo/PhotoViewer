@@ -1,9 +1,9 @@
 //
-//  EGOPhotoCaptionView.h
+//  EGODefaultPhotoSource.h
 //  EGOPhotoViewer
 //
-//  Created by Devin Doty on 1/13/2010.
-//  Copyright (c) 2008-2009 enormego
+//  Created by Devin Doty on 7/3/10.
+//  Copyright 2010 enormego. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,11 @@
 //  THE SOFTWARE.
 //
 
+#import <Foundation/Foundation.h>
+#import "EGOPhotoGlobal.h"
 
-@interface EGOPhotoCaptionView : UIView {
-@private
-	UILabel *_textLabel;
-	BOOL _hidden;
+@interface EGODefaultPhotoSource : NSObject <EGOPhotoSource>
 
-}
+- (id)initWithPhotos:(NSArray*)photos;
 
-- (void)setCaptionText:(NSString*)text hidden:(BOOL)val;
-- (void)setCaptionHidden:(BOOL)hidden;
 @end

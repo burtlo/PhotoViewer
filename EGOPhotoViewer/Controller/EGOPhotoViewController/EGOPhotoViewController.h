@@ -24,63 +24,40 @@
 //  THE SOFTWARE.
 //
 
-#import <MessageUI/MessageUI.h>
 #import "EGOPhotoSource.h"
+#import "EGOCaptionView.h"
 #import "EGOPhotoGlobal.h"
+#import "EGOPhotoThumbnailViewController.h"
 
-@class EGOPhotoImageView, EGOPhotoCaptionView;
-@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
-@private
-	id <EGOPhotoSource> _photoSource;
-	EGOPhotoCaptionView *_captionView;
-	NSMutableArray *_photoViews;
-	UIScrollView *_scrollView;	
-	
-	NSInteger _pageIndex;
-	BOOL _rotating;
-	BOOL _barsHidden;
-	
-	UIBarButtonItem *_leftButton;
-	UIBarButtonItem *_rightButton;
-	UIBarButtonItem *_actionButton;
-	
-	BOOL _storedOldStyles;
-	UIStatusBarStyle _oldStatusBarSyle;
-	UIBarStyle _oldNavBarStyle;
-	BOOL _oldNavBarTranslucent;
-	UIColor* _oldNavBarTintColor;	
-	UIBarStyle _oldToolBarStyle;
-	BOOL _oldToolBarTranslucent;
-	UIColor* _oldToolBarTintColor;	
-	BOOL _oldToolBarHidden;
+@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate,EGOThumbnailSelectedDelegate>
 
-	BOOL _autoresizedPopover;
-	BOOL _embeddedInPopover;
-	
-	BOOL _fullScreen;
-	BOOL _fromPopover;
-	UIView *_popoverOverlay;
-	UIView *_transferView;
-  
-  BOOL _actionButtonHidden;
-	
-}
+#pragma mark - Initialization
+
+#pragma mark  Single Image
 
 - (id)initWithPhoto:(id<EGOPhoto>)aPhoto;
+- (id)initWithImage:(UIImage*)image;
+- (id)initWithImageURL:(NSURL*)imageURL;
 
-- (id)initWithImage:(UIImage*)anImage;
-- (id)initWithImageURL:(NSURL*)anImageURL;
+#pragma mark Multiple Images
 
 - (id)initWithPhotoSource:(id <EGOPhotoSource>)aPhotoSource;
-- (id)initWithPhotoSource:(id <EGOPhotoSource> )aSource andPhotoIndex:(NSInteger)index;
+- (id)initWithImages:(NSArray *)images;
+- (id)initWithImageURLs:(NSArray *)imageURLs;
+- (id)initWithPhotoSource:(id <EGOPhotoSource>)aSource andPhotoIndex:(NSInteger)index;
+
 - (id)initWithPopoverController:(id)aPopoverController photoSource:(id <EGOPhotoSource>)aPhotoSource;
 
-@property(nonatomic,readonly) id <EGOPhotoSource> photoSource;
-@property(nonatomic,retain) NSMutableArray *photoViews;
-@property(nonatomic,retain) UIScrollView *scrollView;
-@property(nonatomic,assign) BOOL _fromPopover;
-@property(nonatomic,assign) BOOL actionButtonHidden;
-@property(nonatomic, assign) BOOL embeddedInPopover;
+#pragma mark - Photo Source
+
+@property (nonatomic,readonly) id <EGOPhotoSource> photoSource;
+
+#pragma mark -  View Configuration
+
+@property (nonatomic,assign) BOOL embeddedInPopover;
+@property (nonatomic,strong) UIView <EGOCaptionView> *captionView;
+
+#pragma mark - Navigation
 
 - (NSInteger)currentPhotoIndex;
 - (void)moveToPhotoAtIndex:(NSInteger)index animated:(BOOL)animated;

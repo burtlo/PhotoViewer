@@ -1,9 +1,9 @@
 //
-//  EGOImageLoadConnection.h
-//  EGOImageLoading
+//  EGODefaultPhoto.h
+//  EGOPhotoViewer
 //
-//  Created by Shaun Harrison on 12/1/09.
-//  Copyright (c) 2009-2010 enormego
+//  Created by Devin Doty on 7/3/10.
+//  Copyright 2010 enormego. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,26 +25,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EGOPhotoGlobal.h"
 
-@protocol EGOImageLoadConnectionDelegate;
 
-@interface EGOImageLoadConnection : NSObject
+@interface EGODefaultPhoto : NSObject <EGOPhoto>
 
-- (id)initWithImageURL:(NSURL*)aURL delegate:(id)delegate;
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage;
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName;
+- (id)initWithImageURL:(NSURL*)aURL;
+- (id)initWithImage:(UIImage*)aImage;
 
-- (void)start;
-- (void)cancel;
-
-@property(nonatomic,strong,readonly) NSMutableData* responseData;
-@property(nonatomic,strong,readonly) NSURL* imageURL;
-
-@property(nonatomic,unsafe_unretained) id<EGOImageLoadConnectionDelegate> delegate;
-
-@property(nonatomic,assign) NSTimeInterval timeoutInterval; // Default is 30 seconds
-
-@end
-
-@protocol EGOImageLoadConnectionDelegate<NSObject>
-- (void)imageLoadConnectionDidFinishLoading:(EGOImageLoadConnection *)connection;
-- (void)imageLoadConnection:(EGOImageLoadConnection *)connection didFailWithError:(NSError *)error;	
 @end

@@ -27,8 +27,6 @@
 
 #import "EGOPhotoGlobal.h"
 
-@interface EGOPhotoScrollView : UIScrollView {
-
-}
+@interface EGOPhotoScrollView : UIScrollView
 
 @end

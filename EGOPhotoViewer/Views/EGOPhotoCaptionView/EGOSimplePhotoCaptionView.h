@@ -1,9 +1,9 @@
 //
-//  EGOQuickPhotoSource.m
+//  EGOSimplePhotoCaptionView.h
 //  EGOPhotoViewer
 //
-//  Created by Devin Doty on 7/3/10.
-//  Copyright 2010 enormego. All rights reserved.
+//  Created by Devin Doty on 1/13/2010.
+//  Copyright (c) 2008-2009 enormego
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,30 +24,8 @@
 //  THE SOFTWARE.
 //
 
-#import "EGOQuickPhotoSource.h"
+#import "EGOCaptionView.h"
 
-
-@implementation EGOQuickPhotoSource
-@synthesize photos=_photos, numberOfPhotos=_numberOfPhotos;
-
-
-- (id)initWithPhotos:(NSArray*)photos {
-	if ((self = [super init])) {
-		_photos = [photos retain];
-		_numberOfPhotos = [_photos count];
-		
-	}
-	
-	return self;
-}
-
-- (id<EGOPhoto>)photoAtIndex:(NSInteger)index {
-	return [_photos objectAtIndex:index];
-}
-
-- (void)dealloc{
-	[_photos release], _photos=nil;
-	[super dealloc];
-}
+@interface EGOSimplePhotoCaptionView : UIView <EGOCaptionView>
 
 @end

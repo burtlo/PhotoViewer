@@ -29,28 +29,15 @@
 #import "EGOPhotoSource.h"
 #import "EGOImageLoader.h"
 
-@class EGOPhotoScrollView, EGOPhotoCaptionView;
+@class EGOPhotoScrollView, EGOSimplePhotoCaptionView;
 
-@interface EGOPhotoImageView : UIView <EGOImageLoaderObserver, UIScrollViewDelegate>{
-@private
-	EGOPhotoScrollView *_scrollView;
-	id <EGOPhoto> _photo;
-	UIImageView *_imageView;
-	UIActivityIndicatorView *_activityView;
-	
-	BOOL _loading;
-	CGRect _currentRect;
-	CGFloat _beginRadians;
-	CGPoint _midPos;
-	
-}
+@interface EGOPhotoImageView : UIView <EGOImageLoaderObserver, UIScrollViewDelegate>
 
-@property(nonatomic,readonly) id <EGOPhoto> photo;
-@property(nonatomic,readonly) UIImageView *imageView;
-@property(nonatomic,readonly) EGOPhotoScrollView *scrollView;
+@property(nonatomic,strong) id <EGOPhoto> photo;
+@property(nonatomic,strong,readonly) UIImageView *imageView;
+@property(nonatomic,strong,readonly) EGOPhotoScrollView *scrollView;
 @property(nonatomic,assign,getter=isLoading) BOOL loading;
 
-- (void)setPhoto:(id <EGOPhoto>)aPhoto;
 - (void)killScrollViewZoom;
 - (void)layoutScrollViewAnimated:(BOOL)animated;
 - (void)prepareForReusue;

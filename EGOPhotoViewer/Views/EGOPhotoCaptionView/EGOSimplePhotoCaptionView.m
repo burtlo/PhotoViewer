@@ -1,5 +1,5 @@
 //
-//  EGOPhotoCaptionView.m
+//  EGOSimplePhotoCaptionView.m
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 1/13/2010.
@@ -24,39 +24,48 @@
 //  THE SOFTWARE.
 //
 
-#import "EGOPhotoCaptionView.h"
-
+#import "EGOSimplePhotoCaptionView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@implementation EGOPhotoCaptionView
+@interface EGOSimplePhotoCaptionView ()
+
+@property (nonatomic,strong) UILabel *textLabel;
+
+@end
+
+
+@implementation EGOSimplePhotoCaptionView
+
+@synthesize photo = photo_;
+
+@synthesize textLabel = textLabel_;
+
+#pragma mark - Initalization
 
 - (id)initWithFrame:(CGRect)frame {
+    
     if ((self = [super initWithFrame:frame])) {
 		
 		self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		
-		_textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f)];
-		_textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-		_textLabel.backgroundColor = [UIColor clearColor];
-		_textLabel.textAlignment = UITextAlignmentCenter;
-		_textLabel.textColor = [UIColor whiteColor];
-		_textLabel.shadowColor = [UIColor blackColor];
-		_textLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		[self addSubview:_textLabel];
-		[_textLabel release];
-		
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f)];
+		textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+		textLabel.backgroundColor = [UIColor clearColor];
+		textLabel.textAlignment = UITextAlignmentCenter;
+		textLabel.textColor = [UIColor whiteColor];
+		textLabel.shadowColor = [UIColor blackColor];
+		textLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
+		[self addSubview:textLabel];
+        
+        self.textLabel = textLabel;
 							  
     }
     return self;
 }
 
-- (void)layoutSubviews{
-	
-	[self setNeedsDisplay];
-	_textLabel.frame = CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f);
-	
-}
+
+#pragma mark - Drawing
 
 - (void)drawRect:(CGRect)rect {
 	
@@ -68,40 +77,41 @@
 	
 }
 
-- (void)setCaptionText:(NSString*)text hidden:(BOOL)val{
-	
-	if (text == nil || [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
-		
-		_textLabel.text = nil;	
-		[self setHidden:YES];
-		
-	} else {
-		
-		[self setHidden:val];
-		_textLabel.text = text;
-		
-	}
-	
-	
+#pragma mark - EGOCaptioView Adherence
+
+- (void)setPhoto:(id<EGOPhoto>)photo {
+
+    if (photo_ == photo) { return; }
+    
+    photo_ = photo;
+    
+    self.textLabel.frame = CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f);
+    
+    NSString *photoCaption = [photo caption];
+    
+    BOOL hideCaption = (photoCaption == nil || [photoCaption stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0);
+    
+    [self setCaptionHidden:hideCaption];
+    
+    self.textLabel.text = photoCaption;
 }
 
-- (void)setCaptionHidden:(BOOL)hidden{
-	if (_hidden==hidden) return;
+- (void)setCaptionHidden:(BOOL)hidden {
+    
+	if (self.hidden == hidden) { return; }
 	
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 30200
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.3f];
-		self.alpha= hidden ? 0.0f : 1.0f;
+		self.alpha = hidden ? 0.0f : 1.0f;
 		[UIView commitAnimations];
 		
-		_hidden=hidden;
+		self.hidden = hidden;
 		
 		return;
 		
 	}
-#endif
 	
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.2f];
@@ -122,18 +132,8 @@
 	
 	[UIView commitAnimations];
 	
-	_hidden=hidden;
+	self.hidden = hidden;
 	
 }
-
-
-#pragma mark -
-#pragma mark Dealloc
-
-- (void)dealloc {
-	_textLabel=nil;
-    [super dealloc];
-}
-
 
 @end

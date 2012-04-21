@@ -1,5 +1,5 @@
 //
-//  EGOQuickPhoto.h
+//  EGODefaultPhoto.m
 //  EGOPhotoViewer
 //
 //  Created by Devin Doty on 7/3/10.
@@ -24,23 +24,57 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-#import "EGOPhotoGlobal.h"
+#import "EGODefaultPhoto.h"
+
+@interface EGODefaultPhoto ()
+
+@property (nonatomic,strong,readwrite) NSURL *URL;
+@property (nonatomic,copy,readwrite) NSString *caption;
+
+@end
+
+@implementation EGODefaultPhoto
+
+@synthesize URL = URL_;
+@synthesize caption = caption_;
+@synthesize image = image_;
+@synthesize size = size_;
+@synthesize failed = failed_;
+
+@synthesize title = title_;
+@synthesize source = source_;
+@synthesize published = published_;
+
+@dynamic thumbnailURL;
 
 
-@interface EGOQuickPhoto : NSObject <EGOPhoto>{
-@private
-	NSURL *_URL;
-	NSString *_caption;
-	CGSize _size;
-	UIImage *_image;
+#pragma mark - Initialization
+
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage {
+    
+	if ((self = [super init])) {
+        self.URL = aURL;
+        self.caption = aName;
+        self.image = aImage;
+	}
 	
-	BOOL _failed;
+	return self;
 }
 
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage;
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName;
-- (id)initWithImageURL:(NSURL*)aURL;
-- (id)initWithImage:(UIImage*)aImage;
+- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName {
+	return [self initWithImageURL:aURL name:aName image:nil];
+}
+
+- (id)initWithImageURL:(NSURL*)aURL {
+	return [self initWithImageURL:aURL name:nil image:nil];
+}
+
+- (id)initWithImage:(UIImage*)aImage {
+	return [self initWithImageURL:nil name:nil image:aImage];
+}
+
+- (NSURL *)thumbnailURL {
+    return self.URL;
+}
 
 @end

@@ -23,6 +23,5 @@
     self.titleView = label;
     label.text = title;
     [label sizeToFit];
-    [label release];
 }
 @end
