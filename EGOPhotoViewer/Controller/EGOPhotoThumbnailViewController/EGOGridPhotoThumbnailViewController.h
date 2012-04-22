@@ -15,7 +15,4 @@
 
 @interface EGOGridPhotoThumbnailViewController : UIViewController <EGOImageLoaderObserver, UIScrollViewDelegate, EGOPhotoThumbnailViewController>
 
-- (id)initWithPhotoSource:(id<EGOPhotoSource>)photoSource;
-- (id)initWithPhotoSource:(id<EGOPhotoSource>)photoSource atIndex:(NSUInteger)startIndex;
-
 @end

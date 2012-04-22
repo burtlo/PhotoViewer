@@ -34,19 +34,12 @@
 
 #pragma mark - Initialization
 
-- (id)initWithPhotoSource:(id<EGOPhotoSource>)photoSource atIndex:(NSUInteger)startIndex {
-	self = [super init];
-	
-	if (self) {
-		self.photoSource = photoSource;
-		self.startIndex = startIndex; 
-	}
-	
-	return self;
-}
-
-- (id)initWithPhotoSource:(id<EGOPhotoSource>)_photoSource {
-	return [self initWithPhotoSource:_photoSource atIndex:0];
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self setModalTransitionStyle:UIModalTransitionStylePartialCurl];
+    }
+    return self;
 }
 
 # pragma mark - view life cycle

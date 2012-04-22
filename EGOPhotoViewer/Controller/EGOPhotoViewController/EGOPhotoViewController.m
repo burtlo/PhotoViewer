@@ -775,8 +775,6 @@
     self.thumbnailViewController.startIndex = self.currentPhotoIndex;
     self.thumbnailViewController.thumbnailSelectedDelegate = self;
 	
-	[self.thumbnailViewController setModalTransitionStyle:UIModalTransitionStylePartialCurl];
-	
 	[[self navigationController] presentModalViewController:self.thumbnailViewController animated:YES];
 
 }
