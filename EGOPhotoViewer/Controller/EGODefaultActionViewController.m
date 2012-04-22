@@ -42,10 +42,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    NSLog(@"FRAME: %@",NSStringFromCGRect(self.view.frame));
     [self.actionSheet showInView:self.view];
-//    [self.actionSheet showFromRect:CGRectMake(0, 0, 320, 460) inView:self.view animated:YES];
 }
 
 #pragma mark - Create ActionSheet
