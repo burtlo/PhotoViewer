@@ -14,6 +14,9 @@
 
 @property (nonatomic,strong) id<EGOPhotoSource> photoSource;
 @property (nonatomic,assign) NSUInteger currentIndex;
-@property (nonatomic, assign) id<EGOPhotoThumbnailSelectedDelegate> thumbnailSelectedDelegate;
+
+@property (nonatomic,assign) id<EGOPhotoThumbnailSelectedDelegate> thumbnailSelectedDelegate;
+
+@property (nonatomic,assign,readonly) UIModalTransitionStyle defaultModalTransitionStyle;
 
 @end

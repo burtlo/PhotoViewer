@@ -109,7 +109,7 @@
 		D0FC1E6112761DCA006C2A0F /* egopv_fullscreen_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "egopv_fullscreen_button@2x.png"; sourceTree = "<group>"; };
 		D0FC1E6212761DCA006C2A0F /* egopv_minimize_fullscreen_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = egopv_minimize_fullscreen_button.png; sourceTree = "<group>"; };
 		E20318E315449FD00035BC06 /* EGOPhotoThumbnailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOPhotoThumbnailViewController.h; sourceTree = "<group>"; };
-		E20318E41544A0650035BC06 /* EGOPhotoThumbnailSelectedDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; path = EGOPhotoThumbnailSelectedDelegate.h; sourceTree = "<group>"; };
+		E20318E41544A0650035BC06 /* EGOPhotoThumbnailSelectedDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOPhotoThumbnailSelectedDelegate.h; sourceTree = "<group>"; };
 		E20318E61544A45A0035BC06 /* EGOActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOActionViewController.h; sourceTree = "<group>"; };
 		E20318E71544A4A40035BC06 /* EGODefaultActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGODefaultActionViewController.h; sourceTree = "<group>"; };
 		E20318E81544A4A40035BC06 /* EGODefaultActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGODefaultActionViewController.m; sourceTree = "<group>"; };
@@ -147,8 +147,6 @@
 				D0B84E9011DFFDD700F4CEF6 /* iPhone */,
 				1D3623240D0F684500981E51 /* EGOPhotoViewer_DemoAppDelegate.h */,
 				1D3623250D0F684500981E51 /* EGOPhotoViewer_DemoAppDelegate.m */,
-				28042009108E984D000629CD /* DetailViewController.h */,
-				2804200A108E984D000629CD /* DetailViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -398,6 +396,8 @@
 			children = (
 				28042007108E984D000629CD /* RootViewController.h */,
 				28042008108E984D000629CD /* RootViewController.m */,
+				28042009108E984D000629CD /* DetailViewController.h */,
+				2804200A108E984D000629CD /* DetailViewController.m */,
 			);
 			name = iPad;
 			sourceTree = "<group>";

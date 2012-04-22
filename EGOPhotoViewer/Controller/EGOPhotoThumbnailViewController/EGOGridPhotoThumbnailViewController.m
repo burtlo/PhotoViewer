@@ -28,24 +28,30 @@
 @synthesize photoSource = photoSource_;
 @synthesize currentIndex = currentIndex_;
 
+@dynamic defaultModalTransitionStyle;
+
 @synthesize galleryTitle = galleryTitle_;
 @synthesize galleryDescription = galleryDescription_;
 @synthesize photoScrollView = photoScrollView_;
+
 
 #pragma mark - Initialization
 
 - (id)init {
     self = [super init];
     if (self) {
-        [self setModalTransitionStyle:UIModalTransitionStylePartialCurl];
+        
     }
     return self;
+}
+
+- (UIModalTransitionStyle)defaultModalTransitionStyle {
+    return UIModalTransitionStylePartialCurl;
 }
 
 # pragma mark - view life cycle
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     
 	self.view.backgroundColor = [UIColor blackColor];

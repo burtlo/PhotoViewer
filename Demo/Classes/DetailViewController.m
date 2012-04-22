@@ -114,7 +114,7 @@
 
 	EGODefaultPhotoSource *source = [[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:webPhoto, filePathPhoto, inMemoryPhoto, nil]];
 
-	EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
+	EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPopoverController:self photoSource:source];
 	photoController.contentSizeForViewInPopover = CGSizeMake(480.0f, 480.0f);
 	
 	

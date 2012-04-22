@@ -193,6 +193,7 @@
 
 - (id)initWithPopoverController:(id)aPopoverController photoSource:(id <EGOPhotoSource>)aPhotoSource {
 	if ((self = [self initWithPhotoSource:aPhotoSource])) {
+        [self setModalPresentationStyle:UIModalTransitionStyleCoverVertical];
 		self.embeddedInPopover = YES;
 	}
 	
@@ -782,11 +783,18 @@
 }
 
 - (void)showThumbnails:(id)sender {
-    
+
+    if (self.embeddedInPopover) {
+        self.thumbnailViewController.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+    } else {
+        self.thumbnailViewController.modalPresentationStyle = self.thumbnailViewController.defaultModalTransitionStyle;
+    }
+
     self.thumbnailViewController.photoSource = self.photoSource;
     self.thumbnailViewController.currentIndex = self.currentPhotoIndex;
     self.thumbnailViewController.thumbnailSelectedDelegate = self;
 	
+    
 	[[self navigationController] presentModalViewController:self.thumbnailViewController animated:YES];
 
 }
