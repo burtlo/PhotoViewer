@@ -152,8 +152,8 @@
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error{
 	
-	[self dismissModalViewControllerAnimated:YES];
-	
+	[controller dismissModalViewControllerAnimated:YES];
+    
 	NSString *mailError = nil;
 	
 	switch (result) {
