@@ -263,7 +263,7 @@
 	}
     
     if (self.thumbnailViewController == nil) {
-        self.thumbnailViewController = [[EGOPhotoThumbnailViewController alloc] init];
+        self.thumbnailViewController = [[EGOGridPhotoThumbnailViewController alloc] init];
     }
 
 }
@@ -781,7 +781,7 @@
 
 }
 
-- (void)thumbnailView:(EGOPhotoThumbnailViewController *)thumbnailViewController selectedPhotoAtIndex:(NSInteger)thumbnailIndex{
+- (void)thumbnailViewController:(UIViewController<EGOPhotoThumbnailViewController> *)thumbnailViewController selectedPhotoAtIndex:(NSUInteger)thumbnailIndex{
 	
 	// Dismiss the thumbnail view
 	[thumbnailViewController dismissModalViewControllerAnimated:YES];

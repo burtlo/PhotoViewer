@@ -27,9 +27,9 @@
 #import "EGOPhotoSource.h"
 #import "EGOCaptionView.h"
 #import "EGOPhotoGlobal.h"
-#import "EGOPhotoThumbnailViewController.h"
+#import "EGOGridPhotoThumbnailViewController.h"
 
-@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate,EGOThumbnailSelectedDelegate>
+@interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate,EGOPhotoThumbnailSelectedDelegate>
 
 #pragma mark - Initialization
 
@@ -57,7 +57,7 @@
 @property (nonatomic,assign) BOOL embeddedInPopover;
 @property (nonatomic,strong) UIView <EGOCaptionView> *captionView;
 
-@property (nonatomic,strong) EGOPhotoThumbnailViewController *thumbnailViewController;
+@property (nonatomic,strong) UIViewController <EGOPhotoThumbnailViewController> *thumbnailViewController;
 
 #pragma mark - Navigation
 

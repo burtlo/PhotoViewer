@@ -1,15 +1,15 @@
 //
-//  EGOPhotoThumbnailView.m
+//  EGOGridPhotoThumbnailView.m
 //  Mobile
 //
 //  Created by Frank Webber on 9/12/11.
 //  Copyright 2011 Wetpaint, Inc. All rights reserved.
 //
 
-#import "EGOPhotoThumbnailViewController.h"
+#import "EGOGridPhotoThumbnailViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface EGOPhotoThumbnailViewController ()
+@interface EGOGridPhotoThumbnailViewController ()
 
 @property (nonatomic,retain) UILabel *galleryTitle;
 @property (nonatomic,retain) UILabel *galleryDescription;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation EGOPhotoThumbnailViewController
+@implementation EGOGridPhotoThumbnailViewController
 
 @synthesize thumbnailSelectedDelegate = thumbnailSelectedDelegate_;
 
@@ -262,11 +262,11 @@
 
 - (void)selectedGalleryAtIndex:(id)galleryImage {
 	
-	if ( self.thumbnailSelectedDelegate && [self.thumbnailSelectedDelegate respondsToSelector:@selector(thumbnailView:selectedPhotoAtIndex:)] ) {
+	if ( self.thumbnailSelectedDelegate && [self.thumbnailSelectedDelegate respondsToSelector:@selector(thumbnailViewController:selectedPhotoAtIndex:)] ) {
 		
 		// Thumbnails are tagged starting from 1 and continuing upward. This needs to be
 		// translated to an index as if they were in an array.
-		[self.thumbnailSelectedDelegate thumbnailView:self selectedPhotoAtIndex:([galleryImage tag] - 1)];
+		[self.thumbnailSelectedDelegate thumbnailViewController:self selectedPhotoAtIndex:([galleryImage tag] - 1)];
 	}
 	
 }
