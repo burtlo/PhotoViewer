@@ -63,12 +63,12 @@
 	
     NSString *cancelButtonTitle = @"Cancel";
 
-    // TODO: the _popover is not cool zeus
+    // TODO: the _popover is not being checked from the parent view controller
+    // so this is a loss of functionality for the iPad for this version.
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && !_popover) {
         cancelButtonTitle = nil;
     }
-    
     
     UIActionSheet *actionSheet = nil;
     
