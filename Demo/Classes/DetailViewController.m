@@ -107,7 +107,17 @@
 #pragma mark - EGOPhotoViewer Popover
 
 - (void)showPhotoView:(UIBarButtonItem*)sender{
-	
+
+    if ([self.popoverController.contentViewController isKindOfClass:[UINavigationController class]]) {
+        
+        UINavigationController *navController = (UINavigationController *)self.popoverController.contentViewController;
+        
+        if ([[navController topViewController] isKindOfClass:[EGOPhotoViewController class]]) {
+            return;
+        }
+        
+    }
+    
 	EGODefaultPhoto *webPhoto = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:@"http://a3.twimg.com/profile_images/66601193/cactus.jpg"] name:@" laksd;lkas;dlkaslkd ;a"];
 	EGODefaultPhoto *filePathPhoto = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"local_image_2" ofType:@"jpg"]]];
 	EGODefaultPhoto *inMemoryPhoto = [[EGODefaultPhoto alloc] initWithImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"local_image_1" ofType:@"jpg"]]];
@@ -120,8 +130,10 @@
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:photoController];
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:navController];
+    
 	popover.delegate = self;
 	[popover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    
 	self.popoverController = popover;
 	
 	 
