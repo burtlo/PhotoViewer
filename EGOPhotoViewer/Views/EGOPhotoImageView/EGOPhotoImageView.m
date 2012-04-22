@@ -211,6 +211,8 @@
     
 	if (!aImage) { return; }
 
+    self.photo.image = aImage;
+    
 	self.loading = NO;
 	[self.activityView stopAnimating];
 	self.imageView.image = aImage; 
