@@ -823,7 +823,7 @@
 	}
 		
 	if ([self.photoSource numberOfPhotos] > 1) {
-        [self.navigationItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"%i von %i", @"imageCounter"), self.pageIndex+1, [self.photoSource numberOfPhotos]] withColor:[UIColor whiteColor]];
+        [self.navigationItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"%i of %i", @"imageCounter"), self.pageIndex+1, [self.photoSource numberOfPhotos]] withColor:[UIColor whiteColor]];
 	} else {
 		self.title = @"";
 	}
