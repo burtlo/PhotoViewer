@@ -1,63 +1,57 @@
 //
-//  EGOPhotoThumbnailView.m
+//  EGOGridPhotoThumbnailView.m
 //  Mobile
 //
 //  Created by Frank Webber on 9/12/11.
 //  Copyright 2011 Wetpaint, Inc. All rights reserved.
 //
 
-#import "EGOPhotoThumbnailViewController.h"
+#import "EGOGridPhotoThumbnailViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface EGOPhotoThumbnailViewController ()
-
-@property (nonatomic,assign) NSUInteger startViewAtIndex;
+@interface EGOGridPhotoThumbnailViewController ()
 
 @property (nonatomic,retain) UILabel *galleryTitle;
 @property (nonatomic,retain) UILabel *galleryDescription;
 
-@property (nonatomic,retain) id<EGOPhotoSource> photoSource;
 @property (nonatomic,retain) UIScrollView *photoScrollView;
-
-
 
 - (void)layoutTitleAndDescription;
 - (void)layoutPhotos;
 
 @end
 
-@implementation EGOPhotoThumbnailViewController
+@implementation EGOGridPhotoThumbnailViewController
 
 @synthesize thumbnailSelectedDelegate = thumbnailSelectedDelegate_;
 
 @synthesize photoSource = photoSource_;
-@synthesize startViewAtIndex = startViewAtIndex_;
+@synthesize currentIndex = currentIndex_;
+
+@dynamic defaultModalTransitionStyle;
 
 @synthesize galleryTitle = galleryTitle_;
 @synthesize galleryDescription = galleryDescription_;
 @synthesize photoScrollView = photoScrollView_;
 
+
 #pragma mark - Initialization
 
-- (id)initWithPhotoSource:(id<EGOPhotoSource>)photoSource atIndex:(NSUInteger)startIndex {
-	self = [super init];
-	
-	if (self) {
-		self.photoSource = photoSource;
-		self.startViewAtIndex = startIndex; 
-	}
-	
-	return self;
+- (id)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
 }
 
-- (id)initWithPhotoSource:(id<EGOPhotoSource>)_photoSource {
-	return [self initWithPhotoSource:_photoSource atIndex:0];
+- (UIModalTransitionStyle)defaultModalTransitionStyle {
+    return UIModalTransitionStylePartialCurl;
 }
 
 # pragma mark - view life cycle
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     
 	self.view.backgroundColor = [UIColor blackColor];
@@ -214,7 +208,7 @@
 			UIButton *thumbnailImage = [[UIButton alloc] initWithFrame:CGRectMake(xPosition, yPosition, photoWidth, photoWidth)];
             
             
-			if ( self.startViewAtIndex == index ) {
+			if ( self.currentIndex == index ) {
                 // Add a highlight around the selected image
                 thumbnailImage.layer.borderColor = [UIColor purpleColor].CGColor;
                 thumbnailImage.layer.borderWidth = 2.0;
@@ -267,11 +261,11 @@
 
 - (void)selectedGalleryAtIndex:(id)galleryImage {
 	
-	if ( self.thumbnailSelectedDelegate && [self.thumbnailSelectedDelegate respondsToSelector:@selector(thumbnailView:selectedPhotoAtIndex:)] ) {
+	if ( self.thumbnailSelectedDelegate && [self.thumbnailSelectedDelegate respondsToSelector:@selector(thumbnailViewController:selectedPhotoAtIndex:)] ) {
 		
 		// Thumbnails are tagged starting from 1 and continuing upward. This needs to be
 		// translated to an index as if they were in an array.
-		[self.thumbnailSelectedDelegate thumbnailView:self selectedPhotoAtIndex:([galleryImage tag] - 1)];
+		[self.thumbnailSelectedDelegate thumbnailViewController:self selectedPhotoAtIndex:([galleryImage tag] - 1)];
 	}
 	
 }

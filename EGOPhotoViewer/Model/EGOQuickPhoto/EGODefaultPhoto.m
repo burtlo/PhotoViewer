@@ -77,4 +77,12 @@
     return self.URL;
 }
 
+- (NSString *)title {
+    if (title_) {
+        return title_;
+    } else {
+        return [[self.URL absoluteString] lastPathComponent];
+    }
+}
+
 @end

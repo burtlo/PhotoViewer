@@ -27,6 +27,8 @@
 #import "EGOPhotoViewController.h"
 #import "UINavigationItem+ColoredTitle.h"
 #import "EGODetailedCaptionView.h"
+#import "EGOGridPhotoThumbnailViewController.h"
+#import "EGODefaultActionViewController.h"
 
 @interface EGOPhotoViewController ()
 
@@ -81,6 +83,9 @@
 @implementation EGOPhotoViewController
 
 @synthesize captionView = captionView_;
+@synthesize thumbnailViewController = thumbnailViewController_;
+@synthesize actionViewController = actionViewController_;
+
 @synthesize leftButton = leftButton_;
 @synthesize rightButton = rightButton_;
 
@@ -188,6 +193,7 @@
 
 - (id)initWithPopoverController:(id)aPopoverController photoSource:(id <EGOPhotoSource>)aPhotoSource {
 	if ((self = [self initWithPhotoSource:aPhotoSource])) {
+        [self setModalPresentationStyle:UIModalTransitionStyleCoverVertical];
 		self.embeddedInPopover = YES;
 	}
 	
@@ -259,6 +265,14 @@
 		[self loadScrollViewWithPage:self.pageIndex];
 		[self setViewState];
 	}
+    
+    if (self.thumbnailViewController == nil) {
+        self.thumbnailViewController = [[EGOGridPhotoThumbnailViewController alloc] init];
+    }
+    
+    if (self.actionViewController == nil) {
+        self.actionViewController = [[EGODefaultActionViewController alloc] init];
+    }
 
 }
 
@@ -453,7 +467,9 @@
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	}
 	
-	UIBarButtonItem *action = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    
+	UIBarButtonItem *action = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(takeAction:)];
     
 	UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 	
@@ -499,10 +515,13 @@
 
 #pragma mark - Actions
 
+
 - (void)done:(id)sender {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+
+#pragma mark 
 
 - (NSInteger)currentPhotoIndex {
 	return self.pageIndex;
@@ -764,17 +783,23 @@
 }
 
 - (void)showThumbnails:(id)sender {
+
+    if (self.embeddedInPopover) {
+        self.thumbnailViewController.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+    } else {
+        self.thumbnailViewController.modalPresentationStyle = self.thumbnailViewController.defaultModalTransitionStyle;
+    }
+
+    self.thumbnailViewController.photoSource = self.photoSource;
+    self.thumbnailViewController.currentIndex = self.currentPhotoIndex;
+    self.thumbnailViewController.thumbnailSelectedDelegate = self;
+	
     
-    EGOPhotoThumbnailViewController *thumbnailViewController = [[EGOPhotoThumbnailViewController alloc] initWithPhotoSource:self.photoSource atIndex:[self currentPhotoIndex]];
-	thumbnailViewController.thumbnailSelectedDelegate = self;
-	
-	[thumbnailViewController setModalTransitionStyle:UIModalTransitionStylePartialCurl];
-	
-	[[self navigationController] presentModalViewController:thumbnailViewController animated:YES];
+	[[self navigationController] presentModalViewController:self.thumbnailViewController animated:YES];
 
 }
 
-- (void)thumbnailView:(EGOPhotoThumbnailViewController *)thumbnailViewController selectedPhotoAtIndex:(NSInteger)thumbnailIndex{
+- (void)thumbnailViewController:(UIViewController<EGOPhotoThumbnailViewController> *)thumbnailViewController selectedPhotoAtIndex:(NSUInteger)thumbnailIndex{
 	
 	// Dismiss the thumbnail view
 	[thumbnailViewController dismissModalViewControllerAnimated:YES];
@@ -782,6 +807,17 @@
 	// Move to the selected index
 	[self moveToPhotoAtIndex:thumbnailIndex animated:NO];
 	
+}
+
+- (void)takeAction:(id)sender {
+    
+    self.actionViewController.photoSource = self.photoSource;
+    self.actionViewController.currentIndex = self.currentPhotoIndex;
+    self.actionViewController.embeddedInPopover = self.embeddedInPopover;
+    
+    [self addChildViewController:self.actionViewController];
+    [self.view addSubview:self.actionViewController.view];
+    
 }
 
 
@@ -796,7 +832,7 @@
 	}
 		
 	if ([self.photoSource numberOfPhotos] > 1) {
-        [self.navigationItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"%i von %i", @"imageCounter"), self.pageIndex+1, [self.photoSource numberOfPhotos]] withColor:[UIColor whiteColor]];
+        [self.navigationItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"%i of %i", @"imageCounter"), self.pageIndex+1, [self.photoSource numberOfPhotos]] withColor:[UIColor whiteColor]];
 	} else {
 		self.title = @"";
 	}
