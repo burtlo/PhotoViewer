@@ -813,6 +813,7 @@
     
     self.actionViewController.photoSource = self.photoSource;
     self.actionViewController.currentIndex = self.currentPhotoIndex;
+    self.actionViewController.embeddedInPopover = self.embeddedInPopover;
     
     [self addChildViewController:self.actionViewController];
     [self.view addSubview:self.actionViewController.view];

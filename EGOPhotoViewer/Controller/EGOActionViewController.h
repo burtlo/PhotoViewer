@@ -13,4 +13,7 @@
 @property (nonatomic,strong) id<EGOPhotoSource> photoSource;
 @property (nonatomic,assign) NSUInteger currentIndex;
 
+
+@property (nonatomic,assign) BOOL embeddedInPopover;
+
 @end

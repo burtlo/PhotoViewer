@@ -16,7 +16,6 @@
 @interface EGODefaultActionViewController ()
 
 @property (nonatomic,strong) UIActionSheet *actionSheet;
-@property (nonatomic,assign) BOOL _popover;
 
 - (id<EGOPhoto>)photo;
 - (UIActionSheet *)createActionSheet;
@@ -30,9 +29,9 @@
 
 @synthesize photoSource = photoSource_;
 @synthesize currentIndex = currentIndex_;
+@synthesize embeddedInPopover = embeddedInPopover_;
 
 @synthesize actionSheet = actionSheet_;
-@synthesize _popover;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,7 +70,7 @@
     // TODO: the _popover is not being checked from the parent view controller
     // so this is a loss of functionality for the iPad for this version.
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && !_popover) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && !self.embeddedInPopover) {
         cancelButtonTitle = nil;
     }
     
