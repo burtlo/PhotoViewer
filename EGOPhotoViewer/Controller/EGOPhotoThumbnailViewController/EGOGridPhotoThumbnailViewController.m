@@ -26,7 +26,7 @@
 @synthesize thumbnailSelectedDelegate = thumbnailSelectedDelegate_;
 
 @synthesize photoSource = photoSource_;
-@synthesize startIndex = startIndex_;
+@synthesize currentIndex = currentIndex_;
 
 @synthesize galleryTitle = galleryTitle_;
 @synthesize galleryDescription = galleryDescription_;
@@ -202,7 +202,7 @@
 			UIButton *thumbnailImage = [[UIButton alloc] initWithFrame:CGRectMake(xPosition, yPosition, photoWidth, photoWidth)];
             
             
-			if ( self.startIndex == index ) {
+			if ( self.currentIndex == index ) {
                 // Add a highlight around the selected image
                 thumbnailImage.layer.borderColor = [UIColor purpleColor].CGColor;
                 thumbnailImage.layer.borderWidth = 2.0;

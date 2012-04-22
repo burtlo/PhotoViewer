@@ -784,7 +784,7 @@
 - (void)showThumbnails:(id)sender {
     
     self.thumbnailViewController.photoSource = self.photoSource;
-    self.thumbnailViewController.startIndex = self.currentPhotoIndex;
+    self.thumbnailViewController.currentIndex = self.currentPhotoIndex;
     self.thumbnailViewController.thumbnailSelectedDelegate = self;
 	
 	[[self navigationController] presentModalViewController:self.thumbnailViewController animated:YES];

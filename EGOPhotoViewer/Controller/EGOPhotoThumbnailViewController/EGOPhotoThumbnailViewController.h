@@ -13,7 +13,7 @@
 @protocol EGOPhotoThumbnailViewController <NSObject>
 
 @property (nonatomic,strong) id<EGOPhotoSource> photoSource;
-@property (nonatomic,assign) NSUInteger startIndex;
+@property (nonatomic,assign) NSUInteger currentIndex;
 @property (nonatomic, assign) id<EGOPhotoThumbnailSelectedDelegate> thumbnailSelectedDelegate;
 
 @end
