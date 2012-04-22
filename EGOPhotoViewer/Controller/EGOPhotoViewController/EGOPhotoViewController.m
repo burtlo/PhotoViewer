@@ -27,6 +27,8 @@
 #import "EGOPhotoViewController.h"
 #import "UINavigationItem+ColoredTitle.h"
 #import "EGODetailedCaptionView.h"
+#import "EGOGridPhotoThumbnailViewController.h"
+#import "EGODefaultActionViewController.h"
 
 @interface EGOPhotoViewController ()
 
@@ -82,6 +84,7 @@
 
 @synthesize captionView = captionView_;
 @synthesize thumbnailViewController = thumbnailViewController_;
+@synthesize actionViewController = actionViewController_;
 
 @synthesize leftButton = leftButton_;
 @synthesize rightButton = rightButton_;
@@ -264,6 +267,10 @@
     
     if (self.thumbnailViewController == nil) {
         self.thumbnailViewController = [[EGOGridPhotoThumbnailViewController alloc] init];
+    }
+    
+    if (self.actionViewController == nil) {
+        self.actionViewController = [[EGODefaultActionViewController alloc] init];
     }
 
 }
@@ -459,7 +466,9 @@
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
 	}
 	
-	UIBarButtonItem *action = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    
+	UIBarButtonItem *action = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(takeAction:)];
     
 	UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 	
@@ -505,10 +514,13 @@
 
 #pragma mark - Actions
 
+
 - (void)done:(id)sender {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+
+#pragma mark 
 
 - (NSInteger)currentPhotoIndex {
 	return self.pageIndex;
@@ -787,6 +799,13 @@
 	// Move to the selected index
 	[self moveToPhotoAtIndex:thumbnailIndex animated:NO];
 	
+}
+
+- (void)takeAction:(id)sender {
+    
+    [self addChildViewController:self.actionViewController];
+    [self.view addSubview:self.actionViewController.view];
+    
 }
 
 

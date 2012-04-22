@@ -9,7 +9,7 @@
 #import "EGOPhotoSource.h"
 #import "EGOImageLoader.h"
 #import "EGOPhotoThumbnailViewController.h"
-#import "EGOThumbnailSelectedDelegate.h"
+#import "EGOPhotoThumbnailSelectedDelegate.h"
 
 @protocol EGOPhotoThumbnailSelectedDelegate;
 

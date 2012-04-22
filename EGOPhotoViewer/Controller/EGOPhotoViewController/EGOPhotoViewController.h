@@ -27,7 +27,9 @@
 #import "EGOPhotoSource.h"
 #import "EGOCaptionView.h"
 #import "EGOPhotoGlobal.h"
-#import "EGOGridPhotoThumbnailViewController.h"
+#import "EGOPhotoThumbnailViewController.h"
+#import "EGOPhotoThumbnailSelectedDelegate.h"
+#import "EGOActionViewController.h"
 
 @interface EGOPhotoViewController : UIViewController <UIScrollViewDelegate,EGOPhotoThumbnailSelectedDelegate>
 
@@ -58,6 +60,7 @@
 @property (nonatomic,strong) UIView <EGOCaptionView> *captionView;
 
 @property (nonatomic,strong) UIViewController <EGOPhotoThumbnailViewController> *thumbnailViewController;
+@property (nonatomic,strong) UIViewController <EGOActionViewController> *actionViewController;
 
 #pragma mark - Navigation
 
