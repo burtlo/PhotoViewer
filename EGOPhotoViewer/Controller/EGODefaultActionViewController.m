@@ -8,6 +8,11 @@
 
 #import "EGODefaultActionViewController.h"
 
+#define kEGODefaultActionSaveButtonTitle NSLocalizedString(@"DefaultActionSaveTitle",@"")
+#define kEGODefaultActionCopyButtonTitle NSLocalizedString(@"DefaultActionCopyTitle",@"")
+#define kEGODefaultActionEmailButtonTitle NSLocalizedString(@"DefaultActionEmailTitle",@"") 
+#define kEGODefaultFailedToComposeEmailMessage NSLocalizedString(@"DefaultFailedToComposeEmailMessage",@"")
+
 @interface EGODefaultActionViewController ()
 
 @property (nonatomic,strong) UIActionSheet *actionSheet;
@@ -79,7 +84,7 @@
                                                   delegate:self
                                          cancelButtonTitle:cancelButtonTitle 
                                     destructiveButtonTitle:nil 
-                                         otherButtonTitles:@"Save",@"Copy",@"Email", nil];
+                                         otherButtonTitles:kEGODefaultActionSaveButtonTitle,kEGODefaultActionCopyButtonTitle,kEGODefaultActionEmailButtonTitle, nil];
 
         
         
@@ -89,7 +94,7 @@
                                                   delegate:self
                                          cancelButtonTitle:cancelButtonTitle 
                                     destructiveButtonTitle:nil 
-                                         otherButtonTitles:@"Save",@"Copy", nil];
+                                         otherButtonTitles:kEGODefaultActionSaveButtonTitle,kEGODefaultActionCopyButtonTitle, nil];
         
     }
 
@@ -158,7 +163,7 @@
 	
 	switch (result) {
 		case MFMailComposeResultSent: ; break;
-		case MFMailComposeResultFailed: mailError = @"Failed sending media, please try again...";
+		case MFMailComposeResultFailed: mailError = kEGODefaultFailedToComposeEmailMessage;
 			break;
 		default:
 			break;
