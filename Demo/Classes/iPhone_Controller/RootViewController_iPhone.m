@@ -73,9 +73,9 @@
 		
 		EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:@"http://a3.twimg.com/profile_images/66601193/cactus.jpg"] name:kSampleText];
         
-        photo.title = @"Title";
+        photo.title = @"Grass From Around the World";
         photo.published = @"Some Time Ago...";
-        photo.source = @"Your Hometown";
+        photo.source = @"Ms. Photog";
         
 		EGODefaultPhoto *photo2 = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:@"https://s3.amazonaws.com/twitter_production/profile_images/425948730/DF-Star-Logo.png"] name:kSamplelText2];
 		EGODefaultPhotoSource *source = [[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObjects:photo, photo2, photo, photo2, photo, photo2, photo, photo2, photo, photo2, photo, photo2, photo, photo2,nil]];
