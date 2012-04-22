@@ -17,6 +17,9 @@
 - (id)initWithPhotoSource:(id<EGOPhotoSource>)photoSource;
 - (id)initWithPhotoSource:(id<EGOPhotoSource>)photoSource atIndex:(NSUInteger)startIndex;
 
+@property (nonatomic,retain) id<EGOPhotoSource> photoSource;
+@property (nonatomic,assign) NSUInteger startIndex;
+
 @property (nonatomic, assign) id<EGOThumbnailSelectedDelegate> thumbnailSelectedDelegate;
 
 @end

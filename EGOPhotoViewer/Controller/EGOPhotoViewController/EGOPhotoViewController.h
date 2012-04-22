@@ -57,6 +57,8 @@
 @property (nonatomic,assign) BOOL embeddedInPopover;
 @property (nonatomic,strong) UIView <EGOCaptionView> *captionView;
 
+@property (nonatomic,strong) EGOPhotoThumbnailViewController *thumbnailViewController;
+
 #pragma mark - Navigation
 
 - (NSInteger)currentPhotoIndex;

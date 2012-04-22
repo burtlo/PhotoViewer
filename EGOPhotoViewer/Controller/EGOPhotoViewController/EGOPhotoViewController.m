@@ -81,6 +81,8 @@
 @implementation EGOPhotoViewController
 
 @synthesize captionView = captionView_;
+@synthesize thumbnailViewController = thumbnailViewController_;
+
 @synthesize leftButton = leftButton_;
 @synthesize rightButton = rightButton_;
 
@@ -259,6 +261,10 @@
 		[self loadScrollViewWithPage:self.pageIndex];
 		[self setViewState];
 	}
+    
+    if (self.thumbnailViewController == nil) {
+        self.thumbnailViewController = [[EGOPhotoThumbnailViewController alloc] init];
+    }
 
 }
 
@@ -765,12 +771,13 @@
 
 - (void)showThumbnails:(id)sender {
     
-    EGOPhotoThumbnailViewController *thumbnailViewController = [[EGOPhotoThumbnailViewController alloc] initWithPhotoSource:self.photoSource atIndex:[self currentPhotoIndex]];
-	thumbnailViewController.thumbnailSelectedDelegate = self;
+    self.thumbnailViewController.photoSource = self.photoSource;
+    self.thumbnailViewController.startIndex = self.currentPhotoIndex;
+    self.thumbnailViewController.thumbnailSelectedDelegate = self;
 	
-	[thumbnailViewController setModalTransitionStyle:UIModalTransitionStylePartialCurl];
+	[self.thumbnailViewController setModalTransitionStyle:UIModalTransitionStylePartialCurl];
 	
-	[[self navigationController] presentModalViewController:thumbnailViewController animated:YES];
+	[[self navigationController] presentModalViewController:self.thumbnailViewController animated:YES];
 
 }
 

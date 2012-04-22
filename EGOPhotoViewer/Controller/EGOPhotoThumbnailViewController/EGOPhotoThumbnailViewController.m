@@ -11,15 +11,10 @@
 
 @interface EGOPhotoThumbnailViewController ()
 
-@property (nonatomic,assign) NSUInteger startViewAtIndex;
-
 @property (nonatomic,retain) UILabel *galleryTitle;
 @property (nonatomic,retain) UILabel *galleryDescription;
 
-@property (nonatomic,retain) id<EGOPhotoSource> photoSource;
 @property (nonatomic,retain) UIScrollView *photoScrollView;
-
-
 
 - (void)layoutTitleAndDescription;
 - (void)layoutPhotos;
@@ -31,7 +26,7 @@
 @synthesize thumbnailSelectedDelegate = thumbnailSelectedDelegate_;
 
 @synthesize photoSource = photoSource_;
-@synthesize startViewAtIndex = startViewAtIndex_;
+@synthesize startIndex = startIndex_;
 
 @synthesize galleryTitle = galleryTitle_;
 @synthesize galleryDescription = galleryDescription_;
@@ -44,7 +39,7 @@
 	
 	if (self) {
 		self.photoSource = photoSource;
-		self.startViewAtIndex = startIndex; 
+		self.startIndex = startIndex; 
 	}
 	
 	return self;
@@ -214,7 +209,7 @@
 			UIButton *thumbnailImage = [[UIButton alloc] initWithFrame:CGRectMake(xPosition, yPosition, photoWidth, photoWidth)];
             
             
-			if ( self.startViewAtIndex == index ) {
+			if ( self.startIndex == index ) {
                 // Add a highlight around the selected image
                 thumbnailImage.layer.borderColor = [UIColor purpleColor].CGColor;
                 thumbnailImage.layer.borderWidth = 2.0;
