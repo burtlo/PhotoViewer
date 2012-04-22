@@ -7,13 +7,13 @@
 //
 
 #import "EGODefaultActionViewController.h"
-#import <MessageUI/MessageUI.h>
 
 @interface EGODefaultActionViewController ()
 
 @property (nonatomic,strong) UIActionSheet *actionSheet;
 @property (nonatomic,assign) BOOL _popover;
 
+- (id<EGOPhoto>)photo;
 - (UIActionSheet *)createActionSheet;
 - (void)savePhoto;
 - (void)copyPhoto;
@@ -40,9 +40,21 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.actionSheet.title = [[self.photoSource photoAtIndex:self.currentIndex] title];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.actionSheet showInView:self.view];
+}
+
+#pragma mark - Photo Helper
+
+- (id<EGOPhoto>)photo {
+    return [self.photoSource photoAtIndex:self.currentIndex];
 }
 
 #pragma mark - Create ActionSheet
@@ -108,29 +120,33 @@
 #pragma mark - Actions
 
 - (void)savePhoto {
-    NSLog(@"Save Photo");
-    //UIImageWriteToSavedPhotosAlbum(((EGOPhotoImageView*)[self.photoViews objectAtIndex:_pageIndex]).imageView.image, nil, nil, nil);
+    
+    UIImageWriteToSavedPhotosAlbum(self.photo.image,nil,nil,nil);
+
 }
 
 - (void)copyPhoto {
-    NSLog(@"Copying Photo");
-//    [[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:_pageIndex]).imageView.image) forPasteboardType:@"public.png"];
+    
+    [[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation(self.photo.image) forPasteboardType:[self.photo.URL lastPathComponent]];
 
 }
 
 - (void)emailPhoto {
-    NSLog(@"Emailing Photo");
-//    MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
-//    
-//	[mailViewController setSubject:@"Shared Photo"];
-//	[mailViewController addAttachmentData:[NSData dataWithData:UIImagePNGRepresentation(((EGOPhotoImageView*)[self.photoViews objectAtIndex:_pageIndex]).imageView.image)] mimeType:@"image/png" fileName:@"Photo.png"];
-//	mailViewController.mailComposeDelegate = self;
-//	
-//	if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
-//		mailViewController.modalPresentationStyle = UIModalPresentationPageSheet;
-//	}
-//	
-//	[self presentModalViewController:mailViewController animated:YES];
+    
+    MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+    
+	[mailViewController setSubject:self.photo.title];
+	[mailViewController addAttachmentData:[NSData dataWithData:UIImagePNGRepresentation(self.photo.image)] 
+                                 mimeType:@"image/png" 
+                                 fileName:[self.photo.URL lastPathComponent]];
+    
+	mailViewController.mailComposeDelegate = self;
+	
+	if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) {
+		mailViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+	}
+	
+	[self presentModalViewController:mailViewController animated:YES];
 	
 }
 

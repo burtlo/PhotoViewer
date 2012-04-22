@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 #import "EGOActionViewController.h"
 
-@interface EGODefaultActionViewController : UIViewController <EGOActionViewController,UIActionSheetDelegate>
+@interface EGODefaultActionViewController : UIViewController <EGOActionViewController,UIActionSheetDelegate,MFMailComposeViewControllerDelegate>
 
 @end
