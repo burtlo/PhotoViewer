@@ -192,7 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				286B600C11FCCF7400556D9E /* EGOPhotoSource */,
-				286B600E11FCCF7400556D9E /* EGOQuickPhoto */,
+				286B600E11FCCF7400556D9E /* EGODefaultPhotoSource */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -205,7 +205,7 @@
 			path = EGOPhotoSource;
 			sourceTree = "<group>";
 		};
-		286B600E11FCCF7400556D9E /* EGOQuickPhoto */ = {
+		286B600E11FCCF7400556D9E /* EGODefaultPhotoSource */ = {
 			isa = PBXGroup;
 			children = (
 				286B600F11FCCF7400556D9E /* EGODefaultPhoto.h */,
@@ -213,6 +213,7 @@
 				286B601111FCCF7400556D9E /* EGODefaultPhotoSource.h */,
 				286B601211FCCF7400556D9E /* EGODefaultPhotoSource.m */,
 			);
+			name = EGODefaultPhotoSource;
 			path = EGOQuickPhoto;
 			sourceTree = "<group>";
 		};
