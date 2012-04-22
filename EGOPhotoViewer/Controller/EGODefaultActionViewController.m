@@ -40,13 +40,6 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    // TODO:
-//    [self setBarsHidden:YES animated:YES];
-
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -101,8 +94,6 @@
 #pragma mark - UIActionSheetDelegate Adherence
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-	// TODO:
-	//[self setBarsHidden:NO animated:YES];
 	
     if (buttonIndex == actionSheet.firstOtherButtonIndex) {
 		[self savePhoto];
