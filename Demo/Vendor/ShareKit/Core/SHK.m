@@ -31,7 +31,7 @@
 #import "SHKViewControllerWrapper.h"
 #import "SHKActionSheet.h"
 #import "SHKOfflineSharer.h"
-//#import "SSKeychain.h"
+#import "SSKeychain.h"
 #import "Reachability.h"
 #import "SHKMail.h"
 #import <objc/runtime.h>

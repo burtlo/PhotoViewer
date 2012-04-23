@@ -100,8 +100,17 @@
 		E29C93981545F2A0006F0FD8 /* SHKShareMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C93381545F2A0006F0FD8 /* SHKShareMenu.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E29C93991545F2A0006F0FD8 /* SHKViewControllerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C933A1545F2A0006F0FD8 /* SHKViewControllerWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E29C93A81545F43D006F0FD8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E29C93A71545F43D006F0FD8 /* SystemConfiguration.framework */; };
-		E29C93AB1545F48A006F0FD8 /* SHKActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C93AA1545F48A006F0FD8 /* SHKActionViewController.m */; };
-		E29C93AE1545F758006F0FD8 /* MySHKConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C93AD1545F758006F0FD8 /* MySHKConfigurator.m */; };
+		E29C93AB1545F48A006F0FD8 /* SHKActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C93AA1545F48A006F0FD8 /* SHKActionViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E29C93AE1545F758006F0FD8 /* MySHKConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C93AD1545F758006F0FD8 /* MySHKConfigurator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E29C93B915460E95006F0FD8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E29C93B815460E95006F0FD8 /* Security.framework */; };
+		E29C93CD15461060006F0FD8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E29C93BB15461060006F0FD8 /* .gitignore */; };
+		E29C93CE15461060006F0FD8 /* Changelog.markdown in Resources */ = {isa = PBXBuildFile; fileRef = E29C93BC15461060006F0FD8 /* Changelog.markdown */; };
+		E29C93CF15461060006F0FD8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E29C93BD15461060006F0FD8 /* LICENSE */; };
+		E29C93D015461060006F0FD8 /* Rakefile in Resources */ = {isa = PBXBuildFile; fileRef = E29C93BE15461060006F0FD8 /* Rakefile */; };
+		E29C93D115461060006F0FD8 /* Readme.markdown in Resources */ = {isa = PBXBuildFile; fileRef = E29C93BF15461060006F0FD8 /* Readme.markdown */; };
+		E29C93D215461060006F0FD8 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = E29C93C115461060006F0FD8 /* SSKeychain.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E29C93D315461060006F0FD8 /* SSKeychainTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E29C93C615461060006F0FD8 /* SSKeychainTests-Info.plist */; };
+		E29C93D515461060006F0FD8 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = E29C93C915461060006F0FD8 /* VERSION */; };
 		E2F3E6521545177F00410BE3 /* EGOPhotoViewer_DemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F3E6511545177F00410BE3 /* EGOPhotoViewer_DemoAppDelegate.m */; };
 		E2F3E65D1545179200410BE3 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F3E6561545179200410BE3 /* DetailViewController.m */; };
 		E2F3E65E1545179200410BE3 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F3E6581545179200410BE3 /* RootViewController.m */; };
@@ -109,6 +118,16 @@
 		E2F3E6601545179200410BE3 /* RootViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2F3E65C1545179200410BE3 /* RootViewController_iPhone.xib */; };
 		E2F3E6631545179C00410BE3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F3E6621545179C00410BE3 /* main.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E29C93D715461060006F0FD8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E29C93C315461060006F0FD8 /* SSKeychain.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B2A5FAB0143AC134000F6011;
+			remoteInfo = SSKeychainTests;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		03E472B8127E0D610093B3A0 /* local_image_2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = local_image_2.jpg; sourceTree = "<group>"; };
@@ -286,6 +305,19 @@
 		E29C93AA1545F48A006F0FD8 /* SHKActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHKActionViewController.m; sourceTree = "<group>"; };
 		E29C93AC1545F758006F0FD8 /* MySHKConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySHKConfigurator.h; sourceTree = "<group>"; };
 		E29C93AD1545F758006F0FD8 /* MySHKConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySHKConfigurator.m; sourceTree = "<group>"; };
+		E29C93B815460E95006F0FD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E29C93BB15461060006F0FD8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		E29C93BC15461060006F0FD8 /* Changelog.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.markdown; sourceTree = "<group>"; };
+		E29C93BD15461060006F0FD8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		E29C93BE15461060006F0FD8 /* Rakefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Rakefile; sourceTree = "<group>"; };
+		E29C93BF15461060006F0FD8 /* Readme.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.markdown; sourceTree = "<group>"; };
+		E29C93C015461060006F0FD8 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		E29C93C115461060006F0FD8 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		E29C93C315461060006F0FD8 /* SSKeychain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SSKeychain.xcodeproj; sourceTree = "<group>"; };
+		E29C93C615461060006F0FD8 /* SSKeychainTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SSKeychainTests-Info.plist"; sourceTree = "<group>"; };
+		E29C93C715461060006F0FD8 /* SSKeychainTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainTests.h; sourceTree = "<group>"; };
+		E29C93C815461060006F0FD8 /* SSKeychainTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainTests.m; sourceTree = "<group>"; };
+		E29C93C915461060006F0FD8 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
 		E2F3E6501545177F00410BE3 /* EGOPhotoViewer_DemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EGOPhotoViewer_DemoAppDelegate.h; path = Project/EGOPhotoViewer_DemoAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		E2F3E6511545177F00410BE3 /* EGOPhotoViewer_DemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EGOPhotoViewer_DemoAppDelegate.m; path = Project/EGOPhotoViewer_DemoAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		E2F3E6551545179200410BE3 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -304,6 +336,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E29C93B915460E95006F0FD8 /* Security.framework in Frameworks */,
 				E29C93A81545F43D006F0FD8 /* SystemConfiguration.framework in Frameworks */,
 				D0FC1D1A12761B16006C2A0F /* Foundation.framework in Frameworks */,
 				D0FC1D1E12761B1C006C2A0F /* UIKit.framework in Frameworks */,
@@ -340,8 +373,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				E29C93A71545F43D006F0FD8 /* SystemConfiguration.framework */,
-				E29C93A51545F420006F0FD8 /* CFNetwork.framework */,
+				E29C93B815460E95006F0FD8 /* Security.framework */,
 				E21BBF1E154516B900D934ED /* Classes */,
 				080E96DDFE201D6D7F000001 /* Demo */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -369,6 +401,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E29C93A71545F43D006F0FD8 /* SystemConfiguration.framework */,
+				E29C93A51545F420006F0FD8 /* CFNetwork.framework */,
 				D0FC1D1912761B16006C2A0F /* Foundation.framework */,
 				D0FC1D1D12761B1C006C2A0F /* UIKit.framework */,
 				D0FC1D1F12761B22006C2A0F /* CoreGraphics.framework */,
@@ -545,6 +579,7 @@
 		E29C924E1545F2A0006F0FD8 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				E29C93BA15461060006F0FD8 /* sskeychain */,
 				E29C924F1545F2A0006F0FD8 /* ShareKit */,
 			);
 			path = Vendor;
@@ -836,6 +871,41 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		E29C93BA15461060006F0FD8 /* sskeychain */ = {
+			isa = PBXGroup;
+			children = (
+				E29C93BB15461060006F0FD8 /* .gitignore */,
+				E29C93BC15461060006F0FD8 /* Changelog.markdown */,
+				E29C93BD15461060006F0FD8 /* LICENSE */,
+				E29C93BE15461060006F0FD8 /* Rakefile */,
+				E29C93BF15461060006F0FD8 /* Readme.markdown */,
+				E29C93C015461060006F0FD8 /* SSKeychain.h */,
+				E29C93C115461060006F0FD8 /* SSKeychain.m */,
+				E29C93C215461060006F0FD8 /* Tests */,
+				E29C93C915461060006F0FD8 /* VERSION */,
+			);
+			path = sskeychain;
+			sourceTree = "<group>";
+		};
+		E29C93C215461060006F0FD8 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				E29C93C315461060006F0FD8 /* SSKeychain.xcodeproj */,
+				E29C93C615461060006F0FD8 /* SSKeychainTests-Info.plist */,
+				E29C93C715461060006F0FD8 /* SSKeychainTests.h */,
+				E29C93C815461060006F0FD8 /* SSKeychainTests.m */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		E29C93C415461060006F0FD8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E29C93D815461060006F0FD8 /* SSKeychainTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E2F3E6541545179200410BE3 /* iPad */ = {
 			isa = PBXGroup;
 			children = (
@@ -905,12 +975,28 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E29C93C415461060006F0FD8 /* Products */;
+					ProjectRef = E29C93C315461060006F0FD8 /* SSKeychain.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* EGOPhotoViewer_Demo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E29C93D815461060006F0FD8 /* SSKeychainTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SSKeychainTests.octest;
+			remoteRef = E29C93D715461060006F0FD8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -940,6 +1026,13 @@
 				E2F3E6601545179200410BE3 /* RootViewController_iPhone.xib in Resources */,
 				E29C93581545F2A0006F0FD8 /* SHKSharers.plist in Resources */,
 				E29C93601545F2A0006F0FD8 /* ShareKit.bundle in Resources */,
+				E29C93CD15461060006F0FD8 /* .gitignore in Resources */,
+				E29C93CE15461060006F0FD8 /* Changelog.markdown in Resources */,
+				E29C93CF15461060006F0FD8 /* LICENSE in Resources */,
+				E29C93D015461060006F0FD8 /* Rakefile in Resources */,
+				E29C93D115461060006F0FD8 /* Readme.markdown in Resources */,
+				E29C93D315461060006F0FD8 /* SSKeychainTests-Info.plist in Resources */,
+				E29C93D515461060006F0FD8 /* VERSION in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1022,6 +1115,7 @@
 				E29C93991545F2A0006F0FD8 /* SHKViewControllerWrapper.m in Sources */,
 				E29C93AB1545F48A006F0FD8 /* SHKActionViewController.m in Sources */,
 				E29C93AE1545F758006F0FD8 /* MySHKConfigurator.m in Sources */,
+				E29C93D215461060006F0FD8 /* SSKeychain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
