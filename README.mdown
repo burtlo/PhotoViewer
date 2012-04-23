@@ -1,15 +1,70 @@
 # EGOPhotoViewer
 
-Created by **enormego**
+## About
 
-**EGOPhotoViewer** is a quick and easy to use photo viewer for iOS, with full support for iPhone, iPhone, and iPad.  **EGOPhotoViewer** was originally started as a stripped down version of **three20**'s PhotoViewer.  We ultimately decided the **three20** code base wasn't flexible enough and scrapped the project all together.  We rewrote PhotoViewer as EGOPhotoViewer from scratch, based upon our reliable open source libraries **EGOCache** and **EGOImageLoading**.
+**EGOPhotoViewer** is a sub-class of a UIViewController that allows you to 
+display one or more images or photos. **EGOPhotoViewer** allows you to quickly
+load an display images from local or remote saved images.
 
-# Documentation
-We haven't yet had a chance to document **EGOPhotoViewer**, but you should be able to find everything you need in the header files and demo app.
+## Support
+
+This library supports both __iPhone__ and __iPad__. This project is __ARC Compatible__.
+
+## History
+
+**EGOPhotoViewer** was originally started as a stripped down version of
+**three20**'s PhotoViewer. [Enormego](http://enormego.com/) ultimately decided
+the **three20** code base was not flexible enough and scrapped the project all
+together. We rewrote PhotoViewer as EGOPhotoViewer from scratch, based upon our
+reliable open source libraries **EGOCache** and **EGOImageLoading**.
+
+I have used **EGOPhotoViewer** on two iOS projects and found there were
+limitations that this fork remedies.
+
+* A more modular approach for the _action_ button
+
+    > The original project's implementation did not now allow the developer to 
+      control the action menu. When I wanted to integrate a more robust sharing
+      solution I had to delete methods and actions that likely should not have
+      ever been in the EGOPhotoViewController. Now a user can specify a view
+      controller that adheres to the `EGOActionViewController` protocol.
+
+* A more modular approach for the _caption_ view
+
+    > The origin implementation of the caption view lacked the ability to
+    customize the caption view. So I also made that more modular. Creating a
+    `EGOCaptionView` protocol with two implementations: 
+    `EGOSimplePhotoCaptionView` which is the original simple caption view; 
+    `EGODetailedCaptionView` which provides support for additional fields
+    like _title_, _source_, and _published_.
+
+* A thumbnail view
+
+    > An button that would open a thumbnail view, allowing the user to view
+    all the images within the photo source at a quick glance.
+    
+* The project is now ARC compatible
+
+    > Along with making ARC compatible I removed a number of previous code
+    checks that were asking if the software version was above a certain number.
+    I wanted this library to be ready and available for future projects.
+    
+
+## Future Work
+
+Some of the above features, like the action button and thumbnail view, are very
+limited. Additional examples need to be generated and included with the demo
+project to demonstrate how to use this more modular design.
+
+There also remains a large number of features that are still not very 
+configurable within this application that I would like to make easier to make 
+more modular so that they are easier to replace and configure.
 
 # License
 
 **EGOPhotoViewer** is available under the MIT license:
+
+*Copyright (c) 2012 Franklin Webber*
 
 *Copyright (c) 2010 enormego*
 
