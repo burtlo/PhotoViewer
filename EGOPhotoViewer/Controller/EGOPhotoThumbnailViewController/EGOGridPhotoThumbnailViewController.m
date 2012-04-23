@@ -27,8 +27,10 @@
 
 @synthesize photoSource = photoSource_;
 @synthesize currentIndex = currentIndex_;
+@synthesize embeddedInPopover = embeddedInPopover_;
 
-@dynamic defaultModalTransitionStyle;
+@synthesize selectedBorderColor = selectedBorderColor_;
+@synthesize borderColor = borderColor_;
 
 @synthesize galleryTitle = galleryTitle_;
 @synthesize galleryDescription = galleryDescription_;
@@ -45,8 +47,18 @@
     return self;
 }
 
-- (UIModalTransitionStyle)defaultModalTransitionStyle {
-    return UIModalTransitionStylePartialCurl;
+#pragma mark - Properties
+
+- (void)setEmbeddedInPopover:(BOOL)embeddedInPopover {
+
+    embeddedInPopover_ = embeddedInPopover;
+    
+    if (embeddedInPopover) {
+        self.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+    } else {
+        self.modalPresentationStyle = UIModalTransitionStylePartialCurl;
+    }
+    
 }
 
 # pragma mark - view life cycle
@@ -56,7 +68,7 @@
     
 	self.view.backgroundColor = [UIColor blackColor];
 	
-	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
+	UIScrollView *scrollView = [[UIScrollView alloc] init];
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	scrollView.delegate = self;
 
@@ -87,21 +99,52 @@
     description.isAccessibilityElement = YES;
     description.accessibilityLabel = @"gallery-description";
     
-    
-	self.galleryDescription = description;
+    self.galleryDescription = description;
 	
 	[self.view addSubview:self.photoScrollView];
 
 	[self.photoScrollView addSubview:self.galleryTitle];
 	[self.photoScrollView addSubview:self.galleryDescription];
 	
-	[self layoutTitleAndDescription];
-	
+    if (self.borderColor == nil) {
+        self.borderColor = [UIColor whiteColor];
+    }
+    
+    if (self.selectedBorderColor == nil) {
+        self.selectedBorderColor = [UIColor purpleColor];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    float scrollViewWidth = MIN(self.view.frame.size.height,self.view.frame.size.width);
+    float scrollViewHeight = MAX(self.view.frame.size.height,self.view.frame.size.width);
+    
+    if (self.embeddedInPopover) {
+        scrollViewWidth = self.parentViewController.view.frame.size.width;
+        scrollViewHeight = self.parentViewController.view.frame.size.height;
+    } else if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
+        scrollViewWidth = MAX(self.view.frame.size.height,self.view.frame.size.width);
+        scrollViewHeight = MIN(self.view.frame.size.height,self.view.frame.size.width);
+    }
+    
+    self.view.frame = CGRectMake(0, 0, scrollViewWidth, scrollViewHeight);
+    
+    self.photoScrollView.frame = self.view.frame;
+    
+    [self layoutTitleAndDescription];
     [self layoutPhotos];
+
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    for (UIView *subview in [self.photoScrollView subviews]) {
+        [subview removeFromSuperview];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -110,7 +153,7 @@
 
 - (void)layoutTitleAndDescription {
     
-    int width = self.photoScrollView.frame.size.width;
+    float width = self.photoScrollView.frame.size.width;
 
     if ([self.photoSource respondsToSelector:@selector(sourceTitle)]) {
         
@@ -124,6 +167,8 @@
         self.galleryTitle.frame = CGRectMake(10.0, 70.0, titleSize.width, titleSize.height);
         
 
+    } else {
+        self.galleryTitle.frame = CGRectMake(0, 0, 0, 0);
     }
     
     if ([self.photoSource respondsToSelector:@selector(sourceDescription)]) {
@@ -145,23 +190,26 @@
         self.galleryDescription.frame = CGRectMake(10.0, titleOffset, descriptionSize.width, descriptionSize.height);
 
         
+    } else {
+        self.galleryDescription.frame = CGRectMake(0, 0, 0, 0);
     }
 }
 
 - (void)layoutPhotos {
 	
-    int width = self.view.frame.size.width;
-    int height = self.view.frame.size.height;
+    float height = self.view.frame.size.height;
+    float width = self.view.frame.size.width;
     float yPadding = 30.0;
     
-    // When we are in landscape mode we need to use the height value as the width
-    // to determine the available space that we can place images. This is also
-    // used to determine where to move the space for the selected images.
-    
-    if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
-        width = self.view.frame.size.height;
-        height = self.view.frame.size.width;
+    if (self.embeddedInPopover) { 
+        
+        width = self.parentViewController.view.frame.size.width;
+        height = self.parentViewController.view.frame.size.height;
         yPadding = 0.0;
+
+    } else if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
+        
+        yPadding = 30.0;
     }
     
     float photoWidth = 100.0;
@@ -184,7 +232,7 @@
         float selectedYPosition = 0;
         
 		for (int index = 0; index < self.photoSource.numberOfPhotos; index++) {
-			
+            
 			id<EGOPhoto> photo = [self.photoSource.photos objectAtIndex:index];
 			
 			// Load the contents of the photo through the EGO Photo Loader and notify this class
@@ -207,15 +255,22 @@
             
 			UIButton *thumbnailImage = [[UIButton alloc] initWithFrame:CGRectMake(xPosition, yPosition, photoWidth, photoWidth)];
             
+            UIColor *borderColor = nil;
             
 			if ( self.currentIndex == index ) {
-                // Add a highlight around the selected image
-                thumbnailImage.layer.borderColor = [UIColor purpleColor].CGColor;
-                thumbnailImage.layer.borderWidth = 2.0;
+                borderColor = self.selectedBorderColor;
                 
                 // Store the yPosition so that we can scroll the view down to this button
                 selectedYPosition = yPosition + photoWidth / 2;
+
+            } else {
+                borderColor = self.borderColor;
             }
+                                                    
+            // Add a highlight around the selected image
+            thumbnailImage.layer.borderColor = borderColor.CGColor;
+            thumbnailImage.layer.borderWidth = 2.0;
+            
             
 			[thumbnailImage setIsAccessibilityElement:YES];
 			[thumbnailImage setAccessibilityLabel:[NSString stringWithFormat:@"thumbnail-%@",[NSNumber numberWithInt:index]]];
@@ -235,7 +290,7 @@
 			
 			// Update content area of the scroll view for our new photo we have just added
 			
-			[self.photoScrollView setContentSize:CGSizeMake(self.view.frame.size.width, yPosition + photoWidth + yPadding)];
+			[self.photoScrollView setContentSize:CGSizeMake(width, yPosition + photoWidth + yPadding)];
 			
 		}
         
@@ -244,9 +299,7 @@
         
         if (startAtPosition < self.photoScrollView.frame.size.height) {
             startAtPosition = 0;
-        }
-        
-        if (startAtPosition + self.photoScrollView.frame.size.height > self.photoScrollView.contentSize.height) {
+        } else if (startAtPosition + self.photoScrollView.frame.size.height > self.photoScrollView.contentSize.height) {
             
             startAtPosition = self.photoScrollView.contentSize.height - self.photoScrollView.frame.size.height;
             
@@ -266,6 +319,10 @@
 		// Thumbnails are tagged starting from 1 and continuing upward. This needs to be
 		// translated to an index as if they were in an array.
 		[self.thumbnailSelectedDelegate thumbnailViewController:self selectedPhotoAtIndex:([galleryImage tag] - 1)];
+        
+        [self.view removeFromSuperview];
+        [self removeFromParentViewController];
+        
 	}
 	
 }
