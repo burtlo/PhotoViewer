@@ -831,11 +831,15 @@
 	
 	if (self.captionView) {
         
+        
         id<EGOPhoto> currentPhoto = [self.photoSource photoAtIndex:self.pageIndex];
         [self.captionView setPhoto:currentPhoto];
     
         if (!self.barsHidden) {
-            CGFloat captionViewYposition = self.view.frame.size.height - self.navigationController.toolbar.frame.size.height - self.captionView.frame.size.height/2;
+            
+            CGFloat toolbarSize = self.embeddedInPopover ? 0.0f : self.navigationController.toolbar.frame.size.height;
+            
+            CGFloat captionViewYposition = self.view.frame.size.height - toolbarSize - self.captionView.frame.size.height/2;
             
             self.captionView.center = CGPointMake(CGRectGetMidX(self.view.frame),captionViewYposition);
             
@@ -922,7 +926,7 @@
 
 - (void)setupScrollViewContentSize {
 	
-	CGFloat toolbarSize = self.embeddedInPopover ? 0.0f : self.navigationController.toolbar.frame.size.height;	
+	CGFloat toolbarSize = self.embeddedInPopover ? 0.0f : self.navigationController.toolbar.frame.size.height;
 	
 	CGSize contentSize = self.view.bounds.size;
 	contentSize.width = (contentSize.width * [self.photoSource numberOfPhotos]);
@@ -931,7 +935,10 @@
 		self.scrollView.contentSize = contentSize;
 	}
 	
-	self.captionView.frame = CGRectMake(0.0f, self.view.bounds.size.height - (toolbarSize + 40.0f), self.view.bounds.size.width, 40.0f);
+    if (!self.barsHidden) {
+        CGFloat captionViewYposition = self.view.frame.size.height - toolbarSize - self.captionView.frame.size.height/2;
+        self.captionView.center = CGPointMake(CGRectGetMidX(self.view.frame),captionViewYposition);
+    }
 
 }
 

@@ -21,7 +21,6 @@
 - (void)setPublishedText:(NSString*)text;
 
 - (void)setCaptionText:(NSString*)text;
-- (void)setCaptionHidden:(BOOL)hidden;
 
 - (void)relayoutElements;
 - (void)recalculateSize;
@@ -45,7 +44,7 @@
 - (id)initWithFrame:(CGRect)frame {
 	
     if ( (self = [super initWithFrame:frame]) ) {
-		
+        
 		self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4f];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		
@@ -175,7 +174,6 @@
     
 }
 
-
 #pragma mark - EGOCaptionView Adherence
 
 
@@ -208,18 +206,14 @@
     
 }
 
-- (void)setCaptionHidden:(BOOL)hidden {
+- (void)setHidden:(BOOL)hidden {
     
-	if (self.hidden==hidden) { return; }
-	
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.3f];
 		self.alpha= hidden ? 0.0f : 1.0f;
 		[UIView commitAnimations];
-		
-		self.hidden=hidden;
 		
 		return;
 	}
@@ -243,8 +237,8 @@
 	
 	[UIView commitAnimations];
 	
-	self.hidden=hidden;
-	
+    
+    [super setHidden:hidden];
 }
 
 #pragma mark - Setters

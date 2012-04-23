@@ -44,12 +44,15 @@
 
 - (id)initWithFrame:(CGRect)frame {
     
+    frame.size.height = 40.0f;
+    
     if ((self = [super initWithFrame:frame])) {
 		
 		self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 		
         UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0f, 0.0f, self.frame.size.width - 40.0f, 40.0f)];
+        
 		textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		textLabel.backgroundColor = [UIColor clearColor];
 		textLabel.textAlignment = UITextAlignmentCenter;
@@ -77,6 +80,15 @@
 	
 }
 
+- (void)recalculateSize {
+    
+    CGRect currentFrame = self.frame;
+    currentFrame.size.height = 40.0;
+    self.frame = currentFrame;
+    
+}
+
+
 #pragma mark - EGOCaptioView Adherence
 
 - (void)setPhoto:(id<EGOPhoto>)photo {
@@ -89,25 +101,35 @@
     
     NSString *photoCaption = [photo caption];
     
-    BOOL hideCaption = (photoCaption == nil || [photoCaption stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0);
+    BOOL emptyCaption = (photoCaption == nil || [photoCaption stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0);
     
-    [self setCaptionHidden:hideCaption];
+    if (emptyCaption) { 
+        self.hidden = emptyCaption;
+    }
+
+    [self recalculateSize];
     
     self.textLabel.text = photoCaption;
+
 }
 
-- (void)setCaptionHidden:(BOOL)hidden {
+#pragma mark - Hide
+
+- (BOOL)blankOrEmptyPhotoCaption {
+    NSString *photoCaption = [self.photo caption];
+    return (photoCaption == nil || [photoCaption stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0);
+}
+
+- (void)setHidden:(BOOL)hidden {
     
-	if (self.hidden == hidden) { return; }
-	
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if ([self blankOrEmptyPhotoCaption]) { hidden = YES; }
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDuration:0.3f];
 		self.alpha = hidden ? 0.0f : 1.0f;
 		[UIView commitAnimations];
-		
-		self.hidden = hidden;
 		
 		return;
 		
@@ -127,13 +149,11 @@
 		
 		CGFloat toolbarSize = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) ? 32.0f : 44.0f;
 		self.frame = CGRectMake(0.0f, self.superview.frame.size.height - (toolbarSize + self.frame.size.height), self.frame.size.width, self.frame.size.height);
-
+        
 	}
 	
 	[UIView commitAnimations];
-	
-	self.hidden = hidden;
-	
+    [super setHidden:hidden];
 }
 
 @end
