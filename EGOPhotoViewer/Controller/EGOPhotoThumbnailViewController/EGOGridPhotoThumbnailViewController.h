@@ -15,4 +15,7 @@
 
 @interface EGOGridPhotoThumbnailViewController : UIViewController <EGOImageLoaderObserver, UIScrollViewDelegate, EGOPhotoThumbnailViewController>
 
+@property (nonatomic,strong) UIColor *borderColor;
+@property (nonatomic,strong) UIColor *selectedBorderColor;
+
 @end

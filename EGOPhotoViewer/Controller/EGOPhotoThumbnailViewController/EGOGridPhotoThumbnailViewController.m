@@ -29,6 +29,9 @@
 @synthesize currentIndex = currentIndex_;
 @synthesize embeddedInPopover = embeddedInPopover_;
 
+@synthesize selectedBorderColor = selectedBorderColor_;
+@synthesize borderColor = borderColor_;
+
 @synthesize galleryTitle = galleryTitle_;
 @synthesize galleryDescription = galleryDescription_;
 @synthesize photoScrollView = photoScrollView_;
@@ -96,20 +99,35 @@
     description.isAccessibilityElement = YES;
     description.accessibilityLabel = @"gallery-description";
     
-    
-	self.galleryDescription = description;
+    self.galleryDescription = description;
 	
 	[self.view addSubview:self.photoScrollView];
 
 	[self.photoScrollView addSubview:self.galleryTitle];
 	[self.photoScrollView addSubview:self.galleryDescription];
 	
+    if (self.borderColor == nil) {
+        self.borderColor = [UIColor whiteColor];
+    }
+    
+    if (self.selectedBorderColor == nil) {
+        self.selectedBorderColor = [UIColor purpleColor];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.photoScrollView.frame = CGRectMake(0.0, 0.0, self.parentViewController.view.frame.size.width, self.parentViewController.view.frame.size.height);
+    float scrollViewWidth = self.view.frame.size.width;
+    float scrollViewHeight = self.view.frame.size.height;
+    
+    if (self.embeddedInPopover) {
+        scrollViewWidth = self.parentViewController.view.frame.size.width;
+        scrollViewHeight = self.parentViewController.view.frame.size.height;
+    }
+    
+    self.photoScrollView.frame = CGRectMake(0.0, 0.0, scrollViewWidth, scrollViewHeight);
     
     [self layoutPhotos];
     [self layoutTitleAndDescription];
@@ -162,17 +180,21 @@
 
 - (void)layoutPhotos {
 	
-    float height = self.parentViewController.view.frame.size.height;
-    float width = self.parentViewController.view.frame.size.width;
-//    int width = self.view.frame.size.width;
-//    int height = self.view.frame.size.height;
+    float height = self.view.frame.size.height;
+    float width = self.view.frame.size.width;
     float yPadding = 30.0;
     
-    // When we are in landscape mode we need to use the height value as the width
-    // to determine the available space that we can place images. This is also
-    // used to determine where to move the space for the selected images.
-    
-    if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
+    if (self.embeddedInPopover) { 
+        
+        width = self.parentViewController.view.frame.size.width;
+        height = self.parentViewController.view.frame.size.height;
+
+    } else if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
+        
+        // When we are in landscape mode we need to use the height value as the width
+        // to determine the available space that we can place images. This is also
+        // used to determine where to move the space for the selected images.
+        
         width = self.parentViewController.view.frame.size.height;
         height = self.parentViewController.view.frame.size.width;
         yPadding = 0.0;
@@ -221,15 +243,22 @@
             
 			UIButton *thumbnailImage = [[UIButton alloc] initWithFrame:CGRectMake(xPosition, yPosition, photoWidth, photoWidth)];
             
+            UIColor *borderColor = nil;
             
 			if ( self.currentIndex == index ) {
-                // Add a highlight around the selected image
-                thumbnailImage.layer.borderColor = [UIColor purpleColor].CGColor;
-                thumbnailImage.layer.borderWidth = 2.0;
+                borderColor = self.selectedBorderColor;
                 
                 // Store the yPosition so that we can scroll the view down to this button
                 selectedYPosition = yPosition + photoWidth / 2;
+
+            } else {
+                borderColor = self.borderColor;
             }
+                                                    
+            // Add a highlight around the selected image
+            thumbnailImage.layer.borderColor = borderColor.CGColor;
+            thumbnailImage.layer.borderWidth = 2.0;
+            
             
 			[thumbnailImage setIsAccessibilityElement:YES];
 			[thumbnailImage setAccessibilityLabel:[NSString stringWithFormat:@"thumbnail-%@",[NSNumber numberWithInt:index]]];
@@ -255,8 +284,6 @@
         
         
         float startAtPosition = selectedYPosition - (photoWidth/2);
-        
-        NSLog(@"Scroll FRAME: %@",NSStringFromCGRect(self.photoScrollView.frame));
         
         if (startAtPosition < self.photoScrollView.frame.size.height) {
             startAtPosition = 0;
