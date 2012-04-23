@@ -40,7 +40,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 2;
+    return 3;
 }
 
 
@@ -56,9 +56,11 @@
     
 	if (indexPath.row == 0) {
 		cell.textLabel.text = @"Photos";
-	} else {
+	} else if (indexPath.row == 1) {
 		cell.textLabel.text = @"Single Photo";
-	}
+	} else if (indexPath.row == 2) {
+        cell.textLabel.text = @"Modal Single Photo";
+    }
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
@@ -97,7 +99,13 @@
 		[self.navigationController pushViewController:photoController animated:YES];
 		
 		
-	}
+	} else if (indexPath.row == 2) {
+        
+        EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithImageURL:[NSURL URLWithString:@"https://s3.amazonaws.com/twitter_production/profile_images/425948730/DF-Star-Logo.png"]];
+        
+        [self presentModalViewController:photoController animated:YES];
+        
+    }
 }
 
 @end
