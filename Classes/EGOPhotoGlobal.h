@@ -35,17 +35,17 @@
 // Views
 #import "EGOPhotoScrollView.h"
 #import "EGOPhotoImageView.h"
-#import "EGOPhotoCaptionView.h"
+#import "EGOSimplePhotoCaptionView.h"
 
 // Model
 #import "EGOPhotoSource.h"
-#import "EGOQuickPhoto.h"
-#import "EGOQuickPhotoSource.h"
+#import "EGODefaultPhoto.h"
+#import "EGODefaultPhotoSource.h"
 
 // Loading and Disk I/O 
 #import "EGOImageLoadConnection.h"
+//#import "EGOImageLoadConnection.h"
 #import "EGOImageLoader.h"
-#import "EGOCache.h"
 
 // Definitions used interally.
 // ifndef checks are so you can easily override them in your project.
