@@ -50,27 +50,35 @@
 
 #pragma mark - Initialization
 
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage {
+- (id)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        [self setValuesForKeysWithDictionary:dictionary];
+    }
+    return self;
+}
+
+- (id)initWithImageURL:(NSURL*)URL caption:(NSString*)caption image:(UIImage*)image {
     
 	if ((self = [super init])) {
-        self.URL = aURL;
-        self.caption = aName;
-        self.image = aImage;
+        self.URL = URL;
+        self.caption = caption;
+        self.image = image;
 	}
 	
 	return self;
 }
 
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName {
-	return [self initWithImageURL:aURL name:aName image:nil];
+- (id)initWithImageURL:(NSURL*)URL caption:(NSString*)caption {
+	return [self initWithImageURL:URL caption:caption image:nil];
 }
 
-- (id)initWithImageURL:(NSURL*)aURL {
-	return [self initWithImageURL:aURL name:nil image:nil];
+- (id)initWithImageURL:(NSURL*)URL {
+	return [self initWithImageURL:URL caption:nil image:nil];
 }
 
-- (id)initWithImage:(UIImage*)aImage {
-	return [self initWithImageURL:nil name:nil image:aImage];
+- (id)initWithImage:(UIImage*)image {
+	return [self initWithImageURL:nil caption:nil image:image];
 }
 
 - (NSURL *)thumbnailURL {

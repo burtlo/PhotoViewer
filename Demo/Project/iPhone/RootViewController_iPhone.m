@@ -109,7 +109,7 @@
 
 - (id<EGOPhoto>)examplePhotoWithURLAndTitleAndPublishedAndSource {
     
-    EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:kExampleFirstPhotoURL] name:kSampleText];
+    EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:kExampleFirstPhotoURL] caption:kSampleText];
     
     photo.title = @"Grass From Around the World";
     photo.published = @"Some Time Ago...";
@@ -120,7 +120,7 @@
 
 - (id<EGOPhoto>)examplePhotoWithURL {
 
-    EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:kExampleSecondPhotoURL] name:kSampleText];
+    EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:kExampleSecondPhotoURL] caption:kSampleText];
     
     return photo;
 }
@@ -161,6 +161,10 @@
 - (void)photoSourceDetailedCaption {
     
     id<EGOPhotoSource> source = [self examplePhotoSourceWithVariedPhotos];
+    
+    source.sourceTitle = @"Detailed Gallery";
+    source.sourceDescription = kSampleText;
+    
     EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
     
     photoController.captionView = [[EGODetailedCaptionView alloc] init];        

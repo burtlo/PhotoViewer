@@ -38,11 +38,16 @@ limitations that this fork remedies.
     `EGOSimplePhotoCaptionView` which is the original simple caption view; 
     `EGODetailedCaptionView` which provides support for additional fields
     like _title_, _source_, and _published_.
+    
+![Detailed Caption](https://github.com/downloads/burtlo/PhotoViewer/detailed-caption.png)
 
 * A thumbnail view
 
     > An button that would open a thumbnail view, allowing the user to view
     all the images within the photo source at a quick glance.
+    
+    
+![Thumbnail View](https://github.com/downloads/burtlo/PhotoViewer/thumbnail-view.png)
     
 * The project is now ARC compatible
 
@@ -54,8 +59,8 @@ limitations that this fork remedies.
 ## Future Work
 
 Some of the above features, like the action button and thumbnail view, are very
-limited. Additional examples need to be generated and included with the demo
-project to demonstrate how to use this more modular design.
+limited. They currently do not have very graceful presentations, do not 
+support rotation very well, and are not well tested on the iPad.
 
 There also remains a large number of features that are still not very 
 configurable within this application that I would like to make easier to make 

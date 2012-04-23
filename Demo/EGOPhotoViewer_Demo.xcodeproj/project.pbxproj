@@ -265,9 +265,9 @@
 		E21BBF34154516B900D934ED /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E21BBF41154516B900D934ED /* EGOPhotoSource */,
 				E21BBF35154516B900D934ED /* EGODefaultPhotoSource */,
 				E21BBF3A154516B900D934ED /* EGOImageLoader */,
-				E21BBF41154516B900D934ED /* EGOPhotoSource */,
 			);
 			path = Model;
 			sourceTree = "<group>";

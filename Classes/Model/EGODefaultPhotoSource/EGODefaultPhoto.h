@@ -30,9 +30,11 @@
 
 @interface EGODefaultPhoto : NSObject <EGOPhoto>
 
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName image:(UIImage*)aImage;
-- (id)initWithImageURL:(NSURL*)aURL name:(NSString*)aName;
-- (id)initWithImageURL:(NSURL*)aURL;
-- (id)initWithImage:(UIImage*)aImage;
+- (id)initWithImageURL:(NSURL*)URL;
+- (id)initWithImage:(UIImage*)image;
+- (id)initWithImageURL:(NSURL*)URL caption:(NSString*)caption;
+- (id)initWithImageURL:(NSURL*)URL caption:(NSString*)caption image:(UIImage*)image;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

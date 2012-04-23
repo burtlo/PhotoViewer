@@ -39,6 +39,9 @@
 @synthesize photos = photos_;
 @synthesize numberOfPhotos = numberOfPhotos_;
 
+@synthesize sourceTitle = sourceTitle_;
+@synthesize sourceDescription = sourceDescription_;
+
 #pragma mark - Initialization
 
 - (id)initWithPhotos:(NSArray*)photos {
