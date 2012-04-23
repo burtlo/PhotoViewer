@@ -9,6 +9,7 @@
 #import "RootViewController_iPhone.h"
 #import "EGOPhotoGlobal.h"
 #import "EGODetailedCaptionView.h"
+#import "SHKActionViewController.h"
 
 #define kExampleFirstPhotoURL @"http://a3.twimg.com/profile_images/66601193/cactus.jpg"
 #define kExampleSecondPhotoURL @"https://s3.amazonaws.com/twitter_production/profile_images/425948730/DF-Star-Logo.png"
@@ -89,6 +90,7 @@
             @"singlePhoto",@"Single Photo",
             @"photoWithImage",@"Single Photo (From Image)",
             @"photoWithURL",@"Single Photo (From URL)",
+            @"sharekitAction",@"Share Kit Action",
             nil];
 }
 
@@ -233,6 +235,17 @@
     
     EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithImageURL:url];
     [self.navigationController pushViewController:photoController animated:YES];
+}
+
+- (void)sharekitAction {
+    
+    id<EGOPhotoSource> source = [self examplePhotoSourceWithVariedPhotos];
+    EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
+    photoController.captionView = [[EGODetailedCaptionView alloc] init];
+    photoController.actionViewController = [[SHKActionViewController alloc] init];
+    
+    [self.navigationController pushViewController:photoController animated:YES];
+
 }
 
 @end
