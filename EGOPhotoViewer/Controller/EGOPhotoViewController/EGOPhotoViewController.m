@@ -784,25 +784,17 @@
 
 - (void)showThumbnails:(id)sender {
 
-    if (self.embeddedInPopover) {
-        self.thumbnailViewController.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
-    } else {
-        self.thumbnailViewController.modalPresentationStyle = self.thumbnailViewController.defaultModalTransitionStyle;
-    }
-
+    self.thumbnailViewController.embeddedInPopover = self.embeddedInPopover;
     self.thumbnailViewController.photoSource = self.photoSource;
     self.thumbnailViewController.currentIndex = self.currentPhotoIndex;
     self.thumbnailViewController.thumbnailSelectedDelegate = self;
-	
-    
-	[[self navigationController] presentModalViewController:self.thumbnailViewController animated:YES];
+
+	[self addChildViewController:self.thumbnailViewController];
+    [self.view addSubview:self.thumbnailViewController.view];
 
 }
 
 - (void)thumbnailViewController:(UIViewController<EGOPhotoThumbnailViewController> *)thumbnailViewController selectedPhotoAtIndex:(NSUInteger)thumbnailIndex{
-	
-	// Dismiss the thumbnail view
-	[thumbnailViewController dismissModalViewControllerAnimated:YES];
 	
 	// Move to the selected index
 	[self moveToPhotoAtIndex:thumbnailIndex animated:NO];

@@ -27,8 +27,7 @@
 
 @synthesize photoSource = photoSource_;
 @synthesize currentIndex = currentIndex_;
-
-@dynamic defaultModalTransitionStyle;
+@synthesize embeddedInPopover = embeddedInPopover_;
 
 @synthesize galleryTitle = galleryTitle_;
 @synthesize galleryDescription = galleryDescription_;
@@ -45,8 +44,18 @@
     return self;
 }
 
-- (UIModalTransitionStyle)defaultModalTransitionStyle {
-    return UIModalTransitionStylePartialCurl;
+#pragma mark - Properties
+
+- (void)setEmbeddedInPopover:(BOOL)embeddedInPopover {
+
+    embeddedInPopover_ = embeddedInPopover;
+    
+    if (embeddedInPopover) {
+        self.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+    } else {
+        self.modalPresentationStyle = UIModalTransitionStylePartialCurl;
+    }
+    
 }
 
 # pragma mark - view life cycle
@@ -56,7 +65,7 @@
     
 	self.view.backgroundColor = [UIColor blackColor];
 	
-	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
+	UIScrollView *scrollView = [[UIScrollView alloc] init];
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	scrollView.delegate = self;
 
@@ -95,13 +104,16 @@
 	[self.photoScrollView addSubview:self.galleryTitle];
 	[self.photoScrollView addSubview:self.galleryDescription];
 	
-	[self layoutTitleAndDescription];
-	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.photoScrollView.frame = CGRectMake(0.0, 0.0, self.parentViewController.view.frame.size.width, self.parentViewController.view.frame.size.height);
+    
     [self layoutPhotos];
+    [self layoutTitleAndDescription];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -150,8 +162,10 @@
 
 - (void)layoutPhotos {
 	
-    int width = self.view.frame.size.width;
-    int height = self.view.frame.size.height;
+    float height = self.parentViewController.view.frame.size.height;
+    float width = self.parentViewController.view.frame.size.width;
+//    int width = self.view.frame.size.width;
+//    int height = self.view.frame.size.height;
     float yPadding = 30.0;
     
     // When we are in landscape mode we need to use the height value as the width
@@ -159,8 +173,8 @@
     // used to determine where to move the space for the selected images.
     
     if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
-        width = self.view.frame.size.height;
-        height = self.view.frame.size.width;
+        width = self.parentViewController.view.frame.size.height;
+        height = self.parentViewController.view.frame.size.width;
         yPadding = 0.0;
     }
     
@@ -184,7 +198,7 @@
         float selectedYPosition = 0;
         
 		for (int index = 0; index < self.photoSource.numberOfPhotos; index++) {
-			
+            
 			id<EGOPhoto> photo = [self.photoSource.photos objectAtIndex:index];
 			
 			// Load the contents of the photo through the EGO Photo Loader and notify this class
@@ -235,12 +249,14 @@
 			
 			// Update content area of the scroll view for our new photo we have just added
 			
-			[self.photoScrollView setContentSize:CGSizeMake(self.view.frame.size.width, yPosition + photoWidth + yPadding)];
+			[self.photoScrollView setContentSize:CGSizeMake(width, yPosition + photoWidth + yPadding)];
 			
 		}
         
         
         float startAtPosition = selectedYPosition - (photoWidth/2);
+        
+        NSLog(@"Scroll FRAME: %@",NSStringFromCGRect(self.photoScrollView.frame));
         
         if (startAtPosition < self.photoScrollView.frame.size.height) {
             startAtPosition = 0;
@@ -266,6 +282,10 @@
 		// Thumbnails are tagged starting from 1 and continuing upward. This needs to be
 		// translated to an index as if they were in an array.
 		[self.thumbnailSelectedDelegate thumbnailViewController:self selectedPhotoAtIndex:([galleryImage tag] - 1)];
+        
+        [self.view removeFromSuperview];
+        [self removeFromParentViewController];
+        
 	}
 	
 }
