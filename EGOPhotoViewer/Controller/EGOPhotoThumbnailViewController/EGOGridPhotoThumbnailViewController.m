@@ -119,19 +119,32 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    float scrollViewWidth = self.view.frame.size.width;
-    float scrollViewHeight = self.view.frame.size.height;
+    float scrollViewWidth = MIN(self.view.frame.size.height,self.view.frame.size.width);
+    float scrollViewHeight = MAX(self.view.frame.size.height,self.view.frame.size.width);
     
     if (self.embeddedInPopover) {
         scrollViewWidth = self.parentViewController.view.frame.size.width;
         scrollViewHeight = self.parentViewController.view.frame.size.height;
+    } else if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
+        scrollViewWidth = MAX(self.view.frame.size.height,self.view.frame.size.width);
+        scrollViewHeight = MIN(self.view.frame.size.height,self.view.frame.size.width);
     }
     
-    self.photoScrollView.frame = CGRectMake(0.0, 0.0, scrollViewWidth, scrollViewHeight);
+    self.view.frame = CGRectMake(0, 0, scrollViewWidth, scrollViewHeight);
     
-    [self layoutPhotos];
+    self.photoScrollView.frame = self.view.frame;
+    
     [self layoutTitleAndDescription];
+    [self layoutPhotos];
 
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    for (UIView *subview in [self.photoScrollView subviews]) {
+        [subview removeFromSuperview];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -140,7 +153,7 @@
 
 - (void)layoutTitleAndDescription {
     
-    int width = self.photoScrollView.frame.size.width;
+    float width = self.photoScrollView.frame.size.width;
 
     if ([self.photoSource respondsToSelector:@selector(sourceTitle)]) {
         
@@ -154,6 +167,8 @@
         self.galleryTitle.frame = CGRectMake(10.0, 70.0, titleSize.width, titleSize.height);
         
 
+    } else {
+        self.galleryTitle.frame = CGRectMake(0, 0, 0, 0);
     }
     
     if ([self.photoSource respondsToSelector:@selector(sourceDescription)]) {
@@ -175,6 +190,8 @@
         self.galleryDescription.frame = CGRectMake(10.0, titleOffset, descriptionSize.width, descriptionSize.height);
 
         
+    } else {
+        self.galleryDescription.frame = CGRectMake(0, 0, 0, 0);
     }
 }
 
@@ -188,16 +205,11 @@
         
         width = self.parentViewController.view.frame.size.width;
         height = self.parentViewController.view.frame.size.height;
+        yPadding = 0.0;
 
     } else if ( UIInterfaceOrientationIsLandscape([self interfaceOrientation]) ) {
         
-        // When we are in landscape mode we need to use the height value as the width
-        // to determine the available space that we can place images. This is also
-        // used to determine where to move the space for the selected images.
-        
-        width = self.parentViewController.view.frame.size.height;
-        height = self.parentViewController.view.frame.size.width;
-        yPadding = 0.0;
+        yPadding = 30.0;
     }
     
     float photoWidth = 100.0;
@@ -287,9 +299,7 @@
         
         if (startAtPosition < self.photoScrollView.frame.size.height) {
             startAtPosition = 0;
-        }
-        
-        if (startAtPosition + self.photoScrollView.frame.size.height > self.photoScrollView.contentSize.height) {
+        } else if (startAtPosition + self.photoScrollView.frame.size.height > self.photoScrollView.contentSize.height) {
             
             startAtPosition = self.photoScrollView.contentSize.height - self.photoScrollView.frame.size.height;
             
