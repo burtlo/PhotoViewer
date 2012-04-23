@@ -29,6 +29,8 @@ limitations that this fork remedies.
       solution I had to delete methods and actions that likely should not have
       ever been in the EGOPhotoViewController. Now a user can specify a view
       controller that adheres to the `EGOActionViewController` protocol.
+      
+      ![Sharing with Share Kit](https://github.com/downloads/burtlo/PhotoViewer/share-with-sharekit.png)
 
 * A more modular approach for the _caption_ view
 
