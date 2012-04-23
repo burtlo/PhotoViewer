@@ -39,22 +39,66 @@ limitations that this fork remedies.
     `EGODetailedCaptionView` which provides support for additional fields
     like _title_, _source_, and _published_.
     
-![Detailed Caption](https://github.com/downloads/burtlo/PhotoViewer/detailed-caption.png)
+    ![Detailed Caption](https://github.com/downloads/burtlo/PhotoViewer/detailed-caption.png)
 
 * A thumbnail view
 
     > An button that would open a thumbnail view, allowing the user to view
     all the images within the photo source at a quick glance.
     
-    
-![Thumbnail View](https://github.com/downloads/burtlo/PhotoViewer/thumbnail-view.png)
-    
+    ![Thumbnail View](https://github.com/downloads/burtlo/PhotoViewer/thumbnail-view.png)
+  
 * The project is now ARC compatible
 
     > Along with making ARC compatible I removed a number of previous code
     checks that were asking if the software version was above a certain number.
     I wanted this library to be ready and available for future projects.
-    
+
+## Examples
+
+The _Demo project_ contains a number of examples of creating and configuraing
+the **EGOPhotoViewer**.
+
+You are able to create a photo viewer with a single image, url, or an object
+adhering to the `EGOPhoto` protocol:
+
+```objective-c
+- (id)initWithPhoto:(id<EGOPhoto>)aPhoto;
+- (id)initWithImage:(UIImage*)image;
+- (id)initWithImageURL:(NSURL*)imageURL;
+```
+
+or with multiple images, urls, or an object adhering to the `EGOPhotoSource`
+protocol:
+
+```objective-c
+- (id)initWithPhotoSource:(id <EGOPhotoSource>)aPhotoSource;
+- (id)initWithImages:(NSArray *)images;
+- (id)initWithImageURLs:(NSArray *)imageURLs;
+- (id)initWithPhotoSource:(id <EGOPhotoSource>)aSource andPhotoIndex:(NSInteger)index;
+```
+
+Using a `UIImage` or `NSURL` will automatically wrap those values in a
+`EGODefaultPhoto` and that photo in a `EGODefaultPhotoSource`. However, you can
+specify your own implementations or provide the photo source. Creating and
+configuring your own photo and photo source allows you the ability to specify
+additional metadata with your photos:
+
+```objective-c
+EGODefaultPhoto *photo = [[EGODefaultPhoto alloc] initWithImageURL:[NSURL URLWithString:@"http://a3.twimg.com/profile_images/66601193/cactus.jpg"]];
+
+photo.title = @"Grass From Around the World";
+photo.caption = @"This grass in particular was soft and lush...";
+photo.published = @"Some Time Ago...";
+photo.source = @"Ms. Photog";
+
+EGODefaultPhotoSource *source = [[EGODefaultPhotoSource alloc] initWithPhotos:[NSArray arrayWithObject:photo]];
+
+source.sourceTitle = @"Chupacabra Revealed";
+source.sourceDescription = @"We tracked the Chupacabra to it's den near ...";
+
+EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
+```
 
 ## Future Work
 
