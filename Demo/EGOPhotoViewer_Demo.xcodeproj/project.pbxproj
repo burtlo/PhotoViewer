@@ -236,10 +236,10 @@
 		E21BBF24154516B900D934ED /* EGOPhotoThumbnailViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E21BBF25154516B900D934ED /* EGOGridPhotoThumbnailViewController.h */,
-				E21BBF26154516B900D934ED /* EGOGridPhotoThumbnailViewController.m */,
 				E21BBF27154516B900D934ED /* EGOPhotoThumbnailSelectedDelegate.h */,
 				E21BBF28154516B900D934ED /* EGOPhotoThumbnailViewController.h */,
+				E21BBF25154516B900D934ED /* EGOGridPhotoThumbnailViewController.h */,
+				E21BBF26154516B900D934ED /* EGOGridPhotoThumbnailViewController.m */,
 			);
 			path = EGOPhotoThumbnailViewController;
 			sourceTree = "<group>";
