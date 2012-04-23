@@ -838,6 +838,8 @@
     
         if (!self.barsHidden) {
             
+            self.captionView.hidden = NO;
+            
             CGFloat toolbarSize = self.embeddedInPopover ? 0.0f : self.navigationController.toolbar.frame.size.height;
             
             CGFloat captionViewYposition = self.view.frame.size.height - toolbarSize - self.captionView.frame.size.height/2;

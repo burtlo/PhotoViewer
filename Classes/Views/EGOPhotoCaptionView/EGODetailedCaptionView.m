@@ -176,6 +176,9 @@
 
 #pragma mark - EGOCaptionView Adherence
 
+- (BOOL)blankOrEmptyPhotoMetadata {
+    return self.textLabel.hidden && self.titleLabel.hidden && self.publishedLabel.hidden && self.sourceLabel.hidden;
+}
 
 - (void)setPhoto:(id<EGOPhoto>)photo {
     
@@ -207,6 +210,10 @@
 }
 
 - (void)setHidden:(BOOL)hidden {
+    
+    if ([self blankOrEmptyPhotoMetadata]) {
+        hidden = YES;
+    }
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		
