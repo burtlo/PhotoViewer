@@ -133,7 +133,7 @@ to the `EGOCaptionView` protocol.
 
 @end
 
-@implementation EGOSimplePhotoCaptionView
+@implementation EGOMyPhotoCaptionView
 
 @synthesize photo = photo_;
 
