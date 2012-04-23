@@ -238,7 +238,14 @@
 			// Load the contents of the photo through the EGO Photo Loader and notify this class
 			// when that is complete.
 			
-			UIImage *photoThumbnail = [[EGOImageLoader sharedImageLoader] imageForURL:[photo thumbnailURL] shouldLoadWithObserver:self];
+            UIImage *photoThumbnail;
+            
+            if (photo.image) {
+                photoThumbnail = photo.image;
+            } else {
+                photoThumbnail = [[EGOImageLoader sharedImageLoader] imageForURL:[photo thumbnailURL] shouldLoadWithObserver:self];
+            }
+			 
 			
 			// Determine the row and column of the photo
 			
