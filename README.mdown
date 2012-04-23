@@ -2,21 +2,22 @@
 
 ## About
 
-**EGOPhotoViewer** is a sub-class of a UIViewController that allows you to 
-display one or more images or photos. **EGOPhotoViewer** allows you to quickly
-load an display images from local or remote saved images.
+**EGOPhotoViewer** allows you to quickly load an display single or multiple images from a local source or remote source. **EGOPhotoViewer** is a sub-class
+of a UIViewController.
 
 ## Support
 
-This library supports both __iPhone__ and __iPad__. This project is __ARC Compatible__.
+This __ARC Enabled__ library supports both __iPhone__ and __iPad__.
 
 ## History
 
-**EGOPhotoViewer** was originally started as a stripped down version of
-**three20**'s PhotoViewer. [Enormego](http://enormego.com/) ultimately decided
-the **three20** code base was not flexible enough and scrapped the project all
-together. We rewrote PhotoViewer as EGOPhotoViewer from scratch, based upon our
-reliable open source libraries **EGOCache** and **EGOImageLoading**.
+[Enormego](http://enormego.com/) wrote:
+
+> **EGOPhotoViewer** was originally started as a stripped down version of
+  **three20**'s PhotoViewer. We ultimately decided
+  the **three20** code base was not flexible enough and scrapped the project all
+  together. We rewrote PhotoViewer as EGOPhotoViewer from scratch, based upon 
+  our reliable open source libraries **EGOCache** and **EGOImageLoading**.
 
 I have used **EGOPhotoViewer** on two iOS projects and found there were
 limitations that this fork remedies.
