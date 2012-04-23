@@ -73,9 +73,6 @@
 		E21BBF26154516B900D934ED /* EGOGridPhotoThumbnailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOGridPhotoThumbnailViewController.m; sourceTree = "<group>"; };
 		E21BBF27154516B900D934ED /* EGOPhotoThumbnailSelectedDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOPhotoThumbnailSelectedDelegate.h; sourceTree = "<group>"; };
 		E21BBF28154516B900D934ED /* EGOPhotoThumbnailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOPhotoThumbnailViewController.h; sourceTree = "<group>"; };
-		E21BBF2B154516B900D934ED /* EGOActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOActionViewController.h; sourceTree = "<group>"; };
-		E21BBF2C154516B900D934ED /* EGODefaultActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGODefaultActionViewController.h; sourceTree = "<group>"; };
-		E21BBF2D154516B900D934ED /* EGODefaultActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGODefaultActionViewController.m; sourceTree = "<group>"; };
 		E21BBF2E154516B900D934ED /* EGOPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOPhotoViewController.h; sourceTree = "<group>"; };
 		E21BBF2F154516B900D934ED /* EGOPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOPhotoViewController.m; sourceTree = "<group>"; };
 		E21BBF30154516B900D934ED /* EGOPhotoGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOPhotoGlobal.h; sourceTree = "<group>"; };
@@ -250,21 +247,10 @@
 		E21BBF29154516B900D934ED /* EGOPhotoViewController */ = {
 			isa = PBXGroup;
 			children = (
-				E21BBF2A154516B900D934ED /* EGOActionViewController */,
 				E21BBF2E154516B900D934ED /* EGOPhotoViewController.h */,
 				E21BBF2F154516B900D934ED /* EGOPhotoViewController.m */,
 			);
 			path = EGOPhotoViewController;
-			sourceTree = "<group>";
-		};
-		E21BBF2A154516B900D934ED /* EGOActionViewController */ = {
-			isa = PBXGroup;
-			children = (
-				E21BBF2B154516B900D934ED /* EGOActionViewController.h */,
-				E21BBF2C154516B900D934ED /* EGODefaultActionViewController.h */,
-				E21BBF2D154516B900D934ED /* EGODefaultActionViewController.m */,
-			);
-			path = EGOActionViewController;
 			sourceTree = "<group>";
 		};
 		E21BBF31154516B900D934ED /* Extensions */ = {
