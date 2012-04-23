@@ -56,8 +56,10 @@ limitations that this fork remedies.
 
 ## Examples
 
-The _Demo project_ contains a number of examples of creating and configuraing
+The _Demo project_ contains a number of examples of creating and configuring
 the **EGOPhotoViewer**.
+
+### Photos and Photo Sources
 
 You are able to create a photo viewer with a single image, url, or an object
 adhering to the `EGOPhoto` protocol:
@@ -99,6 +101,76 @@ source.sourceDescription = @"We tracked the Chupacabra to it's den near ...";
 
 EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
 ```
+
+### Custom Caption View
+
+By default the caption view will default to the `EGOSimplePhotoCaptionView`. 
+This caption view allows for a small amount of a photo's `caption` text to
+appear with the photo when the tool bars are visible.
+
+The library also includes `EGODetailedCaptionView`, which display's a photo's
+`source`, `published` datetime, `title`, and `caption`. The title and caption
+area contained in a scroll view to allow their size to adapt to the size of 
+text without overtaking the entire photo view.
+
+```objective-c
+#import "EGODetailedCaptionView.h"
+```
+
+```objective-c
+id<EGOPhotoSource> source = [self examplePhotoSourceWithVariedPhotos];
+EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
+photoController.captionView = [[EGODetailedCaptionView alloc] init];
+```
+
+You can design your own Caption view simply by defining a `UIView` that adheres
+to the `EGOCaptionView` protocol.
+
+```objective-c
+@interface EGOMyPhotoCaptionView : UIView <EGOCaptionView>
+
+@end
+
+@implementation EGOSimplePhotoCaptionView
+
+@synthesize photo = photo_;
+
+- (void)setPhoto:(id<EGOPhoto>)photo {
+  
+    if (photo_ == photo) { return; }
+    photo_ = photo;
+    
+    // Setup the remaining details about the view with 
+    // the object that adheres to EGOPhoto
+}
+```
+
+### Custom ActionViewController
+
+Previously **EGOPhotoViewer** required that you use the basic action sheet for
+the current image. When I needed more options I immediately removed all that 
+code and replaced it with [ShareKit](https://github.com/ShareKit/ShareKit).
+
+The demo project shows an example of integrating the default actions and the
+Sharekit library.
+
+```objective-c
+
+id<EGOPhotoSource> source = [self examplePhotoSourceWithVariedPhotos];
+EGOPhotoViewController *photoController = [[EGOPhotoViewController alloc] initWithPhotoSource:source];
+photoController.actionViewController = [[SHKActionViewController alloc] init];
+
+```
+
+Currently the `EGOActionViewController` interface employs _iOS SDK 5.0_'s
+UIViewController containment. Adding the UIViewController as a 
+childViewController and adding the view to the view. However, there is no 
+formally defined dismissal yet in this protocol, so it is on view controller
+adhering to the `EGOAtionViewController` to remove itself from the parent
+view controller and remove the it's view.
+
+This works well with the `UIActionSheet` examples. This likely does not work
+well yet with other custom view controllers.
 
 ## Future Work
 
